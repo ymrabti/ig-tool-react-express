@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
 import { text2Html, size_plain } from "../tools";
-
 class Head extends Component {
     // constructor(props) {
     //     super(props);
@@ -11,18 +9,19 @@ class Head extends Component {
         // console.log(after);
         return true;
     }
-    clickHandler = () => {
-        this.props.changeDispModalPost();
-    }
+    
     render() {
+        const edge_count_timeline = this.props.edge_owner_to_timeline_media;
+        const followed_by = this.props.edge_followed_by;
+        const follows = this.props.edge_follow;
         const verified = <div className="Igw0E IwRSH eGOV_ _4EzTm soMvl">
             <span className="mTLOB Szr5J coreSpriteVerifiedBadge" title="Verified">Verified</span>
         </div>;
-        return <header id="HeadSwitch" className="vtbgv" style={{display:"flex",marginTop:"1em"}}>
+        return <header id="HeadSwitch" className="vtbgv" style={{ display: "flex", marginTop: "1em" }}>
             <div className="XjzKX">
                 <div className="RR-M- " aria-disabled="true" role="button" data-ext-skip="1">
                     <div className="_2dbep" role="link" style={{ width: "150px", height: "150px" }}>
-                        <img onClick={this.clickHandler.bind(this)} alt={this.props.full_name} className="_6q-tv" data-testid="user-avatar" draggable="false" src={this.props.profile_pic_url} />
+                        <img alt={this.props.full_name} className="_6q-tv" data-testid="user-avatar" draggable="false" src={this.props.profile_pic_url} />
                     </div>
                 </div>
             </div>
@@ -37,7 +36,7 @@ class Head extends Component {
                     <li className="Y8-fY">
                         <span className="-nal3">
                             <span className="g47SY">
-                                {this.props.edge_owner_to_timeline_media}
+                                {edge_count_timeline ? edge_count_timeline.count : null}
                             </span>
                             <span> Publications</span>
                             <br />
@@ -46,7 +45,7 @@ class Head extends Component {
                     <li className="Y8-fY">
                         <span className="-nal3">
                             <span className="g47SY">
-                                {size_plain(this.props.edge_followed_by)}
+                                {followed_by ? size_plain(followed_by.count) : null}
                             </span>
                             <span> Followers</span>
                             <br />
@@ -55,7 +54,7 @@ class Head extends Component {
                     <li className="Y8-fY">
                         <span className="-nal3">
                             <span className="g47SY">
-                                {this.props.edge_follow}
+                                {follows ? follows.count : null}
                             </span>
                             <span> Following</span>
                             <br />
@@ -78,34 +77,7 @@ class Head extends Component {
         </header>
     }
 }
-const mapStateToProps = state => {
-    return {
-        username: state.user.username,
-        full_name: state.user.full_name,
-        profile_pic_url: state.user.profile_pic_url,
-        edge_owner_to_timeline_media: state.user.edge_owner_to_timeline_media.count,
-        edge_followed_by: state.user.edge_followed_by.count,
-        edge_follow: state.user.edge_follow.count,
-        biography: state.user.biography,
-        external_url: state.user.external_url,
-        is_verified: state.user.is_verified,
-        category_name: state.user.category_name,
-        showPost: state.displayPostModal
-    };
-}
-
-// const changeDispModalPost = () => { return { type: "SHOW_MODAL_POST" }; }
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        changeDispModalPost: () => dispatch({ type: 'SHOW_MODAL_POST' }),
-        decrement: () => dispatch({ type: 'DECREMENT' }),
-        reset: () => dispatch({ type: 'RESET' }),
-    }
-}
 
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Head);
+
+export default Head;

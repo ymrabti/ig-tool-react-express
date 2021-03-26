@@ -1,5 +1,4 @@
 import { createStore } from 'redux';
-import user from "../data";
 // import {setStateProfile} from "../actions/Index";
 
 // const logAndAdd = amount => {
@@ -12,10 +11,10 @@ import user from "../data";
 //     }
 // }
 function mainReducer(state = {
-    user,
+    user:{},
     post: {},
     displayPostModal: false,
-    username:"@hidori_rose"
+    username:""
 }, action) {
     switch (action.type) {
         case 'SHOW_MODAL_POST':

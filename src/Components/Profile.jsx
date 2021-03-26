@@ -1,59 +1,68 @@
 import React, { Component } from 'react';
-import { setVisiMP } from "../actions/Index";
+import { setVisiMP,fetchPost } from "../actions/Index";
 import Head from "./head";
 import Bar from "./bar";
 import Pubs from "./Pubs";
-import ModalContent from "./Post";
 import { connect } from 'react-redux';
-import MyNavbar from "./navbar";
+import { Waiting } from "../tools";
 
 class Profile extends Component {
-    constructor(props) {
-        super(props);
-        this.closeModal = this.closeModal.bind(this);
-    }
-    closeModal() {
-        this.props.togglePostModal(false);
-    }
-    
+    //constructor(props) {
+    //    super(props);
+    //}
     render() {
-        let showPost = {display: this.props.showPost ? "block" : "none"};
-        return <section className="_9eogI E3X2T">
-            <main className="SCxLW  o64aR" role="main">
-                <div id="ModalPost" className="modal" style={showPost}>
-                    <div className="modal-content">
-                        <span className="close" onClick={this.closeModal} >×</span>
-                        <ModalContent />
-                    </div>
-                </div>
-                <div id="ModalDownload" className="modal">
-                    <div className="modal-content">
-                        <span className="close" onClick={this.closeModal} >×</span>
-                        <span id="currentFile">Starting ...</span><br />
-                        <div className="w3-container">
-                            <div className="w3-light-grey w3-round-xlarge">
-                                <div id="progressBar" className="w3-container w3-blue w3-round-xlarge" style={{ width: "0%" }}>0%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <br /><br />
-                <div className="v9tJq AAaSh VfzDr" id="divtoreplace">
-                    <Head />
-                    <Bar />
-                    <Pubs />
-                </div>
-            </main>
-            <MyNavbar />
-        </section>
+        const user = this.props;
+        let objectFilter = Object.values(user)
+            .filter(u => typeof (u) !== "function")
+            .filter(u => !!u);
+        if (objectFilter.length !== 0) {
+            const fetchDataPost = this.props.fetchDataPost;
+            const dataHead = {
+                username: user.username,
+                full_name: user.full_name,
+                profile_pic_url: user.profile_pic_url,
+                edge_owner_to_timeline_media: user.edge_owner_to_timeline_media,
+                edge_followed_by: user.edge_followed_by,
+                edge_follow: user.edge_follow,
+                biography: user.biography,
+                external_url: user.external_url,
+                is_verified: user.is_verified,
+                category_name: user.category_name
+            };
+            const dataPubs = {
+                edge_owner_to_media: user.edge_owner_to_timeline_media,
+                fetchDataPost
+            }
+            return <>
+                <Head {...dataHead} />
+                <Bar />
+                <Pubs {...dataPubs} />
+            </>;
+        }
+        else {
+            return <Waiting />;
+        } 
+        
     }
 }
-const mapStateToProps = state => ({
-    showPost: state.displayPostModal
+const mapStateToPropsProfile = state => ({...state.user})
+
+const mapDispatchToPropsProfile = (dispatch) => ({
+    fetchDataPost: (shortcode) => {
+        fetch(`/p/${shortcode}`)
+            .then(response => response.json())
+            .then(data => {
+                dispatch(setVisiMP(true));
+                dispatch(fetchPost(data.graphql.shortcode_media));
+            }).catch(e => {
+                dispatch(setVisiMP(false));
+                dispatch(fetchPost({}));
+            });
+    }
 })
 
-const mapDispatchToProps = dispatch => ({
-    togglePostModal: (disp) => dispatch(setVisiMP(disp))
-})
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(
+    mapStateToPropsProfile,
+    mapDispatchToPropsProfile
+)(Profile);
+

@@ -92,7 +92,7 @@ button[name="download"]:hover {
   }
 }
 @media screen and (max-width: 530px) {
-    #HeadSwitch {
-        flex-direction: column;
-    }
+  #HeadSwitch {
+    flex-direction: column;
+  }
 }

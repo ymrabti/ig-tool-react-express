@@ -1,8 +1,7 @@
 import { Component } from "react";
-import { connect } from 'react-redux';
 import Pdp from "./pdp";
-import { icons } from "../tools";
-import { fetchPost, setVisiMP } from "../actions/Index";
+import { icons,size_plain } from "../tools";
+import { SVGheartfilled, SVGplay } from "./svgs";
 
 function EmptyPost() {
     return <div className="_bz0w"></div>;
@@ -13,10 +12,16 @@ class PostSingle extends Component {
     // }
     postClicked(target) {
         target.preventDefault();
-        this.props.fetch(this.props.data.shortcode);
+        const fetch = this.props.fetch;
+        const shortcode = this.props.data.shortcode;
+        fetch(shortcode);
     }
     render() {
-        const type = icons[(this.props.data.product_type === "feed" || !this.props.data.product_type) ? this.props.data.__typename : this.props.data.product_type];;
+        const product_type = this.props.data.product_type;
+        const __typename = this.props.data.__typename;
+        const type = icons[(product_type === "feed" || !product_type) ? __typename : product_type];
+        const likes = this.props.data.edge_media_preview_like.count;
+        const is_video = this.props.data.is_video;
         return <div className="v1Nh3 kIKUG  _bz0w">
             <a href={`/p/${this.props.data.shortcode}/`}>
                 <div className="eLAPa">
@@ -25,6 +30,26 @@ class PostSingle extends Component {
                 <div className="u7YqG">
                     <div className={`mediatypesSprite${type}__filled__32 u-__7`}></div>
                 </div>
+                <div className="Igw0E   rBNOH eGOV_ ybXk5 _4EzTm MGdpg _5VUwz O1flK fm1AK">
+                    <div className=" Igw0E IwRSH eGOV_ _4EzTm JI_ht">
+                        <SVGheartfilled />
+                    </div>
+                    <div className="_7UhW9 vy6Bb qyrsm h_zdq  uL8Hv">
+                        <span style={{ WebkitTextStrokeWidth: "0.5px", WebkitTextStrokeColor: "black" }}>
+                            {size_plain(likes)}
+                        </span>
+                    </div>
+                    {is_video && <>
+                        <div className=" Igw0E IwRSH eGOV_ _4EzTm JI_ht">
+                            <SVGplay />
+                        </div>
+                        <div className="_7UhW9 vy6Bb qyrsm h_zdq  uL8Hv">
+                            <span style={{ WebkitTextStrokeWidth: "0.5px", WebkitTextStrokeColor: "black" }}>
+                                {size_plain(this.props.data.video_view_count)}
+                            </span>
+                        </div>
+                    </>}
+                </div>
             </a>
         </div>;
     }
@@ -32,8 +57,9 @@ class PostSingle extends Component {
 class Pubs extends Component {
 
     render() {
+        const edge_owner_to_media = this.props.edge_owner_to_media;
         const fetchPst = this.props.fetchDataPost;
-        var edgeslength = this.props.edges.length;
+        var edgeslength = edge_owner_to_media.edges.length;
         var columns = 3;
         var r = edgeslength % columns;
         var q = (edgeslength - r) / columns;
@@ -43,7 +69,7 @@ class Pubs extends Component {
             listKposts = [];
             for (k = 0; k < columns; k++) {
                 current = columns * i + k;
-                edge_i = this.props.edges[current]["node"];
+                edge_i = edge_owner_to_media.edges[current]["node"];
                 listKposts.push(<PostSingle key={"current" + current} fetch={fetchPst} data={edge_i} />);
             }
             kposts = <div key={"row" + i} className="Nnq7C weEfm">
@@ -54,12 +80,12 @@ class Pubs extends Component {
         if (r !== 0) {
             listKposts = [];
             for (k = q * columns; k < q * columns + r; k++) {
-                edge_i = this.props.edges[k]["node"];
+                edge_i = edge_owner_to_media.edges[k]["node"];
                 listKposts.push(<PostSingle key={"reste" + k} fetch={fetchPst} data={edge_i} />);
             }
             for (var j = q * columns + r; j < (q + 1) * columns; j++) {
                 current = q * columns + r - 1;
-                edge_i = this.props.edges[current]["node"];
+                edge_i = edge_owner_to_media.edges[current]["node"];
                 listKposts.push(<EmptyPost />);
             }
             kposts = <div key={"row" + i + 1} className="Nnq7C weEfm">
@@ -81,27 +107,4 @@ class Pubs extends Component {
         </>
     }
 }
-const mapStateToProps = state => (
-    {
-        edges: state.user.edge_owner_to_timeline_media.edges
-    }
-)
-
-const mapDispatchToProps = (dispatch) => ({
-    fetchDataPost: (shortcode) => {
-        fetch(`/p/${shortcode}`)
-            .then(response => response.json())
-            .then(data => {
-                dispatch(setVisiMP(true));
-                dispatch(fetchPost(data.graphql.shortcode_media));
-            }).catch(e => {
-                dispatch(setVisiMP(false));
-                dispatch(fetchPost({}));
-            });
-    }
-})
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Pubs);
+export default Pubs
