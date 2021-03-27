@@ -1,17 +1,49 @@
 import React, { Component } from 'react';
-import { setVisiMP,fetchPost } from "../actions/Index";
+import { setVisiMP,fetchPost,setStateProfile } from "../actions/Index";
 import Head from "./head";
-import Bar from "./bar";
 import Pubs from "./Pubs";
 import { connect } from 'react-redux';
-import { Waiting } from "../tools";
+import { Waiting } from "../tools"; 
+import { PUBSsvg,IGTVsvg } from "./svgs";
+import {
+    // BrowserRouter as Router,
+    // Switch,
+    // Route,
+    // Link,
+    withRouter
+} from "react-router-dom";
+
+class Bar extends Component {
+    elementBarClicked(target) {
+        console.log(target)
+    }
+
+    render() {
+        return <div className="fx7hk">
+            <p className="_9VEo1 T-jvg">
+                <span className="smsjF">
+                    {PUBSsvg}
+                    <span className="PJXu4" onClick={this.elementBarClicked}>Publications</span>
+                </span>
+            </p>
+            <p className="_9VEo1">
+                <span className="qzihg">
+                    {IGTVsvg }
+                    <span className="PJXu4" onClick={this.elementBarClicked}>IGTV</span>
+                </span>
+            </p>
+        </div>;
+    }
+}
 
 class Profile extends Component {
-    //constructor(props) {
-    //    super(props);
-    //}
+    componentDidMount(){
+        let { username } = this.props.match.params;
+        this.props.fetchProfile(username);
+    }
     render() {
-        const user = this.props;
+        const user = this.props.user;
+        console.log(this.props);
         let objectFilter = Object.values(user)
             .filter(u => typeof (u) !== "function")
             .filter(u => !!u);
@@ -45,7 +77,7 @@ class Profile extends Component {
         
     }
 }
-const mapStateToPropsProfile = state => ({...state.user})
+const mapStateToPropsProfile = state => ({user:state.user})
 
 const mapDispatchToPropsProfile = (dispatch) => ({
     fetchDataPost: (shortcode) => {
@@ -58,11 +90,20 @@ const mapDispatchToPropsProfile = (dispatch) => ({
                 dispatch(setVisiMP(false));
                 dispatch(fetchPost({}));
             });
+    },
+    fetchProfile: (username) => {
+        fetch(`/${username}`)
+            .then(response => response.json())
+            .then(data => {
+                dispatch(setStateProfile(data.graphql.user));
+            }).catch(e => {
+                alert(`User ${username} not found !`)
+            });
     }
 })
 
 export default connect(
     mapStateToPropsProfile,
     mapDispatchToPropsProfile
-)(Profile);
+)(withRouter(Profile));
 

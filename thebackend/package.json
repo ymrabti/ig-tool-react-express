@@ -6,7 +6,7 @@
     "scripts": {
         "setup": "npm install && npm update",
         "dev": "nodemon && src/server.js",
-        "start": "set PORT=3001 && node src/server.js",
+        "start": "node src/server.js",
         "migration:init": "migrate init --migrations-dir ./src/migrations",
         "migration:create": "migrate create --migrations-dir ./src/migrations --template-file ./src/migrations/.template.js",
         "migration:list": "migrate list --migrations-dir ./src/migrations",

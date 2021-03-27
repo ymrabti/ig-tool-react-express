@@ -14,6 +14,7 @@ function mainReducer(state = {
     user:{},
     post: {},
     displayPostModal: false,
+    isLoading:true,
     username:""
 }, action) {
     switch (action.type) {

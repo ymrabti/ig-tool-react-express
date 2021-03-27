@@ -1,7 +1,39 @@
 import { Component } from "react";
-import Pdp from "./pdp";
-import { icons,size_plain } from "../tools";
+import { icons, size_plain } from "../tools";
 import { SVGheartfilled, SVGplay } from "./svgs";
+import { connect } from "react-redux";
+import {
+    Link,
+} from "react-router-dom";
+
+class Pdp extends Component {
+    handleClick(target) {
+        target.preventDefault();
+        console.log("Im clicked");
+    }
+    render() {
+        return <center>
+            <img style={{ borderRadius: "10px", width: "100%", maxWidth: "320px" }} alt={this.props.username} decoding="auto" src={this.props.profile_pic_url_hd} />
+            <br />
+            <button name="download" onClick={this.handleClick}>
+                <i className="fa fa-download"></i>Download All
+        </button>
+        </center>
+    }
+}
+
+const mapStateToPropsPdp = state => ({
+    profile_pic_url_hd: state.user.profile_pic_url_hd,
+    username: state.user.username
+})
+
+const mapDispatchToPropsPdp = dispatch => ({
+    toggleTodo: () => console.log("mapDispatchToPropsPdp")
+})
+const PdpConnected = connect(
+    mapStateToPropsPdp,
+    mapDispatchToPropsPdp
+)(Pdp)
 
 function EmptyPost() {
     return <div className="_bz0w"></div>;
@@ -23,9 +55,9 @@ class PostSingle extends Component {
         const likes = this.props.data.edge_media_preview_like.count;
         const is_video = this.props.data.is_video;
         return <div className="v1Nh3 kIKUG  _bz0w">
-            <a href={`/p/${this.props.data.shortcode}/`}>
+            <Link to={`/p/${this.props.data.shortcode}/`}>
                 <div className="eLAPa">
-                    <div className="KL4Bh"><img alt={this.props.data.accessibility_caption} className="FFVAD" decoding="auto" style={{ objectFit: "cover" }} sizes="293px" src={this.props.data.thumbnail_src} onClick={this.postClicked.bind(this)} /></div>
+                    <div className="KL4Bh"><img alt={this.props.data.accessibility_caption} className="FFVAD" decoding="auto" style={{ objectFit: "cover" }} sizes="293px" src={this.props.data.thumbnail_src} /* onClick={this.postClicked.bind(this)}  *//></div>
                 </div>
                 <div className="u7YqG">
                     <div className={`mediatypesSprite${type}__filled__32 u-__7`}></div>
@@ -50,7 +82,7 @@ class PostSingle extends Component {
                         </div>
                     </>}
                 </div>
-            </a>
+            </Link>
         </div>;
     }
 }
@@ -84,9 +116,7 @@ class Pubs extends Component {
                 listKposts.push(<PostSingle key={"reste" + k} fetch={fetchPst} data={edge_i} />);
             }
             for (var j = q * columns + r; j < (q + 1) * columns; j++) {
-                current = q * columns + r - 1;
-                edge_i = edge_owner_to_media.edges[current]["node"];
-                listKposts.push(<EmptyPost />);
+                listKposts.push(<EmptyPost key={`EmptyPost${j}`}/>);
             }
             kposts = <div key={"row" + i + 1} className="Nnq7C weEfm">
                 {listKposts}
@@ -103,8 +133,10 @@ class Pubs extends Component {
                     </article>
                 </div>
             </section>
-            <Pdp />
+            <PdpConnected />
         </>
     }
 }
+
+
 export default Pubs
