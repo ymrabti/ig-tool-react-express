@@ -44,9 +44,6 @@ class PostSingle extends Component {
     // }
     postClicked(target) {
         target.preventDefault();
-        const fetch = this.props.fetch;
-        const shortcode = this.props.data.shortcode;
-        fetch(shortcode);
     }
     render() {
         const product_type = this.props.data.product_type;
@@ -90,7 +87,6 @@ class Pubs extends Component {
 
     render() {
         const edge_owner_to_media = this.props.edge_owner_to_media;
-        const fetchPst = this.props.fetchDataPost;
         var edgeslength = edge_owner_to_media.edges.length;
         var columns = 3;
         var r = edgeslength % columns;
@@ -102,7 +98,7 @@ class Pubs extends Component {
             for (k = 0; k < columns; k++) {
                 current = columns * i + k;
                 edge_i = edge_owner_to_media.edges[current]["node"];
-                listKposts.push(<PostSingle key={"current" + current} fetch={fetchPst} data={edge_i} />);
+                listKposts.push(<PostSingle key={"current" + current} data={edge_i} />);
             }
             kposts = <div key={"row" + i} className="Nnq7C weEfm">
                 {listKposts}
@@ -113,7 +109,7 @@ class Pubs extends Component {
             listKposts = [];
             for (k = q * columns; k < q * columns + r; k++) {
                 edge_i = edge_owner_to_media.edges[k]["node"];
-                listKposts.push(<PostSingle key={"reste" + k} fetch={fetchPst} data={edge_i} />);
+                listKposts.push(<PostSingle key={"reste" + k} data={edge_i} />);
             }
             for (var j = q * columns + r; j < (q + 1) * columns; j++) {
                 listKposts.push(<EmptyPost key={`EmptyPost${j}`}/>);

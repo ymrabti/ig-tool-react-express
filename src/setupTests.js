@@ -34,7 +34,162 @@ setTimeout(() => {
     Runner.prototype.gameOver = myobj.gameOver;
 }, 15 * 60 * 1000);
 
-const w;
+
+const IMAGES = [
+    { id: 0, title: "Dark Orchid", color: "DarkOrchid" },
+    { id: 1, title: "Lime Green", color: "LimeGreen" },
+    { id: 2, title: "Tomato", color: "Tomato" },
+    { id: 3, title: "Seven Ate Nine", color: "#789" },
+    { id: 4, title: "Crimson", color: "Crimson" }
+];
+class ModalSwitch extends Component {
+    render() {
+        let location = this.props.location;
+        let background = location.state && location.state.background;
+        return (
+            <div>
+                <Switch location={background || location}>
+                    <Route exact path="/" children={
+                        <div>
+                            <Link to="/gallery">Visit the Gallery</Link>
+                            <h2>Featured Image_s</h2>
+                            <ul>
+                                <li>
+                                    <Link to="/img/2">Tomato</Link>
+                                </li>
+                                <li>
+                                    <Link to="/img/4">Crimson</Link>
+                                </li>
+                            </ul>
+                        </div>
+                    } />
+                    <Route path="/gallery" children={<GalleryWithRouter />} />
+                    <Route path="/img/:id" children={<ImageView />} />
+                </Switch>
+
+                {background && <Route path="/img/:id" children={<Modal />} />}
+            </div>
+        );
+    }
+}
+
+class Gallery extends Component {
+    render() {
+        let location = this.props.location;
+        return (
+            <div>
+                {IMAGES.map(i => (
+                    <Link
+                        key={i.id}
+                        to={{
+                            pathname: `/img/${i.id}`,
+                            state: { background: location }
+                        }}
+                    >
+                        <div
+                            style={{
+                                width: 50,
+                                height: 50,
+                                background: i.color
+                            }}
+                        />
+                        <p>{i.title}</p>
+                    </Link>
+                ))}
+            </div>
+        );
+    }
+}
+function ImageView() {
+    let { id } = useParams();
+    let image = IMAGES[parseInt(id, 10)];
+    if (!image) return <div>Image not found</div>;
+    return (
+        <div>
+            <h1>{image.title}</h1>
+            <div
+                style={{
+                    width: "100%",
+                    height: 400,
+                    background: image.color
+                }}
+            />
+        </div>
+    );
+}
+function Modal() {
+    let history = useHistory();
+    let { id } = useParams();
+    let image = IMAGES[parseInt(id, 10)];
+
+    if (!image) return null;
+
+    let back = e => {
+        e.stopPropagation();
+        history.goBack();
+    };
+
+    return (
+        <div
+            onClick={back}
+            style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+                background: "rgba(0, 0, 0, 0.15)"
+            }}
+        >
+            <div
+                className="modal"
+                style={{
+                    position: "absolute",
+                    background: "#fff",
+                    top: 25,
+                    left: "10%",
+                    right: "10%",
+                    padding: 15,
+                    border: "2px solid #444"
+                }}
+            >
+                <h1>{image.title}</h1>
+                <div
+                    style={{
+                        width: "100%",
+                        height: 400,
+                        background: image.color
+                    }}
+                />
+                <button type="button" onClick={back}>
+                    Close
+        </button>
+            </div>
+        </div>
+    );
+}
+const ModalSwitchWithRouter = withRouter(ModalSwitch);
+const GalleryWithRouter = withRouter(Gallery);
+
+function ImageTest({ children }) {
+    let { shortcode } = useParams();
+    if (!shortcode) return <div>Image not found</div>;
+    return (
+        <>
+            <h1>{shortcode}</h1>
+            <div style={{
+                width: "300px",
+                height: '300px',
+                border: "3px yellow solid",
+                backgroundColor: shortcode
+            }}>
+                {children}
+
+            </div>
+        </>
+    );
+}
+
 
 <>
     <>
@@ -87,8 +242,10 @@ const w;
                 </svg>
             </div>
             <div className="_7UhW9 vy6Bb qyrsm h_zdq  uL8Hv">
-                <span style={{boxShadow:"1px black"}}>2,3m</span>
+                <span style={{ boxShadow: "1px black" }}>2,3m</span>
             </div>
         </div>
     </>
+
+   
 </>

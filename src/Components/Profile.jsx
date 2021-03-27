@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { setVisiMP,fetchPost,setStateProfile } from "../actions/Index";
+import { setStateProfile } from "../actions/Index";
 import Head from "./head";
 import Pubs from "./Pubs";
 import { connect } from 'react-redux';
@@ -40,15 +40,14 @@ class Profile extends Component {
     componentDidMount(){
         let { username } = this.props.match.params;
         this.props.fetchProfile(username);
+        console.log(this.props);
     }
     render() {
         const user = this.props.user;
-        console.log(this.props);
         let objectFilter = Object.values(user)
             .filter(u => typeof (u) !== "function")
             .filter(u => !!u);
         if (objectFilter.length !== 0) {
-            const fetchDataPost = this.props.fetchDataPost;
             const dataHead = {
                 username: user.username,
                 full_name: user.full_name,
@@ -63,7 +62,6 @@ class Profile extends Component {
             };
             const dataPubs = {
                 edge_owner_to_media: user.edge_owner_to_timeline_media,
-                fetchDataPost
             }
             return <>
                 <Head {...dataHead} />
@@ -80,17 +78,6 @@ class Profile extends Component {
 const mapStateToPropsProfile = state => ({user:state.user})
 
 const mapDispatchToPropsProfile = (dispatch) => ({
-    fetchDataPost: (shortcode) => {
-        fetch(`/p/${shortcode}`)
-            .then(response => response.json())
-            .then(data => {
-                dispatch(setVisiMP(true));
-                dispatch(fetchPost(data.graphql.shortcode_media));
-            }).catch(e => {
-                dispatch(setVisiMP(false));
-                dispatch(fetchPost({}));
-            });
-    },
     fetchProfile: (username) => {
         fetch(`/${username}`)
             .then(response => response.json())

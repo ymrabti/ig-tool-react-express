@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { beautify_numbers, getDeffDates, text2Html } from "../tools";
 import { Waiting } from "../tools";
 import { SVGheart, SVGminiheart, SVGcmnt, SVGFindpeople, SVGshare } from "./svgs";
+import { withRouter } from "react-router-dom";
+import { fetchPost } from "../actions/Index";
 
 class PostSlider extends Component {
     render() {
@@ -107,7 +109,10 @@ class CommentsPost extends Component {
                                         <h3 className="_6lAjh">
                                             <div className="Igw0E IwRSHeGOV_ _4EzTm ItkAi">
                                                 <span className="Jv7Aj mArmR MqpiF" style={{ display: "flex", flexDirection: "row" }}>
-                                                    <a href={"/" + username_comment} onClick={this.handleClick} className="sqdOP yWX7d _8A5w5 ZIAjV">{username_comment}</a>
+                                                    <a
+                                                        href={"/" + username_comment} onClick={this.handleClick} className="sqdOP yWX7d _8A5w5 ZIAjV">
+                                                        {username_comment}
+                                                    </a>
                                                     {is_verified_comment && <div className="Igw0E IwRSH eGOV_ _4EzTm WKY0a"><span className="mTLOB Szr5J  coreSpriteVerifiedBadgeSmall" title="Verified">Verified</span></div>}
                                                 </span>
                                             </div>
@@ -218,14 +223,25 @@ class ModalContent extends Component {
     handleClick(target) {
         target.preventDefault();
     }
-
+    componentWillUnmount() {
+        this.props.unsetPostData();
+    }
+    componentDidMount() {
+        let { shortcode } = this.props.match.params;
+        this.props.fetchDataPost(shortcode);
+        console.log(this.props);
+        console.log(shortcode);
+    }
     render() {
-        let objectFilter = Object.values(this.props).filter(u => typeof (u) !== "function");
+        console.log(this.props);
+        const post = this.props.post;
+        let objectFilter = Object.values(post)
+            .filter(u => typeof (u) !== "function");
         if (objectFilter.length !== 0) {
-            let localization = this.props.location;
-            let owner = this.props.owner;
-            let edges_comments = this.props.edge_media_to_parent_comment.edges;
-            var tagged_users = this.props.edge_media_to_tagged_user.edges.map(item => {
+            let localization = post.location;
+            let owner = post.owner;
+            let edges_comments = post.edge_media_to_parent_comment.edges;
+            var tagged_users = post.edge_media_to_tagged_user.edges.map(item => {
                 var item_node = item.node;
                 var node_user = item_node.user;
                 var node_x = item_node.x; node_x = !node_x ? Math.random() : node_x;
@@ -241,16 +257,16 @@ class ModalContent extends Component {
                     </a>
                 </div>
             })
-            var taken_at_timestamp = this.props.taken_at_timestamp;
+            var taken_at_timestamp = post.taken_at_timestamp;
             var date_pub = new Date(taken_at_timestamp * 1000);
-            var __typename = this.props.__typename;
-            var is_video = this.props.is_video;
-            var shortcode = this.props.shortcode;
-            var captions = this.props.edge_media_to_caption.edges;
-            var count_likes = this.props.edge_media_preview_like.count;
-            var count_comments = this.props.edge_media_preview_comment.count;
+            var __typename = post.__typename;
+            var is_video = post.is_video;
+            var shortcode = post.shortcode;
+            var captions = post.edge_media_to_caption.edges;
+            var count_likes = post.edge_media_preview_like.count;
+            var count_comments = post.edge_media_preview_comment.count;
             var caption = captions.length !== 0 ? captions[0].node.text : "";
-            let video_url = this.props.video_url;
+            let video_url = post.video_url;
             return (
                 <div className="v9tJq AAaSh VfzDr" id="divModaltoreplace">
                     <HeadPost {...{ localization, owner }} />
@@ -262,20 +278,20 @@ class ModalContent extends Component {
                                         {
                                             (__typename !== "GraphSidecar") ? (
                                                 !is_video ?
-                                                    <img src={this.props.display_url} alt={this.props.accessibility_caption} width={"100%"} height={"auto"} /> :
+                                                    <img src={post.display_url} alt={post.accessibility_caption} width={"100%"} height={"auto"} /> :
                                                     <video controls={true} width={"100%"} onLoadStart={e => e.target.volume = 0.5} >
                                                         <source src={video_url} type="video/mp4"></source>
                                                     </video>
                                             )
                                                 : (
-                                                    <PostSlider {...this.props.edge_sidecar_to_children.edges} />
+                                                    <PostSlider {...post.edge_sidecar_to_children.edges} />
                                                 )
                                         }
                                         {tagged_users}
                                     </div>
 
                                     {
-                                        tagged_users.length > 0 && <div onClick={(e) => {}} className="G_hoz LcKDX _6JfJs">
+                                        tagged_users.length > 0 && <div onClick={(e) => { }} className="G_hoz LcKDX _6JfJs">
                                             <div className="HBUJV">
                                                 <span aria-label="Identifications" className="glyphsSpriteUser__filled__24__grey_0 u-__7">
                                                 </span>
@@ -303,16 +319,22 @@ class ModalContent extends Component {
     }
 }
 
-const mapStateToProps = state => state.post
+const mapStateToProps = state => ({ post: state.post })
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        decrement: () => dispatch({ type: 'DECREMENT' }),
-        reset: () => dispatch({ type: 'RESET' }),
+const mapDispatchToProps = (dispatch) => ({
+    unsetPostData: () => dispatch(fetchPost({})),
+    fetchDataPost: (shortcode) => {
+        fetch(`/p/${shortcode}`)
+            .then(response => response.json())
+            .then(data => {
+                // dispatch(setVisiMP(true));
+                dispatch(fetchPost(data.graphql.shortcode_media));
+            }).catch(e => {
+                // dispatch(setVisiMP(false));
+                dispatch(fetchPost({}));
+            });
     }
-}
-export default
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(ModalContent);
+})
+const PostConnected = connect(mapStateToProps, mapDispatchToProps)(ModalContent);
+const PostConnectedWithRouter = withRouter(PostConnected);
+export default PostConnectedWithRouter;
