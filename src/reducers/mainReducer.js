@@ -15,7 +15,9 @@ function mainReducer(state = {
     post: {},
     displayPostModal: false,
     isLoading:true,
-    username:""
+    username:"",
+    vdeoPlayed:false,
+    vdeoSound:false
 }, action) {
     switch (action.type) {
         case 'SHOW_MODAL_POST':
@@ -30,14 +32,15 @@ function mainReducer(state = {
             return { ...state, post: action.data };
         case 'UPDATE_USERNAME':
             return { ...state, username: action.username };
+        
+        case 'TOGGLE_VIDEO_SOUND':
+            return { ...state, vdeoPlayed: !state.vdeoPlayed };
+        case 'TOGGLE_VIDEO_PLAY':
+            return { ...state, vdeoSound: !state.vdeoSound };
         default:
             return state;
     }
 }
 const store = createStore(mainReducer);
-// fetch("/hidori_rose_2.0")
-//     .then(response=>response.json())
-//     .then(result=>{
-//         store.dispatch(setStateProfile(result.graphql.user))
-//     });
+
 export default store;

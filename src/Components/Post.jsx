@@ -79,7 +79,6 @@ class CommentsPost extends Component {
         e.preventDefault();
     }
     render() {
-        const comments = Object.values(this.props.edges_comments);
         const owner = this.props.owner;
         const date_pub = this.props.date_pub;
         var username = owner.username;
@@ -87,7 +86,7 @@ class CommentsPost extends Component {
         var is_verified = owner.is_verified;
         // var full_name = owner.full_name;
         // var abonnes = owner.edge_followed_by.count;
-        const comm_ents = comments.map(
+        const comm_ents = this.props.edges_comments.map(
             (comment, index) => {
                 var node = comment.node;
                 var owner_comment = node.owner;
@@ -241,6 +240,16 @@ class ModalContent extends Component {
             let localization = post.location;
             let owner = post.owner;
             let edges_comments = post.edge_media_to_parent_comment.edges;
+            var taken_at_timestamp = post.taken_at_timestamp;
+            var date_pub = new Date(taken_at_timestamp * 1000);
+            var __typename = post.__typename;
+            var is_video = post.is_video;
+            var shortcode = post.shortcode;
+            var captions = post.edge_media_to_caption.edges;
+            var count_likes = post.edge_media_preview_like.count;
+            var count_comments = post.edge_media_preview_comment.count;console.log(edges_comments);
+            var caption = captions.length !== 0 ? captions[0].node.text : "";
+            let video_url = post.video_url;
             var tagged_users = post.edge_media_to_tagged_user.edges.map(item => {
                 var item_node = item.node;
                 var node_user = item_node.user;
@@ -257,16 +266,6 @@ class ModalContent extends Component {
                     </a>
                 </div>
             })
-            var taken_at_timestamp = post.taken_at_timestamp;
-            var date_pub = new Date(taken_at_timestamp * 1000);
-            var __typename = post.__typename;
-            var is_video = post.is_video;
-            var shortcode = post.shortcode;
-            var captions = post.edge_media_to_caption.edges;
-            var count_likes = post.edge_media_preview_like.count;
-            var count_comments = post.edge_media_preview_comment.count;
-            var caption = captions.length !== 0 ? captions[0].node.text : "";
-            let video_url = post.video_url;
             return (
                 <div className="v9tJq AAaSh VfzDr" id="divModaltoreplace">
                     <HeadPost {...{ localization, owner }} />

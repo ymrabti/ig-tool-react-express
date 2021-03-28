@@ -16,7 +16,8 @@ class Pdp extends Component {
             <img style={{ borderRadius: "10px", width: "100%", maxWidth: "320px" }} alt={this.props.username} decoding="auto" src={this.props.profile_pic_url_hd} />
             <br />
             <button name="download" onClick={this.handleClick}>
-                <i className="fa fa-download"></i>Download All
+                <i className="fa fa-download">
+                </i>Download All
         </button>
         </center>
     }
@@ -36,7 +37,9 @@ const PdpConnected = connect(
 )(Pdp)
 
 function EmptyPost() {
-    return <div className="_bz0w"></div>;
+    return <div className="_bz0w">
+
+    </div>;
 }
 class PostSingle extends Component {
     // constructor(props) {
@@ -46,35 +49,79 @@ class PostSingle extends Component {
         target.preventDefault();
     }
     render() {
-        const product_type = this.props.data.product_type;
-        const __typename = this.props.data.__typename;
+        const data = this.props.data;
+        const product_type = data.product_type;
+        let edges_children_sidecar = this.props.data.edge_sidecar_to_children;
+        const __typename = data.__typename;
         const type = icons[(product_type === "feed" || !product_type) ? __typename : product_type];
-        const likes = this.props.data.edge_media_preview_like.count;
-        const is_video = this.props.data.is_video;
+        const likes = data.edge_media_preview_like.count;
+        const is_video = data.is_video;
+        const edge_media_to_comment = data.edge_media_to_comment.count;
+        let countVideos = 0;
+        let countImages = 0;
+        if (edges_children_sidecar) {
+            countVideos = edges_children_sidecar.edges.filter(i => i.node.__typename === "GraphVideo").length;
+            countImages = edges_children_sidecar.edges.filter(i => i.node.__typename === "GraphImage").length;
+        }
         return <div className="v1Nh3 kIKUG  _bz0w">
-            <Link to={`/p/${this.props.data.shortcode}/`}>
+            <Link to={`/modern/${data.shortcode}/`}>
                 <div className="eLAPa">
-                    <div className="KL4Bh"><img alt={this.props.data.accessibility_caption} className="FFVAD" decoding="auto" style={{ objectFit: "cover" }} sizes="293px" src={this.props.data.thumbnail_src} /* onClick={this.postClicked.bind(this)}  *//></div>
+                    <div className="KL4Bh">
+                        <img
+                            alt={data.accessibility_caption}
+                            className="FFVAD"
+                            decoding="auto"
+                            style={{ objectFit: "cover" }}
+                            sizes="293px"
+                            src={data.thumbnail_src} /* onClick={this.postClicked.bind(this)}  */
+                        />
+                    </div>
                 </div>
                 <div className="u7YqG">
-                    <div className={`mediatypesSprite${type}__filled__32 u-__7`}></div>
+                    <div className={`mediatypesSprite${type}__filled__32 u-__7`}>
+
+                    </div>
+                </div>
+                <div className="qn-0x" style={{ backgroundColor: "rgba(0,0,0,0.29)" }}>
+                    <ul className="Ln-UN">
+                        <li className="-V_eO">
+                            <span>{size_plain(likes)}</span>
+                            <span
+                                className="_1P1TY coreSpriteHeartSmall"
+                            >
+                            </span>
+                        </li>
+                        <li className="-V_eO">
+                            <span>{(size_plain(edge_media_to_comment))}</span>
+                            <span
+                                className="_1P1TY coreSpriteSpeechBubbleSmall"
+                            >
+                            </span>
+                        </li>
+                    </ul>
+                    {
+                        edges_children_sidecar && <ul className="Ln-UN">
+                            {
+                                countImages !==0 && <li className="-V_eO">
+                                    <span>{countImages + " "}Images</span>
+                                </li>
+                            }
+                            {
+                                countVideos !==0 && <li className="-V_eO">
+                                    <span>{countVideos + " "}Videos</span>
+                                </li>
+                            }
+                        </ul>
+                    }
                 </div>
                 <div className="Igw0E   rBNOH eGOV_ ybXk5 _4EzTm MGdpg _5VUwz O1flK fm1AK">
-                    <div className=" Igw0E IwRSH eGOV_ _4EzTm JI_ht">
-                        <SVGheartfilled />
-                    </div>
-                    <div className="_7UhW9 vy6Bb qyrsm h_zdq  uL8Hv">
-                        <span style={{ WebkitTextStrokeWidth: "0.5px", WebkitTextStrokeColor: "black" }}>
-                            {size_plain(likes)}
-                        </span>
-                    </div>
                     {is_video && <>
                         <div className=" Igw0E IwRSH eGOV_ _4EzTm JI_ht">
                             <SVGplay />
                         </div>
                         <div className="_7UhW9 vy6Bb qyrsm h_zdq  uL8Hv">
                             <span style={{ WebkitTextStrokeWidth: "0.5px", WebkitTextStrokeColor: "black" }}>
-                                {size_plain(this.props.data.video_view_count)}
+                                {size_plain(data.video_view_count)}
                             </span>
                         </div>
                     </>}
@@ -112,7 +159,7 @@ class Pubs extends Component {
                 listKposts.push(<PostSingle key={"reste" + k} data={edge_i} />);
             }
             for (var j = q * columns + r; j < (q + 1) * columns; j++) {
-                listKposts.push(<EmptyPost key={`EmptyPost${j}`}/>);
+                listKposts.push(<EmptyPost key={`EmptyPost${j}`} />);
             }
             kposts = <div key={"row" + i + 1} className="Nnq7C weEfm">
                 {listKposts}

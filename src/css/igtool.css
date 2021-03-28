@@ -8,7 +8,7 @@
 .modal {
   display: none;
   position: fixed;
-  z-index: 1;
+  /* z-index: 1; */
   padding-top: 55px;
   left: 0;
   top: 0;
@@ -89,6 +89,19 @@ button[name="download"]:hover {
   #_main_ {
     display: flex;
     flex-direction: column;
+  }
+  #articlePost{
+    display: flex;
+    flex-direction: column;
+  }
+  #headerPost,
+  #mediaPost,
+  #commentsPost
+  {
+    width: 100%;position: relative;
+  }
+  #commentsPost{
+      max-height: 30em;
   }
 }
 @media screen and (max-width: 530px) {

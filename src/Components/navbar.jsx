@@ -37,24 +37,51 @@ class MyNavbar extends Component {
     render() {
         return (
             <>
-                <div className="MWDvN buoMu nfCOa" style={{position:"fixed",backgroundColor:"#EEEEEE"}}>
-                    <div className="ctQZg">
-                        <div className="_47KiJ">
-                            <input className="" placeholder="type username ..." type="text" id="url" name="input" defaultValue={this.props.username} onChange={this.handleChange.bind(this)} />
-                        </div>
-                        <div className="_47KiJ">
-                            <p onClick={this.Cleartext.bind(this)} style={{ cursor: "pointer" }}>
-                                <SvgClearText />
-                            </p>
-                            <div className="Fifk5"><div className=""></div></div>
-                            <p onClick={this.Paste.bind(this)} style={{ cursor: "pointer" }}>
-                                <SvgPaste />
-                            </p>
-                            <div className="Fifk5"><div className=""></div></div>
-                            <button type="submit" id="GoAction" onClick={this.getProfile.bind(this)} style={{ cursor: "pointer", backgroundColor: "transparent", border: "0px" }}>
-                                <SvgIg />
-                            </button>
-                        </div>
+                <div
+                    className="ctQZg"
+                    style={
+                        {
+                            position: "fixed",
+                            backgroundColor: "#EEEEEE",
+                            width: "100%",
+                            padding:"0.5%"
+                        }
+                    }
+                >
+                    <div className="_47KiJ">
+                        <input
+                            className=""
+                            placeholder="type username ..."
+                            type="text"
+                            id="url"
+                            name="input"
+                            defaultValue={this.props.username}
+                            onChange={this.handleChange.bind(this)}
+                        />
+                    </div>
+                    <div className="_47KiJ">
+                        <p onClick={this.Cleartext.bind(this)} style={{ cursor: "pointer" }}>
+                            <SvgClearText />
+                        </p>
+                        <div className="Fifk5"><div className=""></div></div>
+                        <p onClick={this.Paste.bind(this)} style={{ cursor: "pointer" }}>
+                            <SvgPaste />
+                        </p>
+                        <div className="Fifk5"><div className=""></div></div>
+                        <button
+                            type="submit"
+                            id="GoAction"
+                            onClick={this.getProfile.bind(this)}
+                            style={
+                                {
+                                    cursor: "pointer",
+                                    backgroundColor: "transparent",
+                                    border: "0px"
+                                }
+                            }
+                        >
+                            <SvgIg />
+                        </button>
                     </div>
                 </div>
             </>

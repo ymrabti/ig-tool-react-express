@@ -7,8 +7,8 @@ import { setVisiMP } from "./actions/Index";
 import { connect } from "react-redux";
 import MyNavbar from "./Components/navbar";
 import ModalContent from "./Components/Post";
-import ModernPost,{Postt} from "./Components/Index";
-
+import ModernPost, { ModalPostWithRouter } from "./Components/Index";
+import { ModalSwitchWithRouter } from "./setupTests";
 import "./css/igtool1.css";
 import "./css/igtool2.css";
 import "./css/igtool3.css";
@@ -17,13 +17,21 @@ import "./css/progress.css";
 import {
     BrowserRouter,
     Switch,
+    Link,
     Route,
+    withRouter,
 } from "react-router-dom";
 
 
 class App extends Component {
-    
+    // componentDidMount() {
+    //     console.log(this.props);
+    // }
     render() {
+        let location = this.props.location;
+        let background = location.state && location.state.background;
+        console.log(location);
+        console.log(background);
         let showPost = { display: this.props.displayPostModal ? "block" : "none" };
         return <>
             <section className="_9eogI E3X2T">
@@ -45,23 +53,56 @@ class App extends Component {
                             </div>
                         </div>
                     </div>
-
-                    <br /><br />
+                    <br />
                     <div className="v9tJq AAaSh VfzDr" id="divtoreplace">
-                        <BrowserRouter>
-                            <Switch>
-                                <Route path="/modern" >
+                        <Switch location={background || location}>
+                            <Route exact path="/modern/:shortcode" >
+                                <ModernPost />
+                            </Route>
+                            <Route exact path="/p/:shortcode" >
+                                <ModalContent />
+                            </Route>
+                            <Route exact path="/pubs">
+                                <div style={
+                                    {
+                                        width:"20em",
+                                        height:"30em",
+                                        padding:"8em",
+                                        border:"3px red solid"
+                                    }
+                                }>
+                                    <Link to={{
+                                        pathname: `/modern/shortcode`,
+                                        state: { background: location }
+                                    }}>show modal</Link>
+                                </div>
+                            </Route>
+                            <Route exact path="/:username" >
+                                <Profile />
+                            </Route>
+                            <Route path="*">
+                                <NotExist />
+                            </Route>
+                        </Switch>
+                        {
+                            background && <Route path="/p/:shortcode" 
+                            children={
+                                <div
+                                    style={{
+                                        position: "fixed",
+                                        top: 0,
+                                        left: 0,
+                                        bottom: 0,
+                                        right: 0,
+                                        background: "rgba(0, 0, 0, 0.29)"
+                                    }}
+                                >
                                     <ModernPost />
-                                    {/* <Postt /> */}
-                                </Route>
-                                <Route path="/p/:shortcode" >
-                                    <ModalContent />
-                                </Route>
-                                <Route path="/:username" >
-                                    <Profile />
-                                </Route>
-                            </Switch>
-                        </BrowserRouter>
+                                </div>
+                            }
+                            />
+                        }
+
                     </div>
                 </main>
                 <MyNavbar />
@@ -69,6 +110,10 @@ class App extends Component {
         </>
     }
 }
+function NotExist() {
+    return <h1>not found</h1>;
+}
+
 const mapStateToPropsApp = state => ({
     profile_pic_url_hd: state.user.profile_pic_url_hd,
     username: state.user.username
@@ -82,10 +127,16 @@ const AppConnected = connect(
     mapDispatchToPropsApp
 )(App)
 
+
+const AppConnectedWithRouter = withRouter(AppConnected)
+
 const render = () => ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
-            <AppConnected />
+            <BrowserRouter>
+                <AppConnectedWithRouter />
+                {/* <ModalSwitchWithRouter/> */}
+            </BrowserRouter>
         </Provider>
     </React.StrictMode>,
     document.getElementById('root')
