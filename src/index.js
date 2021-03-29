@@ -7,8 +7,7 @@ import { setVisiMP } from "./actions/Index";
 import { connect } from "react-redux";
 import MyNavbar from "./Components/navbar";
 import ModalContent from "./Components/Post";
-import ModernPost, { ModalPostWithRouter } from "./Components/Index";
-import { ModalSwitchWithRouter } from "./setupTests";
+import Post, { ModalPostWithRouter } from "./Components/Index";
 import "./css/igtool1.css";
 import "./css/igtool2.css";
 import "./css/igtool3.css";
@@ -17,9 +16,11 @@ import "./css/progress.css";
 import {
     BrowserRouter,
     Switch,
-    Link,
+    // Link,
+    useParams,
     Route,
     withRouter,
+    // useLocation,
 } from "react-router-dom";
 
 
@@ -30,19 +31,11 @@ class App extends Component {
     render() {
         let location = this.props.location;
         let background = location.state && location.state.background;
-        console.log(location);
-        console.log(background);
-        let showPost = { display: this.props.displayPostModal ? "block" : "none" };
+        // let showPost = { display: this.props.displayPostModal ? "block" : "none" };
         return <>
             <section className="_9eogI E3X2T">
                 <main className="SCxLW  o64aR" role="main">
-                    <div id="ModalPost" className="modal" style={showPost}>
-                        <div className="modal-content">
-                            <span className="close" onClick={() => { this.props.closeModal() }} >×</span>
-                            <h1>Header</h1>
-                        </div>
-                    </div>
-                    <div id="ModalDownload" className="modal">
+                    <div className="modal">
                         <div className="modal-content">
                             <span className="close" onClick={() => console.log("download")} >×</span>
                             <span id="currentFile">Starting ...</span><br />
@@ -56,51 +49,31 @@ class App extends Component {
                     <br />
                     <div className="v9tJq AAaSh VfzDr" id="divtoreplace">
                         <Switch location={background || location}>
-                            <Route exact path="/modern/:shortcode" >
-                                <ModernPost />
+                            <Route exact path="/" >
+                                <h1>Welcome home</h1>
                             </Route>
                             <Route exact path="/p/:shortcode" >
-                                <ModalContent />
+                                <Post />
                             </Route>
-                            <Route exact path="/pubs">
-                                <div style={
-                                    {
-                                        width:"20em",
-                                        height:"30em",
-                                        padding:"8em",
-                                        border:"3px red solid"
-                                    }
-                                }>
-                                    <Link to={{
-                                        pathname: `/modern/shortcode`,
-                                        state: { background: location }
-                                    }}>show modal</Link>
-                                </div>
+                            <Route exact path="/old/:shortcode" >
+                                <ModalContent />
                             </Route>
                             <Route exact path="/:username" >
                                 <Profile />
+                            </Route>
+                            <Route exact path="/:username/igtv" >
+                                <Igtv />
                             </Route>
                             <Route path="*">
                                 <NotExist />
                             </Route>
                         </Switch>
                         {
-                            background && <Route path="/p/:shortcode" 
-                            children={
-                                <div
-                                    style={{
-                                        position: "fixed",
-                                        top: 0,
-                                        left: 0,
-                                        bottom: 0,
-                                        right: 0,
-                                        background: "rgba(0, 0, 0, 0.29)"
-                                    }}
-                                >
-                                    <ModernPost />
-                                </div>
-                            }
-                            />
+                            background && <Route path="/p/:shortcode" >
+                                <ModalPostWithRouter>
+                                    <Post />
+                                </ModalPostWithRouter>
+                            </Route>
                         }
 
                     </div>
@@ -110,6 +83,13 @@ class App extends Component {
         </>
     }
 }
+
+
+function Igtv() {
+    const {username} = useParams();
+    return <h1>Igtv {" "+username}</h1>;
+}
+
 function NotExist() {
     return <h1>not found</h1>;
 }
@@ -128,6 +108,7 @@ const AppConnected = connect(
 )(App)
 
 
+
 const AppConnectedWithRouter = withRouter(AppConnected)
 
 const render = () => ReactDOM.render(
@@ -135,7 +116,6 @@ const render = () => ReactDOM.render(
         <Provider store={store}>
             <BrowserRouter>
                 <AppConnectedWithRouter />
-                {/* <ModalSwitchWithRouter/> */}
             </BrowserRouter>
         </Provider>
     </React.StrictMode>,

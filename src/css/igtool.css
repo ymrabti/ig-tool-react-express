@@ -43,6 +43,9 @@ button[name="download"] {
 button[name="download"]:hover {
   background-color: RoyalBlue;
 }
+.backWhite{
+    background-color: aliceblue;
+}
 .Djus7KLks {
   position: absolute;
   top: -5px;

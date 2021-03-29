@@ -1,9 +1,9 @@
 import { Component } from "react";
 import { icons, size_plain } from "../tools";
-import { SVGheartfilled, SVGplay } from "./svgs";
+import { SVGplay } from "./svgs";
 import { connect } from "react-redux";
 import {
-    Link,
+    Link,withRouter
 } from "react-router-dom";
 
 class Pdp extends Component {
@@ -49,6 +49,7 @@ class PostSingle extends Component {
         target.preventDefault();
     }
     render() {
+        let location = this.props.location;
         const data = this.props.data;
         const product_type = data.product_type;
         let edges_children_sidecar = this.props.data.edge_sidecar_to_children;
@@ -64,7 +65,11 @@ class PostSingle extends Component {
             countImages = edges_children_sidecar.edges.filter(i => i.node.__typename === "GraphImage").length;
         }
         return <div className="v1Nh3 kIKUG  _bz0w">
-            <Link to={`/modern/${data.shortcode}/`}>
+            <Link to={{
+                pathname: `/p/${data.shortcode}/`,
+                state: { background: location }
+            }}
+            >
                 <div className="eLAPa">
                     <div className="KL4Bh">
                         <img
@@ -102,12 +107,12 @@ class PostSingle extends Component {
                     {
                         edges_children_sidecar && <ul className="Ln-UN">
                             {
-                                countImages !==0 && <li className="-V_eO">
+                                countImages !== 0 && <li className="-V_eO">
                                     <span>{countImages + " "}Images</span>
                                 </li>
                             }
                             {
-                                countVideos !==0 && <li className="-V_eO">
+                                countVideos !== 0 && <li className="-V_eO">
                                     <span>{countVideos + " "}Videos</span>
                                 </li>
                             }
@@ -130,6 +135,8 @@ class PostSingle extends Component {
         </div>;
     }
 }
+const PostSingleWithRouter = withRouter(PostSingle);
+
 class Pubs extends Component {
 
     render() {
@@ -145,7 +152,7 @@ class Pubs extends Component {
             for (k = 0; k < columns; k++) {
                 current = columns * i + k;
                 edge_i = edge_owner_to_media.edges[current]["node"];
-                listKposts.push(<PostSingle key={"current" + current} data={edge_i} />);
+                listKposts.push(<PostSingleWithRouter key={"current" + current} data={edge_i} />);
             }
             kposts = <div key={"row" + i} className="Nnq7C weEfm">
                 {listKposts}
@@ -156,7 +163,7 @@ class Pubs extends Component {
             listKposts = [];
             for (k = q * columns; k < q * columns + r; k++) {
                 edge_i = edge_owner_to_media.edges[k]["node"];
-                listKposts.push(<PostSingle key={"reste" + k} data={edge_i} />);
+                listKposts.push(<PostSingleWithRouter key={"reste" + k} data={edge_i} />);
             }
             for (var j = q * columns + r; j < (q + 1) * columns; j++) {
                 listKposts.push(<EmptyPost key={`EmptyPost${j}`} />);

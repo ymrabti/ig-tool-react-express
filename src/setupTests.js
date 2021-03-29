@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { Switch,Route,Link,useParams,useHistory,withRouter } from "react-router-dom";
-import { ModalPostWithRouter } from "./Components/Index";
+// import { ModalPostWithRouter } from "./Components/Index";
 
 const IMAGES = [
     { id: 0, title: "Dark Orchid", color: "DarkOrchid" },

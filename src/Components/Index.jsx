@@ -8,9 +8,10 @@ import {
     getDeffDates
 } from "../tools";
 import Slider from "infinite-react-carousel";
+// import Slider from "react-slick";
 import { withRouter } from "react-router-dom";
 import { fetchPost } from "../actions/Index";
-import { WaitingPost } from "../tools";
+import { WaitingPost,size_plain } from "../tools";
 
 const SubSection = (props) => {
     const size = props.data.size;
@@ -34,7 +35,7 @@ const SubSection = (props) => {
                                     <path d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z">
                                     </path>
                                 </svg>
-                                {count_likes}
+                                {size_plain(count_likes)}
                             </span>
                         </div>
                     </button>
@@ -55,7 +56,7 @@ const SubSection = (props) => {
                                 <path clipRule="evenodd" d="M47.5 46.1l-2.8-11c1.8-3.3 2.8-7.1 2.8-11.1C47.5 11 37 .5 24 .5S.5 11 .5 24 11 47.5 24 47.5c4 0 7.8-1 11.1-2.8l11 2.8c.8.2 1.6-.6 1.4-1.4zm-3-22.1c0 4-1 7-2.6 10-.2.4-.3.9-.2 1.4l2.1 8.4-8.3-2.1c-.5-.1-1-.1-1.4.2-1.8 1-5.2 2.6-10 2.6-11.4 0-20.6-9.2-20.6-20.5S12.7 3.5 24 3.5 44.5 12.7 44.5 24z" fillRule="evenodd">
                                 </path>
                             </svg>
-                            {count_comments}
+                            {size_plain(count_comments)}
                         </div>
                     </button>
                 </span>
@@ -63,11 +64,109 @@ const SubSection = (props) => {
         </>
     );
 }
-
+function ImageView(params) {
+    return <div className="kPFhm B1JlO OAXCp">
+        <div style={{ height: "100%", position: "absolute", width: "100%" }}>
+            <div className="GRtmf wymO0 ">
+                <div className="_5wCQW">
+                    <img
+                        alt={params.accessibility_caption}
+                        className="FFVAD"
+                        crossOrigin="anonymous"
+                        decoding="auto"
+                        src={params.display_url}
+                        style={{ objectFit: "cover" }}
+                    />
+                </div>
+            </div>
+        </div>
+    </div>;
+}
+function VideoView(params) {
+    return (<div className="kPFhm B1JlO OAXCp">
+        <div style={{ height: "100%", position: "absolute", width: "100%" }}>
+            <div className="GRtmf wymO0 ">
+                <div className="_5wCQW">
+                    <video
+                        className="tWeCl"
+                        crossOrigin="anonymous"
+                        playsInline=""
+                        poster={params.display_url}
+                        preload="none"
+                        type="video/mp4"
+                        src={params.video_url}
+                        onLoadStart={e => e.target.volume = 0.5}
+                        loop={true}
+                        style={{ display: "block" }}
+                    >
+                    </video>
+                </div>
+            </div>
+        </div>
+        <div className="PyenC">
+            <span aria-label="Lire" className={`qBUYS _7CSz9 ${params.vdeoPlayed ? "" : "FGFB7"} videoSpritePlayButton`} role="button">
+            </span>
+        </div>
+        <div name={listNames.switchPlay} aria-label="Controler" className="fXIG0" role="button">
+        </div>
+        <span className="">
+            <div
+                name={listNames.switchSound}
+                className="_41V_T IhCmn Igw0E IwRSH eGOV_ _4EzTm MGdpg y2rAt lC6p0 HVWg4 O1flK fm1AK TxciK"
+                style={{ cursor: "pointer" }}
+            >
+                <svg
+                    name={listNames.switchSound}
+                    aria-label="L’audio est mis en sourdine."
+                    className="_8-yf5 "
+                    fill="#ffffff"
+                    height="12"
+                    viewBox="0 0 48 48"
+                    width="12"
+                >
+                    <path
+                        name={listNames.switchSound}
+                        clipRule="evenodd"
+                        d={params.vdeoSound ? sound : muted}
+                        fillRule="evenodd"
+                    >
+                    </path>
+                </svg>
+            </div>
+            <button className="FqZhB" label="Activer/Désactiver le son">
+                Activer/Désactiver le son
+            </button>
+        </span>
+    </div>
+    );
+}
 class Post extends Component {
     //constructor(props) {
     //    super(props);
     //}
+    postClicked(event) {
+        const target = event.target;
+        const keys = Object.keys(target);
+        const keyName = keys[1];
+        const targetName = target[keyName].name;
+        switch (targetName) {
+            case listNames.switchPlay:
+                {
+                    console.log(listNames.switchPlay);
+                    break;
+                }
+            case listNames.switchSound:
+                {
+                    console.log(listNames.switchSound);
+                    break;
+                }
+            default:
+                {
+                    console.log("Default");
+                    break;
+                }
+        }
+    }
     componentWillUnmount() {
         this.props.unsetPostData();
     }
@@ -96,7 +195,16 @@ class Post extends Component {
             var caption = captions.length !== 0 ? captions[0].node.text : "";
             const settings = {
                 dots: true,
-                arrowsBlock: false
+                speed: 500,
+                className:"backWhite",
+                prevArrow: <button className="POSa_">
+                    <div className="coreSpriteLeftChevron">
+                    </div>
+                </button>,
+                nextArrow: <button className="_6CZji">
+                    <div className="coreSpriteRightChevron">
+                    </div>
+                </button>
             };
             const Comnts = edges_comments.map(comment => {
                 var node = comment.node;
@@ -203,250 +311,210 @@ class Post extends Component {
             const media = (__typename !== "GraphSidecar") ? (
                 !is_video ?
                     (
-                        <div role="button" className="ZyFrc">
-                            <div className="eLAPa kPFhm">
-                                <div className="KL4Bh" style={{paddingBottom: "125%"}}>
-                                    <img
-                                        alt={post.accessibility_caption}
-                                        className="FFVAD"
-                                        crossOrigin="anonymous"
-                                        decoding="auto"
-                                        src={post.display_url}
-                                        style={{objectFit: "cover"}}
-                                    />
-                                </div>
-                                <div className="_9AhH0">
-                                </div>
-                            </div>
-                        </div>
+                        <ImageView
+                            accessibility_caption={post.accessibility_caption}
+                            display_url={post.display_url}
+                        />
                     )
                     :
                     (
-                        <div className="kPFhm B1JlO OAXCp">
-                            <div style={{ height: "100%", position: "absolute", width: "100%"}}>
-                                <div className="GRtmf wymO0 ">
-                                    <div className="_5wCQW">
-                                        <video
-                                            className="tWeCl"
-                                            crossOrigin="anonymous"
-                                            playsInline=""
-                                            poster={display_url}
-                                            preload="none"
-                                            type="video/mp4"
-                                            src={video_url}
-                                            onLoadStart={e => e.target.volume = 0.5}
-                                            loop={true}
-                                            style={{ display: "block" }}
-                                        >
-                                        </video>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="PyenC">
-                                <span aria-label="Lire" className={`qBUYS _7CSz9 ${this.props.videoPlayed ? "" : "FGFB7"} videoSpritePlayButton`} role="button">
-                                </span>
-                            </div>
-                            <div name={listNames.switchPlay} aria-label="Controler" className="fXIG0" role="button">
-                            </div>
-                            <span className="">
-                                <div name={listNames.switchSound} className="_41V_T IhCmn Igw0E IwRSH eGOV_ _4EzTm MGdpg y2rAt lC6p0 HVWg4 O1flK fm1AK TxciK" style={{ cursor: "pointer" }} >
-                                    <svg name={listNames.switchSound} aria-label="L’audio est mis en sourdine." className="_8-yf5 " fill="#ffffff" height="12" viewBox="0 0 48 48" width="12">
-                                        <path name={listNames.switchSound} clipRule="evenodd" d={this.props.vdeoSound ? sound : muted} fillRule="evenodd">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <button className="FqZhB" label="Activer/Désactiver le son">Activer/Désactiver le son</button>
-                            </span>
-                        </div>
+                        <VideoView
+                            display_url={display_url}
+                            video_url={video_url}
+                            vdeoPlayed={this.props.vdeoPlayed}
+                            vdeoSound={this.props.vdeoSound}
+                        />
                     )
+
+
             )
                 :
-                
+
                 (
-                    <div className="rQDP3">
-                        <div className="pR7Pc">
-                            <div className="tR2pe" style={{paddingBottom: "125%"}}>
-                            </div>
-                            <div className="Igw0E IwRSH eGOV_ _4EzTm O1flK D8xaz fm1AK TxciK yiMZG">
-                                <div className="EcJQs" style={{ backgroundColor:"white" }}>
-                                    <Slider {...settings}>
-                                        {
-                                            post.edge_sidecar_to_children.edges.map(item => {
-                                                let node = item.node;
-                                                return <div key={node.shortcode}>
-                                                    {
-                                                        !node.is_video ?
-                                                            <img src={node.display_url} alt={node.accessibility_caption} width={"100%"} height={"auto"} /> :
-                                                            <video controls={true} width={"100%"} onLoadStart={e => e.target.volume = 0.5} >
-                                                                <source src={node.video_url} type="video/mp4"></source>
-                                                            </video>
-                                                    }
-                                                </div>
-                                            })
-                                        }
-                                    </Slider>
+                    <Slider {...settings}>
+                        {
+                            post.edge_sidecar_to_children.edges.map(item => {
+                                let node = item.node;
+                                return <div style={{ backgroundColor: "pink" }} key={node.shortcode}>
+                                    {
+                                        !node.is_video ?
+                                            <ImageView
+                                                display_url={node.display_url}
+                                                accessibility_caption={node.accessibility_caption}
+                                            /> :
+                                            <VideoView
+                                                display_url={node.display_url}
+                                                video_url={node.video_url}
+                                                vdeoPlayed={false}
+                                                vdeoSound={false}
+                                            />
+                                    }
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            })
+                        }
+                    </Slider>
+
                 );
             return (
-                    <div className="PdwC2 fXiEu s2MYR" role="dialog">
-                        <article id="articlePost" className="M9sTE L_LMM JyscU ePUX4" role="presentation">
-                            <header id="headerPost" className="Ppjfr UE9AK wdOqh">
-                                <div className="Jv7Aj mArmR   pZp3x">
-                                    <div className="RR-M-  mrq0Z" aria-disabled="true" role="button">
-                                        <a
-                                            className="_2dbep qNELH kIKUG"
-                                            href={owner.username}
-                                            style={{ width: "32px", height: "32px" }}
-                                        >
-                                            <img
-                                                alt={owner.username}
-                                                className="_6q-tv"
-                                                crossOrigin="anonymous"
-                                                data-testid="user-avatar"
-                                                draggable="false"
-                                                src={owner.profile_pic_url}
-                                            />
-                                        </a>
-                                    </div>
+                <div onClick={this.postClicked.bind(this)} className="PdwC2 fXiEu s2MYR" role="dialog">
+                    <article id="articlePost" className="M9sTE L_LMM JyscU ePUX4" role="presentation">
+                        <header id="headerPost" className="Ppjfr UE9AK wdOqh">
+                            <div className="Jv7Aj mArmR   pZp3x">
+                                <div className="RR-M-  mrq0Z" aria-disabled="true" role="button">
+                                    <a
+                                        className="_2dbep qNELH kIKUG"
+                                        href={owner.username}
+                                        style={{ width: "32px", height: "32px" }}
+                                    >
+                                        <img
+                                            alt={owner.username}
+                                            className="_6q-tv"
+                                            crossOrigin="anonymous"
+                                            data-testid="user-avatar"
+                                            draggable="false"
+                                            src={owner.profile_pic_url}
+                                        />
+                                    </a>
                                 </div>
-                                <div className="o-MQd z8cbW ">
-                                    <div className="PQo_0 RqtMr">
-                                        <div className="e1e1d">
-                                            <span
-                                                className="Jv7Aj mArmR MqpiF"
-                                                style={{ display: "flex", flexDirection: "row" }}
-                                            >
-                                                <a
-                                                    className="sqdOP yWX7d _8A5w5 ZIAjV"
-                                                    href={"/" + owner.username}>{owner.username}
-                                                </a>
-                                                {owner.is_verified && <div className="Igw0E IwRSH eGOV_ _4EzTm WKY0a"><span className="mTLOB Szr5J  coreSpriteVerifiedBadgeSmall" title="Verified">Verified</span></div>}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    {localization && <div className="M30cS">
-                                        <div className="JF9hh">
-                                            <a href={"/ymrabti/" + localization.id} onClick={this.handleClick} className="O4GlU">{localization.name}</a>
-                                        </div>
-                                    </div>}
-                                    <div className="M30cS">
-                                        <div>
-                                        </div>
-                                        <div className="JF9hh">
-                                        </div>
-                                    </div>
-                                </div>
-                            </header>
-                            <div id="mediaPost" className="_97aPb">
-                                {media}
                             </div>
-                            <div id="commentsPost" className="eo2As">
-                                <section className="ltpMr  Slqrh">
-                                    <SubSection data={{ count_comments, count_likes, size: 24 }} />
-                                    {
-                                        is_video && <span className="wmtNn">
-                                            <div>
-                                                <div aria-disabled="false" role="button">
-                                                    <button className="wpO6b" type="button">
-                                                        <div className="QBdPU ">
-                                                            <svg aria-label="Icône du nombre de vues" strokeWidth="3" fill="#FFFFFF00" className="_8-yf5 " stroke="black" height="24" viewBox="0 0 48 48" width="24">
-                                                                <path d="M9.6 46.5c-1 0-2-.3-2.9-.8-1.8-1.1-2.9-2.9-2.9-5.1V7.3c0-2.1 1.1-4 2.9-5.1 1.9-1.1 4.1-1.1 5.9 0l30.1 17.6c1.5.9 2.3 2.4 2.3 4.1 0 1.7-.9 3.2-2.3 4.1L12.6 45.7c-.9.5-2 .8-3 .8z">
-                                                                </path>
-                                                            </svg>
-                                                            {post.video_view_count}
-                                                        </div>
-                                                    </button>
-                                                </div>
-                                            </div>
+                            <div className="o-MQd z8cbW ">
+                                <div className="PQo_0 RqtMr">
+                                    <div className="e1e1d">
+                                        <span
+                                            className="Jv7Aj mArmR MqpiF"
+                                            style={{ display: "flex", flexDirection: "row" }}
+                                        >
+                                            <a
+                                                className="sqdOP yWX7d _8A5w5 ZIAjV"
+                                                href={"/" + owner.username}>{owner.username}
+                                            </a>
+                                            {owner.is_verified && <div className="Igw0E IwRSH eGOV_ _4EzTm WKY0a"><span className="mTLOB Szr5J  coreSpriteVerifiedBadgeSmall" title="Verified">Verified</span></div>}
                                         </span>
-                                    }
-                                </section>
-                                <div className="EtaWk">
-                                    <ul className="XQXOT pXf-y ">
-                                        <div role="button" className="ZyFrc">
-                                            <li className="gElp9 rUo9f PpGvg" role="menuitem">
-                                                <div className="P9YgZ">
-                                                    <div className="C7I1f X7jCj">
-                                                        <div className="Jv7Aj mArmR   pZp3x">
-                                                            <div className="RR-M- h5uC0 TKzGu" aria-disabled="false" role="button">
-                                                                <canvas className="CfWVH" height="40" width="40" style={{ position: "absolute", top: "-4px", left: "-4px", width: "40px", height: "40px" }}>
-                                                                </canvas>
-                                                                <span className="_2dbep " role="link" style={{ width: "32px", height: "32px" }}>
-                                                                    <img
-                                                                        alt={owner.username}
-                                                                        className="_6q-tv"
-                                                                        crossOrigin="anonymous"
-                                                                        data-testid="user-avatar"
-                                                                        draggable="false"
-                                                                        src={owner.profile_pic_url}
-                                                                    />
+                                    </div>
+                                </div>
+                                {localization && <div className="M30cS">
+                                    <div className="JF9hh">
+                                        <a href={"/ymrabti/" + localization.id} onClick={this.handleClick} className="O4GlU">{localization.name}</a>
+                                    </div>
+                                </div>}
+                                <div className="M30cS">
+                                    <div>
+                                    </div>
+                                    <div className="JF9hh">
+                                    </div>
+                                </div>
+                            </div>
+                        </header>
+                        <div id="mediaPost" className="_97aPb">
+
+                            {
+                                media
+                            }
+                        </div>
+                        <div id="commentsPost" className="eo2As">
+                            <section className="ltpMr  Slqrh">
+                                <SubSection data={{ count_comments, count_likes, size: 24 }} />
+                                {
+                                    is_video && <span className="wmtNn">
+                                        <div>
+                                            <div aria-disabled="false" role="button">
+                                                <button className="wpO6b" type="button">
+                                                    <div className="QBdPU ">
+                                                        <svg aria-label="Icône du nombre de vues" strokeWidth="3" fill="#FFFFFF00" className="_8-yf5 " stroke="black" height="24" viewBox="0 0 48 48" width="24">
+                                                            <path d="M9.6 46.5c-1 0-2-.3-2.9-.8-1.8-1.1-2.9-2.9-2.9-5.1V7.3c0-2.1 1.1-4 2.9-5.1 1.9-1.1 4.1-1.1 5.9 0l30.1 17.6c1.5.9 2.3 2.4 2.3 4.1 0 1.7-.9 3.2-2.3 4.1L12.6 45.7c-.9.5-2 .8-3 .8z">
+                                                            </path>
+                                                        </svg>
+                                                        {size_plain(post.video_view_count)}
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </span>
+                                }
+                            </section>
+                            <div className="EtaWk">
+                                <ul className="XQXOT pXf-y ">
+                                    <div role="button" className="ZyFrc">
+                                        <li className="gElp9 rUo9f PpGvg" role="menuitem">
+                                            <div className="P9YgZ">
+                                                <div className="C7I1f X7jCj">
+                                                    <div className="Jv7Aj mArmR   pZp3x">
+                                                        <div className="RR-M- h5uC0 TKzGu" aria-disabled="false" role="button">
+                                                            <canvas className="CfWVH" height="40" width="40" style={{ position: "absolute", top: "-4px", left: "-4px", width: "40px", height: "40px" }}>
+                                                            </canvas>
+                                                            <span className="_2dbep " role="link" style={{ width: "32px", height: "32px" }}>
+                                                                <img
+                                                                    alt={owner.username}
+                                                                    className="_6q-tv"
+                                                                    crossOrigin="anonymous"
+                                                                    data-testid="user-avatar"
+                                                                    draggable="false"
+                                                                    src={owner.profile_pic_url}
+                                                                />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="C4VMK">
+                                                        <h2 className="_6lAjh ">
+                                                            <div className="Igw0E IwRSH eGOV_ _4EzTm ItkAi">
+                                                                <span
+                                                                    className="Jv7Aj mArmR MqpiF"
+                                                                    style={
+                                                                        {
+                                                                            display: "flex",
+                                                                            flexDirection: "row"
+                                                                        }
+                                                                    }
+                                                                >
+                                                                    <a
+                                                                        className="sqdOP yWX7d _8A5w5 ZIAjV"
+                                                                        href={"/" + owner.username}
+                                                                    >
+                                                                        {owner.username}
+                                                                    </a>
+                                                                    {owner.is_verified && <div className="Igw0E IwRSH eGOV_ _4EzTm WKY0a"><span className="mTLOB Szr5J  coreSpriteVerifiedBadgeSmall" title="Verified">Verified</span></div>}
                                                                 </span>
                                                             </div>
-                                                        </div>
-                                                        <div className="C4VMK">
-                                                            <h2 className="_6lAjh ">
-                                                                <div className="Igw0E IwRSH eGOV_ _4EzTm ItkAi">
-                                                                    <span
-                                                                        className="Jv7Aj mArmR MqpiF"
-                                                                        style={
-                                                                            {
-                                                                                display: "flex",
-                                                                                flexDirection: "row"
-                                                                            }
-                                                                        }
-                                                                    >
-                                                                        <a
-                                                                            className="sqdOP yWX7d _8A5w5 ZIAjV"
-                                                                            href={"/" + owner.username}
-                                                                        >
-                                                                            {owner.username}
-                                                                        </a>
-                                                                        {owner.is_verified && <div className="Igw0E IwRSH eGOV_ _4EzTm WKY0a"><span className="mTLOB Szr5J  coreSpriteVerifiedBadgeSmall" title="Verified">Verified</span></div>}
-                                                                    </span>
-                                                                </div>
-                                                            </h2>
-                                                            <span className="">
-                                                                {text2Html(caption)}
-                                                            </span>
-                                                            <div className="Igw0E IwRSH eGOV_ _4EzTm pjcA_ aGBdT">
-                                                                <div className="_7UhW9 PIoXz MMzan _0PwGv uL8Hv">
-                                                                    <time
-                                                                        className="FH9sR Nzb55"
-                                                                        dateTime={date_pub.toJSON()}
-                                                                        title={date_pub.toLocaleDateString()}
-                                                                    >
-                                                                        {getDeffDates(date_pub)}
-                                                                    </time>
-                                                                </div>
+                                                        </h2>
+                                                        <span className="">
+                                                            {text2Html(caption)}
+                                                        </span>
+                                                        <div className="Igw0E IwRSH eGOV_ _4EzTm pjcA_ aGBdT">
+                                                            <div className="_7UhW9 PIoXz MMzan _0PwGv uL8Hv">
+                                                                <time
+                                                                    className="FH9sR Nzb55"
+                                                                    dateTime={date_pub.toJSON()}
+                                                                    title={date_pub.toLocaleDateString()}
+                                                                >
+                                                                    {getDeffDates(date_pub)}
+                                                                </time>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </li>
-                                        </div>
+                                            </div>
+                                        </li>
+                                    </div>
 
-                                        {Comnts}
+                                    {Comnts}
 
-                                    </ul>
-                                </div>
-                                <div className="k_Q0X I0_K8  NnvRN">
-                                    <a className="c-Yi7" href={"/p/" + shortcode}>
-                                        <time
-                                            className="_1o9PC Nzb55"
-                                            dateTime={date_pub.toJSON()}
-                                            title={date_pub.toLocaleDateString()}
-                                        >
-                                            {getDeffDates(date_pub)}
-                                        </time>
-                                    </a>
-                                </div>
-
+                                </ul>
                             </div>
-                        </article>
-                    </div>
+                            <div className="k_Q0X I0_K8  NnvRN">
+                                <a className="c-Yi7" href={"/p/" + shortcode}>
+                                    <time
+                                        className="_1o9PC Nzb55"
+                                        dateTime={date_pub.toJSON()}
+                                        title={date_pub.toLocaleDateString()}
+                                    >
+                                        {getDeffDates(date_pub)}
+                                    </time>
+                                </a>
+                            </div>
+
+                        </div>
+                    </article>
+                </div>
             );
         } else {
             return WaitingPost
@@ -461,38 +529,29 @@ class ModalPostModern extends Component {
         const keyName = keys[1];
         const targetName = target[keyName].name;
         switch (targetName) {
+            case "x":
+                {
+                    this.props.history.goBack();
+                    break;
+                }
             case listNames.closeModal:
                 {
-                    console.log(listNames.closeModal);
-                    break;
-                }
-            case listNames.switchPlay:
-                {
-                    console.log(listNames.switchPlay);
-                    break;
-                }
-            case listNames.switchSound:
-                {
-                    console.log(listNames.switchSound);
+                    this.props.history.goBack();
                     break;
                 }
             default:
-                console.log("Others");
                 break;
         }
     }
-    componentDidMount() {
-        console.log(this.props);
-    }
     render() {
         return (
-            <div name={listNames.closeModal} onClick={this.handleClick} className="_2dDPU CkGkG" role="dialog">
+            <div name={listNames.closeModal} onClick={this.handleClick.bind(this)} className="_2dDPU CkGkG" role="dialog">
                 {this.props.children}
-                <div className="Igw0E IwRSH eGOV_ _4EzTm BI4qX qJPeX fm1AK   TxciK yiMZG">
-                    <button className="wpO6b" type="button">
-                        <div className="QBdPU ">
-                            <svg aria-label="Fermer" className="_8-yf5 " fill="#ffffff" height="24" viewBox="0 0 48 48" width="24">
-                                <path clipRule="evenodd" d="M41.8 9.8L27.5 24l14.2 14.2c.6.6.6 1.5 0 2.1l-1.4 1.4c-.6.6-1.5.6-2.1 0L24 27.5 9.8 41.8c-.6.6-1.5.6-2.1 0l-1.4-1.4c-.6-.6-.6-1.5 0-2.1L20.5 24 6.2 9.8c-.6-.6-.6-1.5 0-2.1l1.4-1.4c.6-.6 1.5-.6 2.1 0L24 20.5 38.3 6.2c.6-.6 1.5-.6 2.1 0l1.4 1.4c.6.6.6 1.6 0 2.2z" fillRule="evenodd">
+                <div className="Igw0E IwRSH eGOV_ _4EzTm BI4qX qJPeX fm1AK TxciK yiMZG">
+                    <button name="x" className="wpO6b" type="button">
+                        <div name="x" className="QBdPU ">
+                            <svg name="x" aria-label="Fermer" className="_8-yf5 " fill="#ffffff" height="24" viewBox="0 0 48 48" width="24">
+                                <path name="x" clipRule="evenodd" d="M41.8 9.8L27.5 24l14.2 14.2c.6.6.6 1.5 0 2.1l-1.4 1.4c-.6.6-1.5.6-2.1 0L24 27.5 9.8 41.8c-.6.6-1.5.6-2.1 0l-1.4-1.4c-.6-.6-.6-1.5 0-2.1L20.5 24 6.2 9.8c-.6-.6-.6-1.5 0-2.1l1.4-1.4c.6-.6 1.5-.6 2.1 0L24 20.5 38.3 6.2c.6-.6 1.5-.6 2.1 0l1.4 1.4c.6.6.6 1.6 0 2.2z" fillRule="evenodd">
                                 </path>
                             </svg>
                         </div>
@@ -507,7 +566,7 @@ export const ModalPostWithRouter = withRouter(ModalPostModern)
 const mapStateToProps = state => (
     {
         post: state.post,
-        videoPlayed: state.vdeoPlayed,
+        vdeoPlayed: state.vdeoPlayed,
         vdeoSound: state.vdeoSound
     }
 )
