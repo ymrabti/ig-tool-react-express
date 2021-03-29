@@ -11,7 +11,7 @@ import Slider from "infinite-react-carousel";
 // import Slider from "react-slick";
 import { withRouter } from "react-router-dom";
 import { fetchPost } from "../actions/Index";
-import { WaitingPost,size_plain } from "../tools";
+import { WaitingPost, size_plain } from "../tools";
 
 const SubSection = (props) => {
     const size = props.data.size;
@@ -82,91 +82,115 @@ function ImageView(params) {
         </div>
     </div>;
 }
-function VideoView(params) {
-    return (<div className="kPFhm B1JlO OAXCp">
-        <div style={{ height: "100%", position: "absolute", width: "100%" }}>
-            <div className="GRtmf wymO0 ">
-                <div className="_5wCQW">
-                    <video
-                        className="tWeCl"
-                        crossOrigin="anonymous"
-                        playsInline=""
-                        poster={params.display_url}
-                        preload="none"
-                        type="video/mp4"
-                        src={params.video_url}
-                        onLoadStart={e => e.target.volume = 0.5}
-                        loop={true}
-                        style={{ display: "block" }}
-                    >
-                    </video>
+class VideoView extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            paused: true,
+            muted: false,
+            length: null,
+            formattedLength: null,
+            currentTime: null,
+            formattedTime: null,
+            volume: 0.5
+        };
+    }
+    switchPlay(event) {
+        let video = event.target.parentNode.querySelector("video");
+        video.paused ? video.play() : video.pause();
+        this.setState({
+            paused: !this.state.paused
+        });
+    }
+    switchSound(event) {
+        let tagName = Object.values(event.target)[0].type;
+        let tagSearch;
+        switch (tagName) {
+            case "path":
+                tagSearch = event.target.parentNode.parentNode.parentNode.parentNode;
+                break;
+            case "svg":
+                tagSearch = event.target.parentNode.parentNode.parentNode;
+                break;
+            case "div":
+                tagSearch = event.target.parentNode.parentNode;
+                break;
+            default:
+                break;
+        }
+        let video = tagSearch.querySelector("video");
+        video.muted = !video.muted;
+        this.setState({
+            muted: !this.state.muted
+        });
+    }
+    render() {
+        return (<div className="kPFhm B1JlO OAXCp">
+            <div style={{ height: "100%", position: "absolute", width: "100%" }}>
+                <div className="GRtmf wymO0 ">
+                    <div className="_5wCQW">
+                        <video
+                            className="tWeCl"
+                            crossOrigin="anonymous"
+                            playsInline=""
+                            poster={this.props.display_url}
+                            preload="none"
+                            type="video/mp4"
+                            src={this.props.video_url}
+                            onLoadStart={e => e.target.volume = 0.5}
+                            loop={true}
+                            style={{ display: "block" }}
+                        >
+                        </video>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div className="PyenC">
-            <span aria-label="Lire" className={`qBUYS _7CSz9 ${params.vdeoPlayed ? "" : "FGFB7"} videoSpritePlayButton`} role="button">
+            <div className="PyenC">
+                <span
+                    aria-label="Lire"
+                    className={`qBUYS _7CSz9 ${!this.state.paused ? "" : "FGFB7"} videoSpritePlayButton`}
+                    role="button"
+                >
+                </span>
+            </div>
+            <div
+                onClick={this.switchPlay.bind(this)}
+                aria-label="Controler"
+                className="fXIG0"
+                role="button"
+            >
+            </div>
+            <span className="">
+                <div
+                    onClick={this.switchSound.bind(this)}
+                    className="_41V_T IhCmn Igw0E IwRSH eGOV_ _4EzTm MGdpg y2rAt lC6p0 HVWg4 O1flK fm1AK TxciK"
+                    style={{ cursor: "pointer" }}
+                >
+                    <svg
+                        aria-label="L’audio est mis en sourdine."
+                        className="_8-yf5 "
+                        fill="#ffffff"
+                        height="12"
+                        viewBox="0 0 48 48"
+                        width="12"
+                    >
+                        <path
+                            clipRule="evenodd"
+                            d={!this.state.muted ? sound : muted}
+                            fillRule="evenodd"
+                        >
+                        </path>
+                    </svg>
+                </div>
+                <button className="FqZhB" label="Activer/Désactiver le son">
+                    Activer/Désactiver le son
+            </button>
             </span>
         </div>
-        <div name={listNames.switchPlay} aria-label="Controler" className="fXIG0" role="button">
-        </div>
-        <span className="">
-            <div
-                name={listNames.switchSound}
-                className="_41V_T IhCmn Igw0E IwRSH eGOV_ _4EzTm MGdpg y2rAt lC6p0 HVWg4 O1flK fm1AK TxciK"
-                style={{ cursor: "pointer" }}
-            >
-                <svg
-                    name={listNames.switchSound}
-                    aria-label="L’audio est mis en sourdine."
-                    className="_8-yf5 "
-                    fill="#ffffff"
-                    height="12"
-                    viewBox="0 0 48 48"
-                    width="12"
-                >
-                    <path
-                        name={listNames.switchSound}
-                        clipRule="evenodd"
-                        d={params.vdeoSound ? sound : muted}
-                        fillRule="evenodd"
-                    >
-                    </path>
-                </svg>
-            </div>
-            <button className="FqZhB" label="Activer/Désactiver le son">
-                Activer/Désactiver le son
-            </button>
-        </span>
-    </div>
-    );
+        );
+    }
 }
 class Post extends Component {
-    //constructor(props) {
-    //    super(props);
-    //}
-    postClicked(event) {
-        const target = event.target;
-        const keys = Object.keys(target);
-        const keyName = keys[1];
-        const targetName = target[keyName].name;
-        switch (targetName) {
-            case listNames.switchPlay:
-                {
-                    console.log(listNames.switchPlay);
-                    break;
-                }
-            case listNames.switchSound:
-                {
-                    console.log(listNames.switchSound);
-                    break;
-                }
-            default:
-                {
-                    console.log("Default");
-                    break;
-                }
-        }
-    }
     componentWillUnmount() {
         this.props.unsetPostData();
     }
@@ -196,7 +220,8 @@ class Post extends Component {
             const settings = {
                 dots: true,
                 speed: 500,
-                className:"backWhite",
+                duration:100,
+                className: "backWhite",
                 prevArrow: <button className="POSa_">
                     <div className="coreSpriteLeftChevron">
                     </div>
@@ -268,7 +293,10 @@ class Post extends Component {
                                                         className="sqdOP yWX7d _8A5w5 ZIAjV"
                                                         href={"/" + username_comment}>{username_comment}
                                                     </a>
-                                                    {is_verified_comment && <div className="Igw0E IwRSH eGOV_ _4EzTm WKY0a"><span className="mTLOB Szr5J  coreSpriteVerifiedBadgeSmall" title="Verified">Verified</span></div>}
+                                                    {is_verified_comment && <div className="Igw0E IwRSH eGOV_ _4EzTm WKY0a">
+                                                        <span className="mTLOB Szr5J  coreSpriteVerifiedBadgeSmall" title="Verified">Verified</span>
+                                                    </div>
+                                                    }
                                                 </span>
                                             </div>
                                         </h3>
@@ -356,7 +384,7 @@ class Post extends Component {
 
                 );
             return (
-                <div onClick={this.postClicked.bind(this)} className="PdwC2 fXiEu s2MYR" role="dialog">
+                <div className="PdwC2 fXiEu s2MYR" role="dialog">
                     <article id="articlePost" className="M9sTE L_LMM JyscU ePUX4" role="presentation">
                         <header id="headerPost" className="Ppjfr UE9AK wdOqh">
                             <div className="Jv7Aj mArmR   pZp3x">
@@ -388,15 +416,21 @@ class Post extends Component {
                                                 className="sqdOP yWX7d _8A5w5 ZIAjV"
                                                 href={"/" + owner.username}>{owner.username}
                                             </a>
-                                            {owner.is_verified && <div className="Igw0E IwRSH eGOV_ _4EzTm WKY0a"><span className="mTLOB Szr5J  coreSpriteVerifiedBadgeSmall" title="Verified">Verified</span></div>}
+                                            {
+                                                owner.is_verified && <div className="Igw0E IwRSH eGOV_ _4EzTm WKY0a">
+                                                    <span className="mTLOB Szr5J  coreSpriteVerifiedBadgeSmall" title="Verified">Verified</span>
+                                                </div>
+                                            }
                                         </span>
                                     </div>
                                 </div>
-                                {localization && <div className="M30cS">
-                                    <div className="JF9hh">
-                                        <a href={"/ymrabti/" + localization.id} onClick={this.handleClick} className="O4GlU">{localization.name}</a>
+                                {
+                                    localization && <div className="M30cS">
+                                        <div className="JF9hh">
+                                            <a href={"/ymrabti/" + localization.id} onClick={this.handleClick} className="O4GlU">{localization.name}</a>
+                                        </div>
                                     </div>
-                                </div>}
+                                }
                                 <div className="M30cS">
                                     <div>
                                     </div>
@@ -472,7 +506,11 @@ class Post extends Component {
                                                                     >
                                                                         {owner.username}
                                                                     </a>
-                                                                    {owner.is_verified && <div className="Igw0E IwRSH eGOV_ _4EzTm WKY0a"><span className="mTLOB Szr5J  coreSpriteVerifiedBadgeSmall" title="Verified">Verified</span></div>}
+                                                                    {
+                                                                        owner.is_verified && <div className="Igw0E IwRSH eGOV_ _4EzTm WKY0a">
+                                                                            <span className="mTLOB Szr5J  coreSpriteVerifiedBadgeSmall" title="Verified">Verified</span>
+                                                                        </div>
+                                                                    }
                                                                 </span>
                                                             </div>
                                                         </h2>

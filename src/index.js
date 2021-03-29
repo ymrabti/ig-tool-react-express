@@ -7,7 +7,7 @@ import { setVisiMP } from "./actions/Index";
 import { connect } from "react-redux";
 import MyNavbar from "./Components/navbar";
 import ModalContent from "./Components/Post";
-import Post, { ModalPostWithRouter } from "./Components/Index";
+import Post, { ModalPostWithRouter } from "./Components/Pub";
 import "./css/igtool1.css";
 import "./css/igtool2.css";
 import "./css/igtool3.css";
