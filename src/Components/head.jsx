@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { text2Html, size_plain } from "../tools";
+import { text2Html, size_plain, beautify_numbers } from "../tools";
 class Head extends Component {
     // constructor(props) {
     //     super(props);
@@ -11,7 +11,7 @@ class Head extends Component {
     }
     
     render() {
-        const edge_count_timeline = this.props.edge_owner_to_timeline_media;
+        const edge_count_timeline = this.props.edges;
         const followed_by = this.props.edge_followed_by;
         const follows = this.props.edge_follow;
         const verified = <div className="Igw0E IwRSH eGOV_ _4EzTm soMvl">
@@ -36,7 +36,7 @@ class Head extends Component {
                     <li className="Y8-fY">
                         <span className="-nal3">
                             <span className="g47SY">
-                                {edge_count_timeline ? edge_count_timeline.count : null}
+                                {beautify_numbers(edge_count_timeline.count)}
                             </span>
                             <span> Publications</span>
                             <br />
@@ -44,8 +44,8 @@ class Head extends Component {
                     </li>
                     <li className="Y8-fY">
                         <span className="-nal3">
-                            <span className="g47SY">
-                                {followed_by ? size_plain(followed_by.count) : null}
+                            <span className="g47SY" title={beautify_numbers(followed_by.count)}>
+                                {size_plain(followed_by.count)}
                             </span>
                             <span> Followers</span>
                             <br />
@@ -54,7 +54,7 @@ class Head extends Component {
                     <li className="Y8-fY">
                         <span className="-nal3">
                             <span className="g47SY">
-                                {follows ? follows.count : null}
+                                {beautify_numbers(follows.count)}
                             </span>
                             <span> Following</span>
                             <br />

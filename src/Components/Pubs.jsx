@@ -3,7 +3,7 @@ import { icons, size_plain } from "../tools";
 import { SVGplay } from "./svgs";
 import { connect } from "react-redux";
 import {
-    Link,withRouter
+    Link, withRouter
 } from "react-router-dom";
 
 class Pdp extends Component {
@@ -104,32 +104,34 @@ class PostSingle extends Component {
                             </span>
                         </li>
                     </ul>
-                    {
-                        edges_children_sidecar && <ul className="Ln-UN">
-                            {
-                                countImages !== 0 && <li className="-V_eO">
-                                    <span>{countImages + " "}Images</span>
-                                </li>
-                            }
-                            {
-                                countVideos !== 0 && <li className="-V_eO">
-                                    <span>{countVideos + " "}Videos</span>
-                                </li>
-                            }
-                        </ul>
-                    }
+
                 </div>
                 <div className="Igw0E   rBNOH eGOV_ ybXk5 _4EzTm MGdpg _5VUwz O1flK fm1AK">
-                    {is_video && <>
-                        <div className=" Igw0E IwRSH eGOV_ _4EzTm JI_ht">
-                            <SVGplay />
-                        </div>
-                        <div className="_7UhW9 vy6Bb qyrsm h_zdq  uL8Hv">
-                            <span style={{ WebkitTextStrokeWidth: "0.5px", WebkitTextStrokeColor: "black" }}>
-                                {size_plain(data.video_view_count)}
-                            </span>
-                        </div>
-                    </>}
+                    {
+                        is_video ? <>
+                            <div className=" Igw0E IwRSH eGOV_ _4EzTm JI_ht">
+                                <SVGplay />
+                            </div>
+                            <div className="_7UhW9 vy6Bb qyrsm h_zdq  uL8Hv">
+                                <span style={{ WebkitTextStrokeWidth: "0.5px", WebkitTextStrokeColor: "black" }}>
+                                    {size_plain(data.video_view_count)}
+                                </span>
+                            </div>
+                        </>
+                            :
+                            <ul className="Ln-UN">
+                                {
+                                    countImages !== 0 && <li className="-V_eO">
+                                        <span>{countImages + " "}Images</span>
+                                    </li>
+                                }
+                                {
+                                    countVideos !== 0 && <li className="-V_eO">
+                                        <span>{countVideos + " "}Videos</span>
+                                    </li>
+                                }
+                            </ul>
+                    }
                 </div>
             </Link>
         </div>;

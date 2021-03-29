@@ -242,6 +242,27 @@ export const CarouselIG = <div className="pR7Pc">
         </button>
     </>
 </div>
+let private = <div className="_4Kbb_ _54f4m">
+    <div className="QlxVY">
+        <h2 className="rkEop">Ce compte est privé</h2>
+        <div className="VIsJD">Abonnez-vous pour voir ses photos et vidéos.</div>
+    </div>
+</div>
+
+let linktv = <div className="A-NpN" role="button" tabindex="0">
+    <div className="lVhHa RNL1l" style={{ backgroundImage: "url( https://instagram.frak3-1.fna.fbcdn.net/v/t51.2885-15/e35/p1080x1080/154955233_161795222420627_6843955675460626496_n.jpg?tp=1&amp;_nc_ht=instagram.frak3-1.fna.fbcdn.net&amp;_nc_cat=111&amp;_nc_ohc=m-46YAYPQcsAX_buEps&amp;ccb=7-4&amp;oh=7bf19ff164af6d13d406c57ed12112b3&amp;oe=60641730&amp;_nc_sid=7bff83&quot;)", display: "block", paddingTop:" 155.399%", width: "100%"}}>
+    </div>
+    <div className="qn-0x">
+        <div className="_5cOAs">
+            <div className="Rsx-c">
+                <div className="zncDM">1:41:53</div>
+            </div>
+            <div className="pu1E0">
+                <div className="_2XLe_">فرصة الدراسة مجانا في أروبا</div>
+            </div>
+        </div>
+    </div>
+</div>
 
 export const hoverr = <div className="qn-0x" style={{ backgroundColor: "rgba(0,0,0,0.3)" }}>
     <ul className="Ln-UN">
@@ -268,6 +289,7 @@ export const carouselWithVid = <div className="_97aPb">
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
+
