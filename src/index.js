@@ -14,7 +14,7 @@ import "./css/igtool3.css";
 import "./css/igtool.css";
 import "./css/progress.css";
 import {
-    BrowserRouter,
+    BrowserRouter,Redirect,
     Switch,
     // Link,
     // useParams,
@@ -56,6 +56,8 @@ class App extends Component {
                             <Route exact path="/p/:shortcode/" >
                                 <Post />
                             </Route>
+                            <Redirect from="/tv/:shortcode/" to="/p/:shortcode/" />
+                            <Redirect from="/reel/:shortcode/" to="/p/:shortcode/" />
                             <Route exact path="/old/:shortcode/" >
                                 <ModalContent />
                             </Route>
