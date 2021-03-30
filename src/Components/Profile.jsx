@@ -14,12 +14,43 @@ import {
     withRouter
 } from "react-router-dom";
 
+class Pdp extends Component {
+    render() {
+        return <center>
+            <br />
+            <br />
+            <img
+                style={{ borderRadius: "10px", width: "100%", maxWidth: "320px" }}
+                alt={this.props.username} decoding="auto"
+                src={this.props.profile_pic_url_hd}
+            />
+
+            {/* <button name="download" onClick={this.handleClick}>
+                <i className="fa fa-download">
+                </i>Download All
+        </button> */}
+        </center>
+    }
+}
+
+const mapStateToPropsPdp = state => ({
+    profile_pic_url_hd: state.user.profile_pic_url_hd,
+    username: state.user.username
+})
+
+const mapDispatchToPropsPdp = dispatch => ({
+    toggleTodo: () => console.log("mapDispatchToPropsPdp")
+})
+const PdpConnected = connect(
+    mapStateToPropsPdp,
+    mapDispatchToPropsPdp
+)(Pdp)
 class Bar extends Component {
     render() {
         let username = this.props.username;
         let path = this.props.path;
         return <div className="fx7hk">
-            <Link to={"/" + username + "/"} className={`_9VEo1 ${ !path ?"T-jvg":""}`}>
+            <Link to={"/" + username + "/"} className={`_9VEo1 ${!path ? "T-jvg" : ""}`}>
                 <span className="smsjF">
                     <svg aria-label="Publications" className="_8-yf5 " height="24" viewBox="0 0 48 48" width="24"
                         fill={"#" + (!path ? "262626" : "8e8e8e")}
@@ -90,7 +121,7 @@ class Profile extends Component {
             .filter(u => typeof (u) !== "function")
             .filter(u => !!u);
         if (objectFilter.length !== 0) {
-            const path = this.props.opt ;
+            const path = this.props.opt;
             const dataHead = {
                 username: user.username,
                 full_name: user.full_name,
@@ -107,11 +138,23 @@ class Profile extends Component {
             const dataPubs = {
                 edge_owner_to_media, path
             }
-            const barSettings = { username,path };
+            const barSettings = { username, path };
+            const is_private = user.is_private;
+            let _private = <div className="_4Kbb_ _54f4m">
+                <div className="QlxVY">
+                    <h2 className="rkEop">Ce compte est privé</h2>
+                    <div className="VIsJD">Abonnez-vous pour voir ses photos et vidéos.</div>
+                </div>
+            </div>
+            let _public = path === "channel" ?
+                <IgtvPosts {...dataPubs} /> :
+                <Pubs {...dataPubs} />;
+
             return <>
                 <Head {...dataHead} />
                 <Bar {...barSettings} />
-                {path === "channel" ? <IgtvPosts {...dataPubs} /> :  <Pubs {...dataPubs} />}
+                {is_private ? _private : _public}
+                <PdpConnected />
             </>;
         }
         else {

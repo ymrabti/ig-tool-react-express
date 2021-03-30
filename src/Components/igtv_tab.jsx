@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { size_plain,icons } from "../tools";
+import { size_plain, icons, toHHMMSS } from "../tools";
 import { SVGplay } from "./svgs";
 import { Link, withRouter } from "react-router-dom";
 
@@ -18,15 +18,13 @@ class IgtvPost extends Component {
                     <div
                         className="A-NpN"
                         role="button"
-                        style={{
-                            backgroundColor: "linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 22.27%)"
-                        }}
                     >
                         <div
                             className="lVhHa _hpij"
                             style={
                                 {
-                                    backgroundImage: `url(${data.thumbnail_src})`,
+                                    backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.8) 10%, rgba(0, 0, 0, 0) 42.27%), 
+                                        url(${data.display_url})`,
                                     display: "block",
                                     paddingTop: " 155.66%",
                                     width: "100%"
@@ -52,25 +50,28 @@ class IgtvPost extends Component {
                             <div className="qn-0x">
                                 <div className="_5cOAs">
                                     <div className="Rsx-c">
-                                        <div className="zncDM">{data.video_duration}</div>
+                                        <div className="zncDM">{toHHMMSS(data.video_duration)}</div>
                                     </div>
-                                    <div className="pu1E0">
-                                        <div className="_2XLe_">{data.title}</div>
+                                    <div className="Igw0E rBNOH eGOV_ ybXk5 _4EzTm MGdpg _5VUwz O1flK fm1AK">
+                                        <div className="Igw0E IwRSH eGOV_ _4EzTm JI_ht">
+                                            <svg aria-label="Icône du nombre de vues" className="_8-yf5 " fill="#ffffff" height="16" viewBox="0 0 48 48" width="16">
+                                                <path d="M9.6 46.5c-1 0-2-.3-2.9-.8-1.8-1.1-2.9-2.9-2.9-5.1V7.3c0-2.1 1.1-4 2.9-5.1 1.9-1.1 4.1-1.1 5.9 0l30.1 17.6c1.5.9 2.3 2.4 2.3 4.1 0 1.7-.9 3.2-2.3 4.1L12.6 45.7c-.9.5-2 .8-3 .8z">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                        <div className="_7UhW9 vy6Bb qyrsm h_zdq  uL8Hv">
+                                            <span>{size_plain(data.video_view_count)}</span>
+                                        </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
                         <div className="kfcNv">
-                            <div className="HjIRG">
-                                <div className="Igw0E rBNOH eGOV_ ybXk5 _4EzTm MGdpg _5VUwz O1flK fm1AK">
-                                    <div className="Igw0E IwRSH eGOV_ _4EzTm JI_ht">
-                                        <svg aria-label="Icône du nombre de vues" className="_8-yf5 " fill="#ffffff" height="16" viewBox="0 0 48 48" width="16">
-                                            <path d="M9.6 46.5c-1 0-2-.3-2.9-.8-1.8-1.1-2.9-2.9-2.9-5.1V7.3c0-2.1 1.1-4 2.9-5.1 1.9-1.1 4.1-1.1 5.9 0l30.1 17.6c1.5.9 2.3 2.4 2.3 4.1 0 1.7-.9 3.2-2.3 4.1L12.6 45.7c-.9.5-2 .8-3 .8z">
-                                            </path>
-                                        </svg>
-                                    </div>
-                                    <div className="_7UhW9 vy6Bb qyrsm h_zdq  uL8Hv">
-                                        <span>{size_plain(data.video_view_count)}</span>
+                            <div className="qn-0x">
+                                <div className="_5cOAs">
+                                    <div className="pu1E0">
+                                        <div className="_2XLe_">{data.title}</div>
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +173,7 @@ class FeedPost extends Component {
                             backgroundColor: "linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 22.27%)"
                         }}
                     >
-                        
+
                         <div className="eLAPa">
                             <div className="KL4Bh">
                                 <img

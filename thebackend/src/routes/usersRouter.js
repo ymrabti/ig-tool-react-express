@@ -1,14 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const user = require('@controllers/userController.js');
-router.get('/api/users/:id', user.getUserById);
+
 router.get('/:username', user.fetchUserByUsername);
+
 router.get('/p/:shortcode', user.fetchPostByShortcode);
+
+router.get('/explore/locations/:location', user.fetchLocation);
+router.get('/explore/tags/:tag', user.fetchHashtag);
+
+
+router.get('/api/users/:id', user.getUserById);
 router.get('/api/users', user.getUsers);
+
 router.post('/api/users', user.newUser);
+
 router.delete('/users/:id', user.deleteUser);
+
 router.put('/api/users', user.updateUser);
-const all_routes = require('express-list-endpoints');
-console.log("routes :");
-console.log(all_routes(user));
+
+
 module.exports = router;

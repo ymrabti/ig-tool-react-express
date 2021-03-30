@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import store from "./reducers/mainReducer"
 import React, { Component } from 'react';
 import Profile from "./Components/Profile";
-import { setVisiMP } from "./actions/Index";
+import { ExploreHash, ExploreLoc } from "./Components/explore";
 import { connect } from "react-redux";
 import MyNavbar from "./Components/navbar";
 import ModalContent from "./Components/Post";
@@ -58,11 +58,18 @@ class App extends Component {
                             </Route>
                             <Redirect from="/tv/:shortcode/" to="/p/:shortcode/" />
                             <Redirect from="/reel/:shortcode/" to="/p/:shortcode/" />
-                            <Route exact path="/old/:shortcode/" >
-                                <ModalContent />
-                            </Route>
                             <Route exact path="/:username/" >
                                 <Profile />
+                            </Route>
+                            <Route exact path="/explore/tags/:tag/" >
+                                <ExploreHash />
+                            </Route>
+                            <Route exact path="/explore/locations/:location/" >
+                                <ExploreLoc />
+                            </Route>
+
+                            <Route exact path="/old/:shortcode/" >
+                                <ModalContent />
                             </Route>
                             <Route path="/*">
                                 <NotExist />
@@ -110,7 +117,7 @@ const mapStateToPropsApp = state => ({
 })
 
 const mapDispatchToPropsApp = dispatch => ({
-    closeModal: () => dispatch(setVisiMP(false))
+    
 })
 const AppConnected = connect(
     mapStateToPropsApp,

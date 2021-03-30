@@ -5,13 +5,15 @@ import {
     sound,
     muted,
     text2Html,
-    getDeffDates
+    getDeffDates,
+    toHHMMSS
 } from "../tools";
 import Slider from "infinite-react-carousel";
 // import Slider from "react-slick";
 import { withRouter } from "react-router-dom";
 import { fetchPost } from "../actions/Index";
 import { WaitingPost, size_plain } from "../tools";
+import "../css/videoplayer.css";
 
 const SubSection = (props) => {
     const size = props.data.size;
@@ -82,18 +84,71 @@ function ImageView(params) {
         </div>
     </div>;
 }
+
 class VideoView extends Component {
     constructor(props) {
         super(props);
         this.state = {
             paused: true,
             muted: false,
-            length: null,
-            formattedLength: null,
-            currentTime: null,
-            formattedTime: null,
-            volume: 0.5
+            length: 0,
+            formattedLength: 0,
+            currentTime: 0,
+            formattedTime: 0,
+            volume: 0.6
         };
+    }
+    duration() {
+        let dur = document.getElementById("v").duration;
+        dur = dur.toFixed();
+        let formattedLength = toHHMMSS(dur);
+        this.setState({
+            length: dur,
+            formattedLength: formattedLength
+        });
+        return dur;
+    }
+
+    currentTime() {
+        let cur = document.getElementById("v").currentTime;
+        cur = cur.toFixed();
+        let formattedTime = toHHMMSS(cur);
+
+        this.setState({
+            currentTime: cur,
+            formattedTime: formattedTime
+        });
+        if (parseInt(this.state.currentTime) === parseInt(this.state.length)) {
+            this.setState({ paused: true });
+        }
+
+        return cur;
+    }
+    customTime() {
+        const time_range = document.querySelector(".time_range");
+        document.getElementById("v").currentTime = time_range.value;
+
+        this.setState({
+            currentTime: time_range.value
+        });
+    }
+    customVolume() {
+        const volume_range = document.querySelector(".volume_range");
+        document.getElementById("v").volume = volume_range.value;
+
+        this.setState({
+            volume: volume_range.value
+        });
+
+        if (volume_range.value === 0) {
+            this.setState({
+                muted: true
+            });
+        } else {
+            this.setState({
+                muted: false
+            });
+        }
     }
     switchPlay(event) {
         let video = event.target.parentNode.querySelector("video");
@@ -137,14 +192,24 @@ class VideoView extends Component {
                             preload="none"
                             type="video/mp4"
                             src={this.props.video_url}
-                            onLoadStart={e => e.target.volume = 0.5}
+                            onLoadStart={e => e.target.volume = this.state.volume}
                             loop={true}
                             style={{ display: "block" }}
                         >
                         </video>
                     </div>
                 </div>
+                <input
+                    type="range"
+                    className="time_range"
+                    onChange={this.customTime.bind(this)}
+                    value={this.state.currentTime}
+                    step={0.1}
+                    min={0}
+                    max={this.state.length}
+                />
             </div>
+            
             <div className="PyenC">
                 <span
                     aria-label="Lire"
@@ -161,6 +226,15 @@ class VideoView extends Component {
             >
             </div>
             <span className="">
+                <input
+                    type="range"
+                    className="time_range"
+                    onChange={this.customTime.bind(this)}
+                    value={this.state.currentTime}
+                    step={0.1}
+                    min={0}
+                    max={this.state.length}
+                />
                 <div
                     onClick={this.switchSound.bind(this)}
                     className="_41V_T IhCmn Igw0E IwRSH eGOV_ _4EzTm MGdpg y2rAt lC6p0 HVWg4 O1flK fm1AK TxciK"
@@ -182,10 +256,9 @@ class VideoView extends Component {
                         </path>
                     </svg>
                 </div>
-                <button className="FqZhB" label="Activer/Désactiver le son">
-                    Activer/Désactiver le son
-            </button>
+                <button className="FqZhB" label="Activer/Désactiver le son">Activer/Désactiver le son</button>
             </span>
+        
         </div>
         );
     }
@@ -427,7 +500,7 @@ class Post extends Component {
                                 {
                                     localization && <div className="M30cS">
                                         <div className="JF9hh">
-                                            <a href={"/ymrabti/" + localization.id} onClick={this.handleClick} className="O4GlU">{localization.name}</a>
+                                            <a href={"/explore/locations/" + localization.id} onClick={this.handleClick} className="O4GlU">{localization.name}</a>
                                         </div>
                                     </div>
                                 }

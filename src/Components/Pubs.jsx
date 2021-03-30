@@ -1,41 +1,11 @@
 import { Component } from "react";
 import { icons, size_plain } from "../tools";
 import { SVGplay } from "./svgs";
-import { connect } from "react-redux";
 import {
     Link, withRouter
 } from "react-router-dom";
 import { FeedPostPub } from "./igtv_tab";
 
-class Pdp extends Component {
-    handleClick(target) {
-        target.preventDefault();
-        console.log("Im clicked");
-    }
-    render() {
-        return <center>
-            <img style={{ borderRadius: "10px", width: "100%", maxWidth: "320px" }} alt={this.props.username} decoding="auto" src={this.props.profile_pic_url_hd} />
-            <br />
-            <button name="download" onClick={this.handleClick}>
-                <i className="fa fa-download">
-                </i>Download All
-        </button>
-        </center>
-    }
-}
-
-const mapStateToPropsPdp = state => ({
-    profile_pic_url_hd: state.user.profile_pic_url_hd,
-    username: state.user.username
-})
-
-const mapDispatchToPropsPdp = dispatch => ({
-    toggleTodo: () => console.log("mapDispatchToPropsPdp")
-})
-const PdpConnected = connect(
-    mapStateToPropsPdp,
-    mapDispatchToPropsPdp
-)(Pdp)
 
 function EmptyPost() {
     return <div className="_bz0w">
@@ -186,18 +156,15 @@ class Pubs extends Component {
             </div>;
             AllPosts.push(kposts);
         }
-        return <>
-            <section id="publications" name="_switcher_">
-                <div className="_2z6nI">
-                    <article className="ySN3v">
-                        <div style={{ flexDirection: "column", paddingBottom: "15px", paddingTop: "0px" }} >
-                            {AllPosts}
-                        </div>
-                    </article>
-                </div>
-            </section>
-            <PdpConnected />
-        </>
+        return <section name="_switcher_">
+            <div className="_2z6nI">
+                <article className="ySN3v">
+                    <div style={{ flexDirection: "column", paddingBottom: "15px", paddingTop: "0px" }} >
+                        {AllPosts}
+                    </div>
+                </article>
+            </div>
+        </section>
     }
 }
 

@@ -65,7 +65,7 @@ function link_(item, tag) {
             path= `mailto:${item}`;
             break;
     }
-    return `<a class="notranslate" href="${path}" tabIndex="0">${item}</a>`
+    return `<a class="notranslate" href="${path}">${item}</a>`
 }
 export function text2Html(text) {
     const hg = /#[\u0600-\u06FFa-zA-Z0-9\-_.]{1,}/gi;
@@ -77,11 +77,24 @@ export function text2Html(text) {
         .replaceAll(/\n/gi, "<br>");
     return ReactHtmlParser(htmltext);
 }
+export function toHHMMSS(sec_num) {
+    sec_num = sec_num.toFixed();
+    let hours = Math.floor(sec_num / 3600);
+    let minutes = Math.floor((sec_num - hours * 3600) / 60);
+    let seconds = sec_num - hours * 3600 - minutes * 60;
 
-var vdefault = "Im default";
-export default vdefault;
+    if (hours < 10) {
+        hours = "0" + hours;
+    }
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+    if (seconds < 10) {
+        seconds = "0" + seconds;
+    }
 
-
+    return hours + ":" + minutes + ":" + seconds;
+}
 export const WaitingPost = (
     <>
         <div className="zZYga" role="dialog">
@@ -125,3 +138,20 @@ export const WaitingPost = (
         </div>
     </>
 )
+export function frenshDate(date) {
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    var opt_weekday = { weekday: 'long' };
+    var weekday = toTitleCase(date.toLocaleDateString("fr-FR", opt_weekday));
+    return weekday + ", " + date.toLocaleDateString("fr-FR", options);
+}
+function toTitleCase(str) {
+    return str.replace(
+        /\w\S*/g,
+        function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        }
+    );
+}
+var vdefault = "Im default";
+export default vdefault;
+

@@ -13,30 +13,24 @@ import { createStore } from 'redux';
 function mainReducer(state = {
     user:{},
     post: {},
-    displayPostModal: false,
-    isLoading:true,
     username:"",
-    vdeoPlayed:false,
-    vdeoSound:false
+    location:{},
+    hashtag:{}
 }, action) {
     switch (action.type) {
-        case 'SHOW_MODAL_POST':
-            if (action.Display) {
-                return { ...state, displayPostModal: action.Display };
-            }else{
-                return { ...state, displayPostModal: action.Display,post:{} };
-            }
         case 'SET_STATE_PROFILE':
             return { ...state, user: action.data };
-        case 'FETCH_POST':
-            return { ...state, post: action.data };
         case 'UPDATE_USERNAME':
             return { ...state, username: action.username };
+            
+        case 'FETCH_POST':
+            return { ...state, post: action.data };
+
+        case 'FETCH_HASHTAG':
+            return { ...state, hashtag: action.data };
+        case 'FETCH_LOCATION':
+            return { ...state, location: action.data };
         
-        case 'TOGGLE_VIDEO_SOUND':
-            return { ...state, vdeoPlayed: !state.vdeoPlayed };
-        case 'TOGGLE_VIDEO_PLAY':
-            return { ...state, vdeoSound: !state.vdeoSound };
         default:
             return state;
     }

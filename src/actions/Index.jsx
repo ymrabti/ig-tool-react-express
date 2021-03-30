@@ -8,16 +8,19 @@ export const fetchPost = (data) => {
         data
     }
 }
-
-export const setVisiMP = (Display) => ({
-    type: "SHOW_MODAL_POST",
-    Display
-})
-
-
-
 export const updateUsername = (username) => ({
     type: "UPDATE_USERNAME",
     username
 })
-
+export const fetchLocation = (data) => {
+    return {
+        type: "FETCH_LOCATION",
+        data
+    }
+}
+export const fetchHashtag = (data) => {
+    return {
+        type: "FETCH_HASHTAG",
+        data
+    }
+}

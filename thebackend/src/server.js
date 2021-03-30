@@ -52,7 +52,7 @@ app.use('*', (req, res, next) => {
 
 // Assign Routes
 
-app.use('/', require('@routes/router.js'));
+app.use('/', require('./routes/router.js'));
 
 
 // Handle errors
@@ -69,6 +69,9 @@ app.use('*', (req, res) => {
 app.listen(
     PORT,
     () => {
+        const all_routes = require('express-list-endpoints');
+        console.log("routes :");
+        console.log(all_routes(app));
         console.info('Server listening on port ', PORT);
     }
 );
