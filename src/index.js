@@ -69,6 +69,9 @@ class App extends Component {
                         <Route exact path="/:username/channel/" >
                             <Profile opt={"channel"} />
                         </Route>
+                        {/* <Route exact path="/:username/guides/" >
+                            <Profile opt={"guides"} />
+                        </Route> */}
                         {
                             background && <Route path="/p/:shortcode" >
                                 <ModalPostWithRouter>

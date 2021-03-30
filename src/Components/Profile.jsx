@@ -4,7 +4,7 @@ import Head from "./head";
 import Pubs from "./Pubs";
 import { connect } from 'react-redux';
 import { Waiting } from "../tools";
-import { PUBSsvg, IGTVsvg,SVGreels,Tagged,GuidesSsvg } from "./svgs";
+import { pathspubs, pathigtv/* ,pathreels,pathtagged,pathsguides */ } from "./svgs";
 import { IgtvPosts } from "./igtv_tab";
 import {
     // BrowserRouter as Router,
@@ -21,34 +21,58 @@ class Bar extends Component {
         return <div className="fx7hk">
             <Link to={"/" + username + "/"} className={`_9VEo1 ${ !path ?"T-jvg":""}`}>
                 <span className="smsjF">
-                    {PUBSsvg}
+                    <svg aria-label="Publications" className="_8-yf5 " height="24" viewBox="0 0 48 48" width="24"
+                        fill={"#" + (!path ? "262626" : "8e8e8e")}
+                    >
+                        <path d={pathspubs}>
+                        </path>
+                    </svg>
                     <span className="PJXu4" >Publications</span>
                 </span>
             </Link>
-            <Link to={"/" + username + "/guides/"} className={`_9VEo1 ${path === "guides" ? "T-jvg" : ""}`}>
+            {/* <Link to={"/" + username + "/guides/"} className={`_9VEo1 ${path === "guides" ? "T-jvg" : ""}`}>
                 <span className="qzihg">
-                    {GuidesSsvg}
+                    <svg aria-label="Guides" className="_8-yf5 " height="24" viewBox="0 0 48 48" width="24"
+                        fill={"#" + (path === "guides" ? "262626" : "8e8e8e")}
+                    >
+                        {pathsguides}
+                    </svg>
                     <span className="PJXu4" >guides</span>
                 </span>
             </Link>
             <Link to={"/" + username + "/reels/"} className={`_9VEo1 ${path === "reels" ? "T-jvg" : ""}`}>
                 <span className="qzihg">
-                    {SVGreels}
+                    <svg aria-label="Reels" className="_8-yf5 " height="24" viewBox="0 0 48 48" width="24"
+                        fill={"#" + (path === "reels" ? "262626":"8e8e8e")}
+                    >
+                        <path d={pathreels}>
+                        </path>
+                    </svg>
                     <span className="PJXu4" >reels</span>
                 </span>
-            </Link>
+            </Link> */}
             <Link to={"/" + username + "/channel/"} className={`_9VEo1 ${path === "channel" ? "T-jvg" : ""}`}>
                 <span className="qzihg">
-                    {IGTVsvg}
+                    <svg aria-label="Igtv" className="_8-yf5 " height="24" viewBox="0 0 48 48" width="24"
+                        fill={"#" + (path === "channel" ? "262626" : "8e8e8e")}
+                    >
+                        <path d={pathigtv}>
+                        </path>
+                    </svg>
                     <span className="PJXu4" >IGTV</span>
                 </span>
             </Link>
-            <Link to={"/" + username + "/tagged/"} className={`_9VEo1 ${path === "tagged" ? "T-jvg" : ""}`}>
+            {/* <Link to={"/" + username + "/tagged/"} className={`_9VEo1 ${path === "tagged" ? "T-jvg" : ""}`}>
                 <span className="qzihg">
-                    {Tagged}
+                    <svg aria-label="Tagged" className="_8-yf5 " height="24" viewBox="0 0 48 48" width="24"
+                        fill={"#" + (path === "tagged" ? "262626" : "8e8e8e")}
+                    >
+                        <path d={pathtagged}>
+                        </path>
+                    </svg>
                     <span className="PJXu4" >Tagged</span>
                 </span>
-            </Link>
+            </Link> */}
         </div>;
     }
 }
@@ -87,7 +111,7 @@ class Profile extends Component {
             return <>
                 <Head {...dataHead} />
                 <Bar {...barSettings} />
-                {!path ? <Pubs {...dataPubs} /> : <IgtvPosts {...dataPubs} />}
+                {path === "channel" ? <IgtvPosts {...dataPubs} /> :  <Pubs {...dataPubs} />}
             </>;
         }
         else {

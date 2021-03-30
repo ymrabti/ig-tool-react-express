@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import {
     Link, withRouter
 } from "react-router-dom";
+import { FeedPostPub } from "./igtv_tab";
 
 class Pdp extends Component {
     handleClick(target) {
@@ -87,6 +88,7 @@ class PostSingle extends Component {
 
                     </div>
                 </div>
+
                 <div className="qn-0x" style={{ backgroundColor: "rgba(0,0,0,0.29)" }}>
                     <ul className="Ln-UN">
                         <li className="-V_eO">
@@ -106,6 +108,7 @@ class PostSingle extends Component {
                     </ul>
 
                 </div>
+
                 <div className="Igw0E   rBNOH eGOV_ ybXk5 _4EzTm MGdpg _5VUwz O1flK fm1AK">
                     {
                         is_video ? <>
@@ -137,7 +140,7 @@ class PostSingle extends Component {
         </div>;
     }
 }
-const PostSingleWithRouter = withRouter(PostSingle);
+export const PostSingleWithRouter = withRouter(PostSingle);
 
 class Pubs extends Component {
 
@@ -154,7 +157,11 @@ class Pubs extends Component {
             for (k = 0; k < columns; k++) {
                 current = columns * i + k;
                 edge_i = edge_owner_to_media.edges[current]["node"];
-                listKposts.push(<PostSingleWithRouter key={"current" + current} data={edge_i} />);
+                listKposts.push(
+                    <div key={"current" + current} className="Nnq7C ryi-h">
+                        <FeedPostPub data={edge_i} />
+                    </div>
+                );
             }
             kposts = <div key={"row" + i} className="Nnq7C weEfm">
                 {listKposts}
@@ -165,7 +172,11 @@ class Pubs extends Component {
             listKposts = [];
             for (k = q * columns; k < q * columns + r; k++) {
                 edge_i = edge_owner_to_media.edges[k]["node"];
-                listKposts.push(<PostSingleWithRouter key={"reste" + k} data={edge_i} />);
+                listKposts.push(
+                    <div key={"current" + k} className="Nnq7C ryi-h">
+                        <FeedPostPub data={edge_i} />
+                    </div>
+                );
             }
             for (var j = q * columns + r; j < (q + 1) * columns; j++) {
                 listKposts.push(<EmptyPost key={`EmptyPost${j}`} />);
