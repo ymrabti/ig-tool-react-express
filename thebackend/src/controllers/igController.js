@@ -1,9 +1,27 @@
 const status = require('http-status');
 const fetch = require('node-fetch');
 const userModel = require('../models/usersModel');
-
 const has = require('has-keys');
 
+const filterObject = require("../util/logger").filterObject;
+
+async function statistics(collection, where, data_insert) {
+    await userModel.update(collection, where, { $inc: { clicks: +1 } })
+        .then(val => {
+            if (val.result.nModified == 0) {
+                userModel.create(collection, data_insert)
+                    .then(val => {
+                        console.log(val.result);
+                    })
+                    .catch(erru => {
+                        console.log("error !");
+                    });
+            }
+        })
+        .catch(erru => {
+            console.log("error !");
+        });
+}
 module.exports = {
     fetchUserByUsername: async function (req, res) {
         if (!has(req.params, 'username'))
@@ -12,13 +30,13 @@ module.exports = {
         const ress = await fetch(`https://www.instagram.com/${username}/?__a=1`)
         const data = await ress.json();
         if (ress.status === 200) {
-            await userModel.create({ username })
-                .then(val => {
-                    console.log(val.result.n);
-                })
-                .catch(erru => {
-                    console.log("err");
-                });
+            await statistics("Users", { username }, {
+                ...filterObject(data.graphql.user, (key, val) => {
+                    let bool = typeof val !== "object" || val === null;
+                    return bool;
+                }),
+                lastSearch: new Date().getTime(), clicks: 1
+            })
             res.json(data);
         } else {
             throw { codeServer: ress.status, message: ress.statusText };;
@@ -31,6 +49,19 @@ module.exports = {
         const ress = await fetch(`https://www.instagram.com/p/${shortcode}/?__a=1`)
         const data = await ress.json();
         if (ress.status === 200) {
+            let don = data.graphql.shortcode_media;
+            await statistics("Posts", { shortcode }, {
+                ...filterObject(don.owner, (key, val) => {
+                    let bool = typeof val !== "object" || val === null;
+                    return bool;
+                }),
+                ...filterObject(don, (key, val) => {
+                    let bool = typeof val !== "object" || val === null;
+                    return bool;
+                }),
+                lastSearch: new Date().getTime(),
+                clicks: 1
+            })
             res.json(data)
         } else {
             throw { codeServer: ress.status, message: ress.statusText };;
@@ -43,6 +74,14 @@ module.exports = {
         const ress = await fetch(`https://www.instagram.com/explore/tags/${tag}/?__a=1`)
         const data = await ress.json();
         if (ress.status === 200) {
+            await statistics("Hashtags", { name: tag }, {
+                ...filterObject(data.graphql.hashtag, (key, val) => {
+                    let bool = typeof val !== "object" || val === null;
+                    return bool;
+                }),
+                lastSearch: new Date().getTime(),
+                clicks: 1
+            })
             res.json(data)
         } else {
             throw { codeServer: ress.status, message: ress.statusText };;
@@ -55,6 +94,14 @@ module.exports = {
         const ress = await fetch(`https://www.instagram.com/explore/locations/${location}/?__a=1`)
         const data = await ress.json();
         if (ress.status === 200) {
+            await statistics("Locations", { id: location }, {
+                ...filterObject(data.graphql.location, (key, val) => {
+                    let bool = typeof val !== "object" || val === null;
+                    return bool;
+                }),
+                lastSearch: new Date().getTime(),
+                clicks: 1
+            })
             res.json(data)
         } else {
             throw { codeServer: ress.status, message: ress.statusText };;

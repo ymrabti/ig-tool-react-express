@@ -1,37 +1,33 @@
 let database = require("./database");
 
 const users = {
-    async getAll() {
+    async getAll(collection) {
         const dbo = await database.getDbo();
-        return await dbo.collection('customers').find().toArray();
+        return await dbo.collection(collection).find().toArray();
     },
-    async getOne(where) {
+    async getOne(collection,where) {
         const dbo = await database.getDbo();
-        return dbo.collection('customers').findOne(where);
+        return dbo.collection(collection).findOne(where);
     },
-    async search(where) {
+    async search(collection,where,sorting) {
         const dbo = await database.getDbo();
-
-        return await dbo.collection('customers').find(where).toArray();
+        return await dbo.collection(collection).find(where).sort(sorting).toArray();
     },
-    async create(good) {
+    async create(collection,inserted) {
         const dbo = await database.getDbo();
-
-        delete good._id;
-        delete good.id;
-
-        return await dbo.collection('customers').insertOne(good);
+        delete inserted._id;
+        // delete inserted.id;
+        return await dbo.collection(collection).insertOne(inserted);
     },
-    async update(where, set) {
+    async update(collection,where, update) {
         const dbo = await database.getDbo();
-        delete set._id;
-        delete set.id;
-        return dbo.collection('customers').findOneAndUpdate(where, { $set: set }, {});
+        delete update._id;
+        // delete update.id;
+        return await dbo.collection(collection).updateOne(where, update);
     },
-    async delete(where) {
+    async delete(collection,where) {
         const dbo = await database.getDbo();
-
-        await dbo.collection('customers').deleteOne(where);
+        await dbo.collection(collection).deleteOne(where);
     },
     database
 }

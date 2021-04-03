@@ -17,5 +17,12 @@ const accessLogStream = rfs('access.log', {
 
 module.exports = {
     dev: morgan('dev'),
-    combined: morgan('combined', { stream: accessLogStream })
+    combined: morgan('combined', { stream: accessLogStream }),
+    filterObject:function (obj, callback) {
+    return Object.fromEntries(Object.entries(obj).
+        filter(
+            ([key, val]) => callback(key, val)
+        )
+    );
+}
 }

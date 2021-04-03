@@ -1,33 +1,28 @@
 import React, { Component } from 'react';
 import { setStateProfile } from "../actions/Index";
 import { connect } from 'react-redux';
-import {  text2Html, size_plain, beautify_numbers  } from "../tools";
-import { pathspubs, pathigtv,waitaminute/* ,pathreels,pathtagged,pathsguides */ } from "./svgs";
-
-import { IgtvLinks,LinksPosts } from "./links2IGTV";
-import {
-    // BrowserRouter as Router,
-    // Switch,
-    // Route,
-    Link,
-    withRouter
-} from "react-router-dom";
+import { text2Html, size_plain, beautify_numbers, download, AllPosts, GetFilename,get_daba } from "../tools";
+import { pathspubs, pathigtv, waitaminute/* ,pathreels,pathtagged,pathsguides */ } from "./svgs";
+import JSZip from "jszip";
+import { JS_ZipUtils } from "../utils/jsziputils";
+import { IgtvLinks, LinksPosts } from "./links2IGTV";
+import { Link, withRouter } from "react-router-dom";
 //#region PDP
 class Pdp extends Component {
+    downloadpdp() {
+        download(this.props.profile_pic_url_hd, this.props.username)
+    }
     render() {
         return <center>
             <br />
             <br />
             <img
+                onClick={this.downloadpdp.bind(this)}
                 style={{ borderRadius: "10px", width: "100%", maxWidth: "320px" }}
                 alt={this.props.username} decoding="auto"
                 src={this.props.profile_pic_url_hd}
             />
 
-            {/* <button name="download" onClick={this.handleClick}>
-                <i className="fa fa-download">
-                </i>Download All
-        </button> */}
         </center>
     }
 }
@@ -38,7 +33,6 @@ const mapStateToPropsPdp = state => ({
 })
 
 const mapDispatchToPropsPdp = dispatch => ({
-    toggleTodo: () => console.log("mapDispatchToPropsPdp")
 })
 const PdpConnected = connect(
     mapStateToPropsPdp,
@@ -192,6 +186,77 @@ class Head extends Component {
 }
 //#endregion head
 
+class DldAllBtn extends Component {
+    download_multiple(All_Posts, TextMark) {
+        var timeoutDefault = 60000;// var timeoutRetry = 300000;
+        var xhrsStatus = { aborted: false, };
+        var elements = All_Posts.filter(item => !item.is_video);
+        var cPhotos = elements.filter(item => !item.is_video).length;
+        var cVideos = elements.filter(item => item.is_video).length;
+        var cElemts = elements.length;
+        var confirmText = "Download " + cElemts + " elements (" + cPhotos + " photos";
+        cVideos !== 0 ? confirmText += " and " + cVideos + " videos) ?" : confirmText += ") ?";
+        // if (confirm(confirmText)) {
+        var zip = new JSZip();
+        elements.forEach(function (item, index) {
+            var link_down = item.linkDownload;
+            // username__ = item["owner"]? `${item["owner"]} `:"Instagram ";
+            JS_ZipUtils.getBinaryContent(link_down,
+                function (err, data) {
+                    if (err) {
+                        if (!(err.code === 404 || err.code === 410)) {
+                            alert(`error code ${err.code}`);
+                        }
+                    } else {
+                        zip.file(GetFilename(link_down), data, { binary: true });
+                    }
+                }, xhrsStatus, timeoutDefault
+            );
+        });
+        var elemnt = document.querySelector("#progressBar");
+        let currentFile = document.querySelector("#currentFile");
+        setTimeout(function () {
+            zip.generateAsync({ type: "blob" },
+                function (meta) {
+                    var file_curr = meta.currentFile;
+                    var percent = Math.floor(meta.percent);
+                    var strpct = `${percent}%`;
+                    elemnt.style.width = strpct; elemnt.innerHTML = strpct;
+                    currentFile.innerHTML = file_curr;
+                    if (!file_curr) {
+                        currentFile.innerHTML = "Zipping complete !";
+                        setTimeout(function () {
+                            // document.querySelector("#ModalDownload").hide();
+                        }, 300)
+                    }
+                })
+                .then(function (content) {
+                    // var date = new Date();
+                    // saveAs(content, `${TextMark + " " + get_daba()}.zip`);
+                    console.log(`File compress completed ${TextMark + " " + get_daba()}.zip !`);
+                });
+        }, 1000)
+        // }
+    }
+    downloadAll(egdes) {
+        this.props.toggle_modal();
+        this.download_multiple(egdes, this.props.textMark);
+    }
+    render() {
+        let edges2dld = this.props.edges;
+        return <button name="download" onClick={() => { this.downloadAll(AllPosts(edges2dld)) }}>
+            <i className="fa fa-download">
+            </i>Download All</button>;
+    }
+}
+const mapStateToPropsDld = state => ({ show_modal_download: state.modal_download })
+
+const mapDispatchToPropsDld = (dispatch) => ({
+    toggle_modal: () => dispatch({ type: "TOGGLE_MODAL_DOWNLOAD" })
+})
+
+const DownloadAll = connect(mapStateToPropsDld, mapDispatchToPropsDld)(DldAllBtn);
+
 class Profile extends Component {
     componentDidMount() {
         let { username } = this.props.match.params;
@@ -206,6 +271,7 @@ class Profile extends Component {
             .filter(u => !!u);
         if (objectFilter.length !== 0) {
             const path = this.props.opt;
+            document.title = `${user.full_name} (@${user.username}) sur Instagram • Photos et vidéos`
             const dataHead = {
                 username: user.username,
                 full_name: user.full_name,
@@ -222,6 +288,7 @@ class Profile extends Component {
             const dataPubs = {
                 edge_owner_to_media, path
             }
+
             const barSettings = { username, path };
             const is_private = user.is_private;
             let _private = <div className="_4Kbb_ _54f4m">
@@ -238,6 +305,10 @@ class Profile extends Component {
                 <Head {...dataHead} />
                 <Bar {...barSettings} />
                 {is_private ? _private : _public}
+                <DownloadAll
+                    edges={edge_owner_to_media.edges}
+                    textMark={`Instagram user ${username} In Instagram Photos and Videos`}
+                />
                 <PdpConnected />
             </>;
         }

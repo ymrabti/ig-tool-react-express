@@ -1,7 +1,7 @@
 {
     "name": "instagram-tool",
     "version": "0.1.0",
-    "dploy_link":"https://cra.link/deployment",
+    "dploy_link": "https://cra.link/deployment",
     "private": true,
     "dependencies": {
         "@reduxjs/toolkit": "^1.5.0",
@@ -29,7 +29,7 @@
         "front": "set PORT=3002 && react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "servebuild":"serve -s build",
+        "servebuild": "serve -s build",
         "eject": "react-scripts eject"
     },
     "proxy": "http://localhost:3001",
@@ -51,7 +51,5 @@
             "last 1 safari version"
         ]
     },
-    "devDependencies": {
-        "react-openlayers": "^0.3.0"
-    }
+    "devDependencies": {}
 }

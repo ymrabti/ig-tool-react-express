@@ -1,15 +1,21 @@
 const status = require('http-status');
 const userModel = require('../models/usersModel');
 const database = userModel.database;
-
 const has = require('has-keys');
 
+const filterObject = require("../util/logger").filterObject
+
 module.exports = {
-    getUsers: async function (_req, res) {
-        let data = await userModel.getAll();
+    getUsers: async function (req, res) {
+        if (!has(req.params, [ 'collection']))
+            throw { code: status.BAD_REQUEST, message: 'You must specify the collection' };
+        let { collection } = req.params;
+        let data = await userModel.getAll(collection);
         res.json(data);
     },
     getSomeUsers: async function (req, res) {
+        if (!has(req.params, ['collection']))
+            throw { code: status.BAD_REQUEST, message: 'You must specify the collection' };
         let reqbody = req.query;
         if (Object.keys(reqbody).length == 0) {
             res.json(
@@ -19,7 +25,21 @@ module.exports = {
                 }
             );
         }
-        await userModel.search(reqbody)
+        let { collection } = req.params;
+        // var url = `https://api.github.com/search/repositories?q=created:%3E${date}&sort=stars&order=desc&page=${this.pageShouldLoaded}`;
+        let { sort, order } = req.query;
+        let sorting = {};
+        if (sort) {
+            sorting[sort] = order.toLowerCase() === "desc" ? -1 : 1;
+        }
+        // console.log(sorting);
+
+        let where = filterObject(reqbody, (key, val) => {
+            let bool = !["sort","order"].includes(key);
+            return bool;
+        })
+        console.log(where);
+        await userModel.search(collection,where,sorting)
             .then(val => {
                 res.json(val);
             })
@@ -28,10 +48,10 @@ module.exports = {
             });
     },
     getUserById: async function (req, res) {
-        if (!has(req.params, 'id'))
-            throw { code: status.BAD_REQUEST, message: 'You must specify the id' };
-        let { id } = req.params;
-        await userModel.getOne({ _id: new database.ObjectId(id) })
+        if (!has(req.params, ['id','collection']))
+            throw { code: status.BAD_REQUEST, message: 'You must specify the id,and the collection' };
+        let { id,collection } = req.params;
+        await userModel.getOne(collection,{ _id: new database.ObjectId(id) })
             .then(val => {
                 res.json(val);
             })
@@ -43,7 +63,7 @@ module.exports = {
         if (Object.keys(req.body).length == 0) {
             throw { code: status.BAD_REQUEST, message: 'You must specify at least one argument!' };
         }
-        await userModel.create(req.body)
+        await userModel.create("Statistics",req.body)
             .then(val => {
                 res.json(val);
             })
@@ -56,7 +76,7 @@ module.exports = {
             throw { code: status.BAD_REQUEST, message: 'You must specify the _id' };
         }
         let { _id, set } = req.body;
-        userModel.update({ _id: new database.ObjectId(_id) }, set)
+        await userModel.update("Statistics",{ _id: new database.ObjectId(_id) }, { $set: set })
             .then(val => {
                 res.json(val);
             })
@@ -71,7 +91,7 @@ module.exports = {
 
         let { id } = req.params;
 
-        await userModel.delete({ _id: new database.ObjectId(id) })
+        await userModel.delete("Statistics",{ _id: new database.ObjectId(id) })
             .then(val => {
                 res.json(val);
             })

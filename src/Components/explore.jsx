@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import {
-    Map, Layers,  Controls, control,layer
-    // interaction, custom, //name spaces
-    // Interactions, Overlays,     //group
-    //  Overlay, Util    //objects
-} from "react-openlayers";
-
 import { fetchHashtag,fetchLocation } from "../actions/Index";
 import {LinksToPubs} from "./links2Posts";
 import { beautify_numbers } from "../tools";
-import { Waiting } from "./svgs";
+import { waitaminute } from "./svgs";
 //#region 
 class HeadExplore extends Component {
     render() {
@@ -83,7 +76,8 @@ class ExploreHashtag extends Component {
             }
             const data_edges = {
                 edge_owner_to_media: { edges: edges }
-            }
+            };
+            document.title = `Hashtag #${tag} sur Instagram  • Photos et vidéos`
             return (
                 <>
                     <HeadExplore data={
@@ -109,7 +103,7 @@ class ExploreHashtag extends Component {
             );
         }
         else {
-            return <Waiting />;
+            return waitaminute;
         }
     }
 }
@@ -168,23 +162,9 @@ class ExploreLocation extends Component {
                 edge_owner_to_media: { edges: edges }
             };
             console.log([location.lat, location.lng]);
+            document.title = `${tag} sur Instagram • Photos et vidéos`
             return (
                 <>
-                    <Map view={{ center: [location.lat, location.long], zoom: 12 }} >
-                        <Layers>
-                            <layer.Tile />
-                        </Layers>
-                        <Controls attribution={false} zoom={true}>
-                            <control.Rotate />
-                            <control.ScaleLine />
-                            <control.FullScreen />
-                            <control.OverviewMap />
-                            <control.ZoomSlider />
-                            <control.ZoomToExtent />
-                            <control.Zoom />
-                        </Controls>
-                    </Map>
-
                     <HeadExplore data={
                         {
                             explore_name: tag,
@@ -208,7 +188,7 @@ class ExploreLocation extends Component {
             );
         }
         else {
-            return <Waiting />;
+            return waitaminute;
         }
     }
 }

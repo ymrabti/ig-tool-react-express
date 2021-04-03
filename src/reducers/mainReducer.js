@@ -14,6 +14,7 @@ function mainReducer(state = {
     user:{},
     post: {},
     username:"",
+    modal_download:false,
     location:{},
     hashtag:{}
 }, action) {
@@ -25,6 +26,8 @@ function mainReducer(state = {
             
         case 'FETCH_POST':
             return { ...state, post: action.data };
+        case 'TOGGLE_MODAL_DOWNLOAD':
+            return { ...state, modal_download: !state.modal_download };
 
         case 'FETCH_HASHTAG':
             return { ...state, hashtag: action.data };

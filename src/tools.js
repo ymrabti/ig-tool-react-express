@@ -1,9 +1,7 @@
 import ReactHtmlParser from "react-html-parser";
 
-export const listNames = { closeModal: "closeModal", switchSound: "switchSound", switchPlay:"switchPlay"}
-
-
-
+export const listNames = { closeModal: "closeModal", switchSound: "switchSound", switchPlay: "switchPlay" }
+const tags = { hashtag: "hashtag", username: "username", mail: "mail" };
 export function getDeffDates(date) {
     var diff = (new Date() - date) / 1000;
     var mults = [{ multiple: 60, unit: "minutes" }, { multiple: 3_600, unit: "hours" }, { multiple: 86_400, unit: "days" }, { multiple: 604_800, unit: "weeks" }, { multiple: 2_419_200, unit: "months" }, { multiple: 29_030_400, unit: "years" }];
@@ -17,42 +15,39 @@ export function getDeffDates(date) {
 }
 export function beautify_numbers(number) {
     const list = number.toString().split('').reverse();
-    const reducer= (a, b, i)=> i%3!==0||i===0?b+a:b+` ${a}`;
+    const reducer = (a, b, i) => i % 3 !== 0 || i === 0 ? b + a : b + ` ${a}`;
     return list.reduce(reducer, "");
 }
 // Input : 12345678910
 // Output: "12 345 678 910"
-
 export const icons = {
     GraphSidecar: "Carousel",
-    GraphVideo: "Video", 
+    GraphVideo: "Video",
     igtv: "Igtv",
-    clips:"reel" 
+    clips: "reel"
 };
-const tags = {hashtag:"hashtag",username:"username",mail:"mail"};
-
 export function size_plain(number) {
-    var tags = ["T","B","m","k"];
+    var tags = ["T", "B", "m", "k"];
     var i = tags.length; var div = 1000;
     while (number >= div && i >= 0) {
         number = number / div; i -= 1;
     }
     // const fix = i===tags.length-1 ? 1:2;
-    return i===-1?number*(1000**(tags.length+1))
+    return i === -1 ? number * (1000 ** (tags.length + 1))
         : i < tags.length ? `${number.toFixed(tags.length - i)} ${tags[i]}`
-        :number;
+            : number;
 }
 function link_(item, tag) {
     let path = "";
     switch (tag) {
         case tags.hashtag:
-            path= `/explore/tags/${item.substring(1)}`;
+            path = `/explore/tags/${item.substring(1)}`;
             break;
         case tags.username:
-            path= `/${item.substring(1)}`;
+            path = `/${item.substring(1)}`;
             break;
         default:
-            path= `mailto:${item}`;
+            path = `mailto:${item}`;
             break;
     }
     return `<a class="notranslate" href="${path}">${item}</a>`
@@ -99,6 +94,80 @@ function toTitleCase(str) {
         }
     );
 }
+
+async function toDataURL(url) {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
+}
+export function GetFilename(url) {
+    if (url) {
+        var m = url.toString().match(/.*\/(.+?\.[a-zA-Z0-9]*)/);
+        if (m && m.length > 1) {
+            return m[1];
+        }
+    }
+    return "";
+}
+function get_extension(link) {
+    var list = link.split("?")[0].split(".");
+    return list[list.length - 1];
+}
+export function get_daba() {
+    var date = new Date();
+    return date.toJSON().replaceAll(/[-:TZ]/g, "_");
+}
+const getLink = node => {
+    var disp_rs = node["display_resources"];
+    var thum_rs = node["thumbnail_resources"];
+    var display_url = node["display_url"];
+    var is_video = node["is_video"];
+    var video_url = node["video_url"];
+    var HD = !!disp_rs ? disp_rs : thum_rs;
+    HD = !!HD ? HD[HD.length - 1].src : display_url;
+    return (is_video && video_url) ? video_url : HD;
+}
+export function AllPosts(edges) {
+    let All_Posts = [];
+    edges.forEach(function (item, index) {
+        var node = item["node"];
+        var __typename = node["__typename"];
+        var username = node["owner"]["username"];
+        var edges_children = node["edge_sidecar_to_children"];
+        if (__typename !== "GraphSidecar" || !edges_children) {
+            var is_video = node["is_video"];
+            var linkDownload = getLink(node);
+            var oMedia = { "is_video": is_video, "linkDownload": linkDownload, "owner": username };
+            All_Posts.push(oMedia);
+        }
+        else {
+            var edges1 = edges_children["edges"];
+            edges1.forEach(function (item1, index) {
+                var node1 = item1["node"];
+                // var username1 = node1["owner"]["username"];
+                var is_video = node1["is_video"];
+                var linkDownload = getLink(node1);
+                var oMedia = { "is_video": is_video, "linkDownload": linkDownload, "owner": username };
+                All_Posts.push(oMedia);
+            });
+        }
+    });
+    return All_Posts;
+}
+export function file_name(link, username, index) {
+    var daba = get_daba();
+    var extension = get_extension(link);
+    var numeroPost = index ? ` ${index}` : "";
+    var nom = username ? `${username} ` : "";
+    return `${nom + daba + numeroPost}.${extension}`;
+}
+export async function download(link, username, index) {
+    var a = document.createElement("a");
+    a.href = await toDataURL(link);
+    a.download = file_name(link, username, index);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
 var vdefault = "Im default";
 export default vdefault;
-

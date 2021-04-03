@@ -455,6 +455,7 @@ class Post extends Component {
                     </Slider>
 
                 );
+            document.title = `Post de ${owner.full_name} (@${owner.username})`;
             return (
                 <div className="PdwC2 fXiEu s2MYR" role="dialog">
                     <article id="articlePost" className="M9sTE L_LMM JyscU ePUX4" role="presentation">
