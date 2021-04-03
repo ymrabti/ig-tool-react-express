@@ -1,9 +1,14 @@
-const router = require('express').Router();
+const express = require('express');
+// const router = express.Router();
 
 
 // Users routes
 
-router.use(require('@routes/usersRouter'));
+const igRouter = require('./igRouter');
+const userRouter = require('./usersRouter');
+// router.use(require('./igRouter'));
 
 
-module.exports = router;
+module.exports = {
+    userRouter,igRouter,express
+};

@@ -1,56 +1,39 @@
-
-
-const database = require('@models/database.js');
-
+let database = require("./database");
 
 const users = {
-
     async getAll() {
         const dbo = await database.getDbo();
         return await dbo.collection('customers').find().toArray();
     },
-
-    async getOne() {
+    async getOne(where) {
         const dbo = await database.getDbo();
-        return await dbo.collection('customers').findOne();
+        return dbo.collection('customers').findOne(where);
     },
-
-    async search(good) {
+    async search(where) {
         const dbo = await database.getDbo();
 
-        const {_id} = good;
-
-        return await dbo.collection('customers').find({_id: new ObjectId(_id)}).toArray();
+        return await dbo.collection('customers').find(where).toArray();
     },
-
     async create(good) {
         const dbo = await database.getDbo();
-        
-        delete good._id;
-        delete good.id;
-        
-        return (await dbo.collection('customers').insertOne(good)).ops[0];
-    },
 
-    async update(good) {
-        const dbo = await database.getDbo();
-
-        const {_id} = good;
-        
         delete good._id;
         delete good.id;
 
-        return await dbo.collection('customers').findOneAndUpdate({_id:  new ObjectId(_id)},{$set: good},{ returnNewDocument: true });
+        return await dbo.collection('customers').insertOne(good);
     },
-
-    async delete(good) {
+    async update(where, set) {
+        const dbo = await database.getDbo();
+        delete set._id;
+        delete set.id;
+        return dbo.collection('customers').findOneAndUpdate(where, { $set: set }, {});
+    },
+    async delete(where) {
         const dbo = await database.getDbo();
 
-        const {_id} = good;
-        
-        await dbo.collection('customers').deleteOne({_id: new ObjectId(_id)});
-    }
-
+        await dbo.collection('customers').deleteOne(where);
+    },
+    database
 }
 
 

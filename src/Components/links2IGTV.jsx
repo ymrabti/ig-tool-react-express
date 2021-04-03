@@ -3,7 +3,8 @@ import { size_plain, icons, toHHMMSS } from "../tools";
 import { SVGplay } from "./svgs";
 import { Link, withRouter } from "react-router-dom";
 
-class IgtvPost extends Component {
+//#region IGTV_LINKS
+class IgtvLink extends Component {
     render() {
         let location = this.props.location;
         const data = this.props.data;
@@ -82,12 +83,15 @@ class IgtvPost extends Component {
         </div>;
     }
 }
+/* let i = setInterval(() => {
+    let tr = document.querySelector(".qn-0x");
+    tr && console.log(tr)
+}, 100); */
+const IgtvLinkWithRouter = withRouter(IgtvLink)
 
-const IgtvPostWithR = withRouter(IgtvPost)
-
-export class IgtvPosts extends Component {
+export class IgtvLinks extends Component {
     render() {
-        const edges = this.props.edge_owner_to_media;
+        const edges = this.props.edge_owner_to_media;console.log(edges);
         var edgeslength = edges.edges.length;
         var columns = 4;
         var r = edgeslength % columns;
@@ -101,7 +105,7 @@ export class IgtvPosts extends Component {
                 edge_i = edges.edges[current]["node"];
                 listKposts.push(
                     <div key={"currentIGTV" + current} className="Nnq7C ryi-h">
-                        <IgtvPostWithR data={edge_i} />
+                        <IgtvLinkWithRouter data={edge_i} />
                     </div>
                 );
             }
@@ -116,7 +120,7 @@ export class IgtvPosts extends Component {
                 edge_i = edges.edges[k]["node"];
                 listKposts.push(
                     <div key={"resteIGTV" + k} className="Nnq7C ryi-h">
-                        <IgtvPostWithR data={edge_i} />
+                        <IgtvLinkWithRouter data={edge_i} />
                     </div>
                 );
             }
@@ -139,11 +143,10 @@ export class IgtvPosts extends Component {
         </div>
     }
 }
+//#endregion IGTV_LINKS
 
-/////////////////////
-
-
-class FeedPost extends Component {
+//#region New_Feed_Links
+class LinkPost extends Component {
     render() {
         let location = this.props.location;
         const data = this.props.data;
@@ -160,87 +163,131 @@ class FeedPost extends Component {
             countVideos = edges_children_sidecar.edges.filter(i => i.node.__typename === "GraphVideo").length;
             countImages = edges_children_sidecar.edges.filter(i => i.node.__typename === "GraphImage").length;
         }
-        return <div className="b9_1r" style={{ marginLeft: "0.5vw", marginRight: "0.5vw" }}>
-            <div className="Tjpra">
-                <Link to={{
-                    pathname: `/p/${data.shortcode}/`,
-                    state: { background: location }
-                }}>
-                    <div
-                        className="A-NpN"
-                        role="button"
-                        style={{
-                            backgroundColor: "linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 22.27%)"
-                        }}
-                    >
+        return <div className="v1Nh3 kIKUG  _bz0w">
+            <Link to={{
+                pathname: `/p/${data.shortcode}/`,
+                state: { background: location }
+            }}>
+                <div className="eLAPa">
+                    <div className="KL4Bh">
+                        <img
+                            alt={data.accessibility_caption}
+                            src={data.thumbnail_src}
+                            className="FFVAD"
+                            crossOrigin="anonymous" decoding="auto" sizes="293px" srcSet="" style={{ objectFit: "cover" }} />
+                    </div>
+                    <div className="_9AhH0">
+                    </div>
+                </div>
+                <div className="u7YqG">
+                    <div className={`mediatypesSprite${type}__filled__32 u-__7`}>
+                    </div>
+                </div>
 
-                        <div className="eLAPa">
-                            <div className="KL4Bh">
-                                <img
-                                    alt={data.accessibility_caption}
-                                    className="FFVAD"
-                                    decoding="auto"
-                                    style={{ objectFit: "cover" }}
-                                    sizes="293px"
-                                    src={data.thumbnail_src} /* onClick={this.postClicked.bind(this)}  */
-                                />
-                            </div>
-                        </div>
-                        <div className="u7YqG">
-                            <div className={`mediatypesSprite${type}__filled__32 u-__7`}>
 
-                            </div>
-                        </div>
-                        <div className="knyT1">
-                            <div className="qn-0x" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
-                                <ul className="Ln-UN">
-                                    <li className="-V_eO">
-                                        <span>{(size_plain(likes))}</span>
-                                        <span className="_1P1TY coreSpriteHeartSmall">
+                <div className="knyT1">
+                    <div className="qn-0x" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+                        <ul className="Ln-UN">
+                            <li className="-V_eO">
+                                <span>{(size_plain(likes))}</span>
+                                <span className="_1P1TY coreSpriteHeartSmall">
+                                </span>
+                            </li>
+                            <li className="-V_eO">
+                                <span>{(size_plain(edge_media_to_comment))}</span>
+                                <span className="_1P1TY coreSpriteSpeechBubbleSmall">
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="qn-0x">
+                        <div className="Igw0E   rBNOH eGOV_ ybXk5 _4EzTm MGdpg _5VUwz O1flK fm1AK">
+                            {
+                                is_video ? <>
+                                    <div className=" Igw0E IwRSH eGOV_ _4EzTm JI_ht">
+                                        <SVGplay />
+                                    </div>
+                                    <div className="_7UhW9 vy6Bb qyrsm h_zdq  uL8Hv">
+                                        <span style={{ WebkitTextStrokeWidth: "0.5px", WebkitTextStrokeColor: "black" }}>
+                                            {size_plain(data.video_view_count)}
                                         </span>
-                                    </li>
-                                    <li className="-V_eO">
-                                        <span>{(size_plain(edge_media_to_comment))}</span>
-                                        <span className="_1P1TY coreSpriteSpeechBubbleSmall">
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="qn-0x">
-                                <div className="Igw0E   rBNOH eGOV_ ybXk5 _4EzTm MGdpg _5VUwz O1flK fm1AK">
-                                    {
-                                        is_video ? <>
-                                            <div className=" Igw0E IwRSH eGOV_ _4EzTm JI_ht">
-                                                <SVGplay />
-                                            </div>
-                                            <div className="_7UhW9 vy6Bb qyrsm h_zdq  uL8Hv">
-                                                <span style={{ WebkitTextStrokeWidth: "0.5px", WebkitTextStrokeColor: "black" }}>
-                                                    {size_plain(data.video_view_count)}
-                                                </span>
-                                            </div>
-                                        </>
-                                            :
-                                            <ul className="Ln-UN">
-                                                {
-                                                    countImages !== 0 && <li className="-V_eO">
-                                                        <span>{countImages + " "}Images</span>
-                                                    </li>
-                                                }
-                                                {
-                                                    countVideos !== 0 && <li className="-V_eO">
-                                                        <span>{countVideos + " "}Videos</span>
-                                                    </li>
-                                                }
-                                            </ul>
-                                    }
-                                </div>
-                            </div>
+                                    </div>
+                                </>
+                                    :
+                                    <ul className="Ln-UN">
+                                        {
+                                            countImages !== 0 && <li className="-V_eO">
+                                                <span>{countImages + " "}Images</span>
+                                            </li>
+                                        }
+                                        {
+                                            countVideos !== 0 && <li className="-V_eO">
+                                                <span>{countVideos + " "}Videos</span>
+                                            </li>
+                                        }
+                                    </ul>
+                            }
                         </div>
                     </div>
-                </Link>
-            </div>
+                </div>
+            </Link>
         </div>;
     }
 }
+const LinkPostPub = withRouter(LinkPost)
 
-export const FeedPostPub = withRouter(FeedPost)
+export class LinksPosts extends Component {
+    render() {
+        const edges = this.props.edge_owner_to_media;
+        var edgeslength = edges.edges.length;
+        var columns = 3;
+        var r = edgeslength % columns;
+        var q = (edgeslength - r) / columns;
+        var AllPosts = []; var k = 0; var listKposts;
+        var edge_i; var kposts; var current;
+        for (var i = 0; i < q; i++) {// q*i+k
+            listKposts = [];
+            for (k = 0; k < columns; k++) {
+                current = columns * i + k;
+                edge_i = edges.edges[current]["node"];
+                listKposts.push(
+                    <LinkPostPub key={"currentLink" + current} data={edge_i} />
+                );
+            }
+            kposts = <div key={"rowLink" + i} className="Nnq7C weEfm">
+                {listKposts}
+            </div>;
+            AllPosts.push(kposts);
+        }
+        if (r !== 0) {
+            listKposts = [];
+            for (k = q * columns; k < q * columns + r; k++) {
+                edge_i = edges.edges[k]["node"];
+                listKposts.push(
+                    <LinkPostPub key={"resteLink" + k} data={edge_i} />
+                );
+            }
+            for (var j = q * columns + r; j < (q + 1) * columns; j++) {
+                listKposts.push(<div className="_bz0w" key={`EmptyPost${j}`} >
+                </div>);
+            }
+            kposts = <div key={"rowLink" + i + 1} className="Nnq7C weEfm">
+                {listKposts}
+            </div>;
+            AllPosts.push(kposts);
+        }
+        return <div className="_2z6nI"><article className="ySN3v" >
+            <div>
+                <div style={{ flexDirection: "column", paddingBottom: "0px", paddingTop: "0px" }}>
+                    {AllPosts}
+                </div>
+            </div>
+            
+        </article ></div>
+    }
+}
+//#endregion New_Feed_Links
+/////////////////////
+
+
+

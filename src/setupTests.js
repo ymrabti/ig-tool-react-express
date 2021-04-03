@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Switch,Route,Link,useParams,useHistory,withRouter } from "react-router-dom";
+import { Switch, Route, Link, useParams, useHistory, withRouter } from "react-router-dom";
 // import { ModalPostWithRouter } from "./Components/Index";
 
 const IMAGES = [
@@ -195,8 +195,8 @@ export const CarouselIG = <div className="pR7Pc">
     </div>
     <div className="Igw0E IwRSH eGOV_ _4EzTm O1flK D8xaz fm1AK TxciK yiMZG">
         <div className="EcJQs">
-            <div className="ekfSF" role="presentation" style="">
-                <div className="_9nCnY" style="">
+            <div className="ekfSF" role="presentation" >
+                <div className="_9nCnY" >
                     <ul className="vi798">
                         <li style="transform: translateX(955px); width: 1px;">
                         </li>
@@ -206,7 +206,7 @@ export const CarouselIG = <div className="pR7Pc">
                                     <div className="RzuR0 kHt39  plVq-">
                                         <div className="eLAPa _23QFA" role="button">
                                             <div className="KL4Bh" style="padding-bottom: 125%;">
-                                                <img className="FFVAD" crossOrigin="anonymous" decoding="auto" style="object-fit: cover;" sizes="478px" srcset="" src="" />
+                                                <img className="FFVAD" crossOrigin="anonymous" decoding="auto" style={{ objectFit: "cover" }} sizes="478px" srcset="" src="" />
                                             </div>
                                             <div className="_9AhH0">
                                             </div>
@@ -235,7 +235,7 @@ export const CarouselIG = <div className="pR7Pc">
                                 <div role="button" className="ZyFrc">
                                     <div className="eLAPa RzuR0">
                                         <div className="KL4Bh" style="padding-bottom: 125%;">
-                                            <img className="FFVAD" crossOrigin="anonymous" decoding="auto" style="object-fit: cover;" sizes="478px" srcset="" src="" />
+                                            <img className="FFVAD" crossOrigin="anonymous" decoding="auto" style={{ objectFit: "cover" }} sizes="478px" srcset="" src="" />
                                         </div>
                                         <div className="_9AhH0">
                                         </div>
@@ -253,8 +253,8 @@ export const CarouselIG = <div className="pR7Pc">
         </div>
     </div>
     <>
-        <div className="ekfSF" role="presentation" style="">
-            <div className="_9nCnY" style="">
+        <div className="ekfSF" role="presentation" >
+            <div className="_9nCnY" >
                 <ul className="vi798">
                     <li style="transform: translateX(3359px); width: 1px;">
                     </li>
@@ -263,7 +263,7 @@ export const CarouselIG = <div className="pR7Pc">
                             <div role="button" className="ZyFrc">
                                 <div className="eLAPa RzuR0">
                                     <div className="KL4Bh" style="padding-bottom: 125%;">
-                                        <img alt="Photo by Ihssane Benalluch احسان بنعلوش on February 14, 2021. May be a closeup of 2 people, people standing and outdoors." className="FFVAD" crossOrigin="anonymous" decoding="auto" sizes="480px" srcset="" src="" style="object-fit: cover;" />
+                                        <img alt="Photo by Ihssane Benalluch احسان بنعلوش on February 14, 2021. May be a closeup of 2 people, people standing and outdoors." className="FFVAD" crossOrigin="anonymous" decoding="auto" sizes="480px" srcset="" src="" style={{ objectFit: "cover" }} />
                                     </div>
                                     <div className="_9AhH0">
                                     </div>
@@ -386,10 +386,125 @@ export const bb =
     </>
 
 const myobj = { gameOver: Runner.prototype.gameOver }
-Runner.prototype.gameOver = () => { }
+Runner.prototype.gameOver = () => { console.log("gameOver"); }
 setTimeout(() => {
     console.log("its time to save record!");
     Runner.prototype.gameOver = myobj.gameOver;
 }, 15 * 60 * 1000);
 
 // https://drive.google.com/file/d/1usOA18_7UGWsndyr5tIQsCIq8N15-Qsp/view?usp=sharing
+
+<div className="Nnq7C weEfm">
+    <div className="v1Nh3 kIKUG  _bz0w">
+        <Link to={{
+            pathname: `/p/${data.shortcode}/`,
+            state: { background: location }
+        }}>
+            <div className="eLAPa">
+                <div className="KL4Bh">
+                    <img
+                        alt={data.accessibility_caption}
+                        src={data.thumbnail_src}
+                        className="FFVAD"
+                        crossorigin="anonymous" decoding="auto" sizes="293px" srcset="" style={{ objectFit: "cover" }} />
+                </div>
+                <div className="_9AhH0">
+                </div>
+            </div>
+            <div className="u7YqG">
+                <div className={`mediatypesSprite${type}__filled__32 u-__7`}>
+                </div>
+            </div>
+            <div className="knyT1">
+                <div className="qn-0x" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+                    <ul className="Ln-UN">
+                        <li className="-V_eO">
+                            <span>{(size_plain(likes))}</span>
+                            <span className="_1P1TY coreSpriteHeartSmall">
+                            </span>
+                        </li>
+                        <li className="-V_eO">
+                            <span>{(size_plain(edge_media_to_comment))}</span>
+                            <span className="_1P1TY coreSpriteSpeechBubbleSmall">
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div className="qn-0x">
+                    <div className="Igw0E   rBNOH eGOV_ ybXk5 _4EzTm MGdpg _5VUwz O1flK fm1AK">
+                        {
+                            is_video ? <>
+                                <div className=" Igw0E IwRSH eGOV_ _4EzTm JI_ht">
+                                    <SVGplay />
+                                </div>
+                                <div className="_7UhW9 vy6Bb qyrsm h_zdq  uL8Hv">
+                                    <span style={{ WebkitTextStrokeWidth: "0.5px", WebkitTextStrokeColor: "black" }}>
+                                        {size_plain(data.video_view_count)}
+                                    </span>
+                                </div>
+                            </>
+                                :
+                                <ul className="Ln-UN">
+                                    {
+                                        countImages !== 0 && <li className="-V_eO">
+                                            <span>{countImages + " "}Images</span>
+                                        </li>
+                                    }
+                                    {
+                                        countVideos !== 0 && <li className="-V_eO">
+                                            <span>{countVideos + " "}Videos</span>
+                                        </li>
+                                    }
+                                </ul>
+                        }
+                    </div>
+                </div>
+            </div>
+        </Link>
+    </div>
+
+</div>
+
+const srcset_example = "link150" + " 150w" + "," +
+    "link240" + " 240w" + "," +
+    "link320" + " 320w" + "," +
+    "link480" + " 480w" + "," +
+    "link640" + " 640w"
+
+
+let father = <article className="ySN3v" >
+    <div>
+        <div style={{ flexDirection: "column", paddingBottom: "0px", paddingTop: "0px" }}>
+        </div>
+    </div>
+    <div className="_4emnV">
+        <div className="Igw0E IwRSH YBx95 _4EzTm _9qQ0O ZUqME" data-visualcompletion="loading-state" style={{ height: "32px", width: "32px" }}>
+            <svg aria-label="Chargement..." className="  By4nA" viewBox="0 0 100 100">
+                <rect fill="#555555" height="6" opacity="0" rx="3" ry="3" transform="rotate(-90 50 50)" width="25" x="72" y="47">
+                </rect>
+                <rect fill="#555555" height="6" opacity="0.08333333333333333" rx="3" ry="3" transform="rotate(-60 50 50)" width="25" x="72" y="47">
+                </rect>
+                <rect fill="#555555" height="6" opacity="0.16666666666666666" rx="3" ry="3" transform="rotate(-30 50 50)" width="25" x="72" y="47">
+                </rect>
+                <rect fill="#555555" height="6" opacity="0.25" rx="3" ry="3" transform="rotate(0 50 50)" width="25" x="72" y="47">
+                </rect>
+                <rect fill="#555555" height="6" opacity="0.3333333333333333" rx="3" ry="3" transform="rotate(30 50 50)" width="25" x="72" y="47">
+                </rect>
+                <rect fill="#555555" height="6" opacity="0.4166666666666667" rx="3" ry="3" transform="rotate(60 50 50)" width="25" x="72" y="47">
+                </rect>
+                <rect fill="#555555" height="6" opacity="0.5" rx="3" ry="3" transform="rotate(90 50 50)" width="25" x="72" y="47">
+                </rect>
+                <rect fill="#555555" height="6" opacity="0.5833333333333334" rx="3" ry="3" transform="rotate(120 50 50)" width="25" x="72" y="47">
+                </rect>
+                <rect fill="#555555" height="6" opacity="0.6666666666666666" rx="3" ry="3" transform="rotate(150 50 50)" width="25" x="72" y="47">
+                </rect>
+                <rect fill="#555555" height="6" opacity="0.75" rx="3" ry="3" transform="rotate(180 50 50)" width="25" x="72" y="47">
+                </rect>
+                <rect fill="#555555" height="6" opacity="0.8333333333333334" rx="3" ry="3" transform="rotate(210 50 50)" width="25" x="72" y="47">
+                </rect>
+                <rect fill="#555555" height="6" opacity="0.9166666666666666" rx="3" ry="3" transform="rotate(240 50 50)" width="25" x="72" y="47">
+                </rect>
+            </svg>
+        </div>
+    </div>
+</article >

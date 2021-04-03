@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { fetchHashtag,fetchLocation } from "../actions/Index";
-import Publications from "./Pubs";
-import { beautify_numbers, Waiting } from "../tools";
+import {
+    Map, Layers,  Controls, control,layer
+    // interaction, custom, //name spaces
+    // Interactions, Overlays,     //group
+    //  Overlay, Util    //objects
+} from "react-openlayers";
 
+import { fetchHashtag,fetchLocation } from "../actions/Index";
+import {LinksToPubs} from "./links2Posts";
+import { beautify_numbers } from "../tools";
+import { Waiting } from "./svgs";
 //#region 
 class HeadExplore extends Component {
     render() {
@@ -93,11 +100,11 @@ class ExploreHashtag extends Component {
                         <div className="Saeqz">Top posts</div>
                     </h2>
                     <br />
-                    <Publications {...data_top_edges} />
+                    <LinksToPubs {...data_top_edges} />
                     <h2 className="yQ0j1" >
                         <br />Most recent<br />
                     </h2>
-                    <Publications {...data_edges} />
+                    <LinksToPubs {...data_edges} />
                 </>
             );
         }
@@ -120,12 +127,12 @@ const mapStateToPropsHashtag = state => ({ hashtag: state.hashtag })
 
 const mapDispatchToPropsHashtag = (dispatch) => ({
     fetchHashtag: (tagname) => {
-        fetch(`/explore/tags/${tagname}`)
+        fetch(`/instagram/explore/tags/${tagname}`)
             .then(response => response.json())
             .then(data => {
                 dispatch(fetchHashtag(data.graphql.hashtag));
             }).catch(e => {
-                alert(`Hashtag ${tagname} not found !`)
+                console.log(`Hashtag ${tagname} not found !`)
             });
     }
 })
@@ -159,9 +166,25 @@ class ExploreLocation extends Component {
             }
             const data_edges = {
                 edge_owner_to_media: { edges: edges }
-            }
+            };
+            console.log([location.lat, location.lng]);
             return (
                 <>
+                    <Map view={{ center: [location.lat, location.long], zoom: 12 }} >
+                        <Layers>
+                            <layer.Tile />
+                        </Layers>
+                        <Controls attribution={false} zoom={true}>
+                            <control.Rotate />
+                            <control.ScaleLine />
+                            <control.FullScreen />
+                            <control.OverviewMap />
+                            <control.ZoomSlider />
+                            <control.ZoomToExtent />
+                            <control.Zoom />
+                        </Controls>
+                    </Map>
+
                     <HeadExplore data={
                         {
                             explore_name: tag,
@@ -176,11 +199,11 @@ class ExploreLocation extends Component {
                         <div className="Saeqz">Top posts</div>
                     </h2>
                     <br />
-                    <Publications {...data_top_edges} />
+                    <LinksToPubs {...data_top_edges} />
                     <h2 className="yQ0j1" >
                         <br />Most recent<br />
                     </h2>
-                    <Publications {...data_edges} />
+                    <LinksToPubs {...data_edges} />
                 </>
             );
         }
@@ -195,12 +218,12 @@ const mapStateToPropsLocation = state => ({ localization: state.location })
 
 const mapDispatchToPropsLocation = (dispatch) => ({
     fetchLocation: (location) => {
-        fetch(`/explore/locations/${location}`)
+        fetch(`/instagram/explore/locations/${location}`)
             .then(response => response.json())
             .then(data => {
                 dispatch(fetchLocation(data.graphql.location));
             }).catch(e => {
-                alert(`Location ${location} not found !`)
+                console.log(`Location ${location} not found !`)
             });
     }
 })

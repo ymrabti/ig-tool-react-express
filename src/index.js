@@ -1,37 +1,29 @@
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
-import store from "./reducers/mainReducer"
 import React, { Component } from 'react';
-import Profile from "./Components/Profile";
-import { ExploreHash, ExploreLoc } from "./Components/explore";
+import {
+    BrowserRouter,Redirect,
+    Switch, Route,
+    withRouter, // Link, useParams, useLocation,
+} from "react-router-dom";
 import { connect } from "react-redux";
+
+import Profile from "./Components/profile";
+import store from "./reducers/mainReducer";
+import { ExploreHash, ExploreLoc } from "./Components/explore";
 import MyNavbar from "./Components/navbar";
-import ModalContent from "./Components/Post";
-import Post, { ModalPostWithRouter } from "./Components/Pub";
+import Post, { ModalPostWithRouter } from "./Components/post";
 import "./css/igtool1.css";
 import "./css/igtool2.css";
 import "./css/igtool3.css";
 import "./css/igtool.css";
 import "./css/progress.css";
-import {
-    BrowserRouter,Redirect,
-    Switch,
-    // Link,
-    // useParams,
-    Route,
-    withRouter,
-    // useLocation,
-} from "react-router-dom";
 
 
 class App extends Component {
-    // componentDidMount() {
-    //     console.log(this.props);
-    // }
     render() {
         let location = this.props.location;
         let background = location.state && location.state.background;
-        // let showPost = { display: this.props.displayPostModal ? "block" : "none" };
         return <>
             <section className="_9eogI E3X2T">
                 <main className="SCxLW  o64aR" role="main">
@@ -68,9 +60,6 @@ class App extends Component {
                                 <ExploreLoc />
                             </Route>
 
-                            <Route exact path="/old/:shortcode/" >
-                                <ModalContent />
-                            </Route>
                             <Route path="/*">
                                 <NotExist />
                             </Route>

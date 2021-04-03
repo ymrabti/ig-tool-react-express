@@ -1,107 +1,82 @@
 const status = require('http-status');
-const fetch = require('node-fetch');
-const userModel = require('@models/usersModel.js');
+const userModel = require('../models/usersModel');
+const database = userModel.database;
 
 const has = require('has-keys');
 
 module.exports = {
-    async fetchUserByUsername(req, res) {
-        if (!has(req.params, 'username'))
-            throw { code: status.BAD_REQUEST, message: 'You must specify the username' };
-        let { username } = req.params;
-        const ress = await fetch(`https://www.instagram.com/${username}/?__a=1`)
-        const data = await ress.json();
-        if (ress.status === 200) {
-            // userModel.create({ name, email });
-            res.json(data);
-        } else {
-            throw { codeServer: ress.status, message: ress.statusText };;
-        }
-    },
-    async fetchPostByShortcode(req, res) {
-        if (!has(req.params, 'shortcode'))
-            throw { code: status.BAD_REQUEST, message: 'You must specify the shortcode' };
-        let { shortcode } = req.params;
-        const ress = await fetch(`https://www.instagram.com/p/${shortcode}/?__a=1`)
-        const data = await ress.json();
-        if (ress.status === 200) {
-            res.json(data)
-        } else {
-            throw { codeServer: ress.status, message: ress.statusText };;
-        }
-    },
-    async fetchHashtag(req, res) {
-        if (!has(req.params, 'tag'))
-            throw { code: status.BAD_REQUEST, message: 'You must specify the tag' };
-        let { tag } = req.params;
-        const ress = await fetch(`https://www.instagram.com/explore/tags/${tag}/?__a=1`)
-        const data = await ress.json();
-        if (ress.status === 200) {
-            res.json(data)
-        } else {
-            throw { codeServer: ress.status, message: ress.statusText };;
-        }
-    },
-    async fetchLocation(req, res) {
-        if (!has(req.params, 'location'))
-            throw { code: status.BAD_REQUEST, message: 'You must specify the location' };
-        let { location } = req.params;
-        const ress = await fetch(`https://www.instagram.com/explore/locations/${location}/?__a=1`)
-        const data = await ress.json();
-        if (ress.status === 200) {
-            res.json(data)
-        } else {
-            throw { codeServer: ress.status, message: ress.statusText };;
-        }
-    },
-
-
-    async getUserById(req, res) {
-        if (!has(req.params, 'id'))
-            throw { code: status.BAD_REQUEST, message: 'You must specify the id' };
-
-        let { id } = req.params;
-
-        let data = await userModel.getOne({ where: { id } });
-
-        if (!data)
-            throw { code: status.BAD_REQUEST, message: 'User not found' };
-
-        res.json({ status: true, message: 'Returning user', data });
-    },
-    async getUsers(req, res) {
+    getUsers: async function (_req, res) {
         let data = await userModel.getAll();
-
-        res.json({ status: true, message: 'Returning users', data });
+        res.json(data);
     },
-    async newUser(req, res) {
-        if (!has(req.params, ['name', 'email']))
-            throw { code: status.BAD_REQUEST, message: 'You must specify the name and email' };
-
-        let { name, email } = req.body;
-
-        await userModel.create({ name, email });
-
-        res.json({ status: true, message: 'User Added' });
+    getSomeUsers: async function (req, res) {
+        let reqbody = req.query;
+        if (Object.keys(reqbody).length == 0) {
+            res.json(
+                {
+                    code: status.BAD_REQUEST,
+                    message: 'You must specify at least one argument!'
+                }
+            );
+        }
+        await userModel.search(reqbody)
+            .then(val => {
+                res.json(val);
+            })
+            .catch(erru => {
+                res.json(erru);
+            });
     },
-    async updateUser(req, res) {
-        if (!has(req.body, ['id', 'name', 'email']))
-            throw { code: status.BAD_REQUEST, message: 'You must specify the id, name and email' };
-
-        let { id, name, email } = req.body;
-
-        await userModel.updateUser({ name, email }, { where: { id } });
-
-        res.json({ status: true, message: 'User updated' });
+    getUserById: async function (req, res) {
+        if (!has(req.params, 'id'))
+            throw { code: status.BAD_REQUEST, message: 'You must specify the id' };
+        let { id } = req.params;
+        await userModel.getOne({ _id: new database.ObjectId(id) })
+            .then(val => {
+                res.json(val);
+            })
+            .catch(erru => {
+                res.json(erru);
+            });
     },
-    async deleteUser(req, res) {
+    newUser: async function (req, res) {
+        if (Object.keys(req.body).length == 0) {
+            throw { code: status.BAD_REQUEST, message: 'You must specify at least one argument!' };
+        }
+        await userModel.create(req.body)
+            .then(val => {
+                res.json(val);
+            })
+            .catch(erru => {
+                res.json(erru);
+            });
+    },
+    updateUser: async function (req, res) {
+        if (!has(req.body, ['_id'])) {
+            throw { code: status.BAD_REQUEST, message: 'You must specify the _id' };
+        }
+        let { _id, set } = req.body;
+        userModel.update({ _id: new database.ObjectId(_id) }, set)
+            .then(val => {
+                res.json(val);
+            })
+            .catch(erru => {
+                res.json(erru);
+            });
+        // res.json({ status: true, message: 'User updated' });
+    },
+    deleteUser: async function (req, res) {
         if (!has(req.params, 'id'))
             throw { code: status.BAD_REQUEST, message: 'You must specify the id' };
 
         let { id } = req.params;
 
-        await userModel.destroy({ where: { id } });
-
-        res.json({ status: true, message: 'User deleted' });
+        await userModel.delete({ _id: new database.ObjectId(id) })
+            .then(val => {
+                res.json(val);
+            })
+            .catch(erru => {
+                res.json(erru);
+            });
     }
 }

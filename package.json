@@ -1,6 +1,7 @@
 {
     "name": "instagram-tool",
     "version": "0.1.0",
+    "dploy_link":"https://cra.link/deployment",
     "private": true,
     "dependencies": {
         "@reduxjs/toolkit": "^1.5.0",
@@ -10,6 +11,7 @@
         "axios": "^0.21.1",
         "classnames": "^2.2.6",
         "infinite-react-carousel": "^1.2.11",
+        "jszip": "^3.6.0",
         "lodash": "^4.17.21",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
@@ -27,6 +29,7 @@
         "front": "set PORT=3002 && react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
+        "servebuild":"serve -s build",
         "eject": "react-scripts eject"
     },
     "proxy": "http://localhost:3001",
@@ -47,5 +50,8 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "devDependencies": {
+        "react-openlayers": "^0.3.0"
     }
 }
