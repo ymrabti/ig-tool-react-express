@@ -48,6 +48,8 @@ class MyNavbar extends Component {
                         }
                     }
                 >
+                    <a href="/" style={{marginRight:"20px"}}>Home</a>
+                    <a href="/statistics/users">Top Users</a>
                     <div className="_47KiJ">
                         <input
                             className=""

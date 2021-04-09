@@ -157,9 +157,7 @@ class FeedLink extends Component {
                             </div>
                         </div>
                         <div className="u7YqG">
-                            <div className={`mediatypesSprite${type}__filled__32 u-__7`}>
-
-                            </div>
+                            <div className={`mediatypesSprite${type}__filled__32 u-__7`}></div>
                         </div>
                         <div className="knyT1">
                             <div className="qn-0x" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>

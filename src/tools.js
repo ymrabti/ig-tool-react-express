@@ -1,7 +1,25 @@
 import ReactHtmlParser from "react-html-parser";
-
 export const listNames = { closeModal: "closeModal", switchSound: "switchSound", switchPlay: "switchPlay" }
 const tags = { hashtag: "hashtag", username: "username", mail: "mail" };
+export const action_types ={
+    statistics:{
+        top_users:"FETCH_TOP_USERS",
+        top_posts:"FETCH_TOP_POSTS",
+        top_hashtags:"FETCH_TOP_HASHTAGS",
+        top_locations:"FETCH_TOP_LOCATIONS"
+    },
+    ig:{
+        SET_STATE_PROFILE:'SET_STATE_PROFILE',
+        UPDATE_USERNAME:'UPDATE_USERNAME',
+        FETCH_POST:'FETCH_POST',
+        FETCH_HASHTAG:'FETCH_HASHTAG',
+        FETCH_LOCATION:'FETCH_LOCATION',
+        TOGGLE_MODAL_DOWNLOAD:'TOGGLE_MODAL_DOWNLOAD'
+    }
+}
+/**
+* @param {Date} date
+*/
 export function getDeffDates(date) {
     var diff = (new Date() - date) / 1000;
     var mults = [{ multiple: 60, unit: "minutes" }, { multiple: 3_600, unit: "hours" }, { multiple: 86_400, unit: "days" }, { multiple: 604_800, unit: "weeks" }, { multiple: 2_419_200, unit: "months" }, { multiple: 29_030_400, unit: "years" }];
@@ -50,16 +68,17 @@ function link_(item, tag) {
             path = `mailto:${item}`;
             break;
     }
-    return `<a class="notranslate" href="${path}">${item}</a>`
+    return `<a class="notranslate" href='${path}'>${item}</a>`
 }
 export function text2Html(text) {
     const hg = /#[\u0600-\u06FFa-zA-Z0-9\-_.]{1,}/gi;
     const us = /@[\u0600-\u06FFa-zA-Z0-9\-_.]{1,}/gi;
     const m_ai = /[a-zA-Z0-9._-]{1,}@[a-zA-Z0-9._-]{1,}\.[a-zA-Z0-9._-]{2,3}/gi;
-    const htmltext = text.replaceAll(m_ai, item => link_(item))
-        .replaceAll(hg, item => link_(item, tags.hashtag))
-        .replaceAll(us, item => link_(item, tags.username))
-        .replaceAll(/\n/gi, "<br>");
+    const htmltext = text
+                        .replaceAll(m_ai, item => link_(item))
+                        .replaceAll(hg, item => link_(item, tags.hashtag))
+                        .replaceAll(us, item => link_(item, tags.username))
+                        .replaceAll(/\n/gi, "<br>");
     return ReactHtmlParser(htmltext);
 }
 export function toHHMMSS(sec_num) {

@@ -117,7 +117,7 @@ export const DownloadAllButton = () => {
 }
 const ExploreHashtagRouter = withRouter(ExploreHashtag)
 
-const mapStateToPropsHashtag = state => ({ hashtag: state.hashtag })
+const mapStateToPropsHashtag = state => ({ hashtag: state.ig_reducer.hashtag })
 
 const mapDispatchToPropsHashtag = (dispatch) => ({
     fetchHashtag: (tagname) => {
@@ -194,7 +194,7 @@ class ExploreLocation extends Component {
 }
 const ExploreLocationRouter = withRouter(ExploreLocation)
 
-const mapStateToPropsLocation = state => ({ localization: state.location })
+const mapStateToPropsLocation = state => ({ localization: state.ig_reducer.location })
 
 const mapDispatchToPropsLocation = (dispatch) => ({
     fetchLocation: (location) => {

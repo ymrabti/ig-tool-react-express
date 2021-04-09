@@ -1,31 +1,31 @@
-// Register module/require aliases
-require('module-alias/register');
-
-// Patches
+require('module-alias/register');// Register module/require aliases
 const {inject, errorHandler} = require('express-custom-error');
 inject(); // Patch express in order to use async / await syntax
-
-// Require Dependencies
-// const express = require('express');
-const express = require('./routes/router').express;
-
+const express = require('./routes/router').express;// const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const helmet = require('helmet');
-
 const logger = require('../src/util/logger');
-// Load .env Enviroment Variables to process.env
-
-require('mandatoryenv').load([
+require('mandatoryenv').load([// Load .env Enviroment Variables to process.env
     'DB_URL',
     'PORT',
     'SECRET'
 ]);
-
 const { PORT } = process.env;
 
-// Instantiate an Express Application
-const app = express();
+const app = express();// Instantiate an Express Application
+
+const formData = require("express-form-data");
+const os = require("os");// Patches
+const options = {
+    uploadDir: os.tmpdir(),
+    autoClean: true
+};
+app.use(formData.parse(options));// parse data with connect-multiparty. 
+app.use(formData.format());// delete from the request all empty files (size == 0)
+app.use(formData.stream());// change the file objects to fs.ReadStream 
+app.use(formData.union());// union the body and the files
+
 // Configure Express App Instance
 app.use(express.json( { limit: '50mb' } ));
 app.use(express.urlencoded( { extended: true, limit: '10mb' } ));

@@ -676,9 +676,7 @@ export const ModalPostWithRouter = withRouter(ModalPostModern)
 
 const mapStateToProps = state => (
     {
-        post: state.post,
-        vdeoPlayed: state.vdeoPlayed,
-        vdeoSound: state.vdeoSound
+        post: state.ig_reducer.post
     }
 )
 

@@ -5,10 +5,12 @@ const has = require('has-keys');
 
 const filterObject = require("../util/logger").filterObject;
 
-async function statistics(collection, where, data_insert) {
-    await userModel.update(collection, where, { $inc: { clicks: +1 } })
+async function statistics(collection, where, data_insert,update) {
+    update.lastSearch = Date.now(); update.enabled = true
+    await userModel.update(collection, where, { $inc: { clicks: +1 },$set:update })
         .then(val => {
             if (val.result.nModified == 0) {
+                data_insert.enabled = true;
                 userModel.create(collection, data_insert)
                     .then(val => {
                         console.log(val.result);
@@ -36,9 +38,10 @@ module.exports = {
                     return bool;
                 }),
                 lastSearch: new Date().getTime(), clicks: 1
-            })
+            }, { profile_pic_url_hd: data.graphql.user.profile_pic_url_hd})
             res.json(data);
         } else {
+            await statistics("Users",{username},{},{enabled:false})
             throw { codeServer: ress.status, message: ress.statusText };;
         }
     },
@@ -61,7 +64,7 @@ module.exports = {
                 }),
                 lastSearch: new Date().getTime(),
                 clicks: 1
-            })
+            }, {})
             res.json(data)
         } else {
             throw { codeServer: ress.status, message: ress.statusText };;
@@ -81,7 +84,7 @@ module.exports = {
                 }),
                 lastSearch: new Date().getTime(),
                 clicks: 1
-            })
+            }, {})
             res.json(data)
         } else {
             throw { codeServer: ress.status, message: ress.statusText };;
@@ -101,7 +104,7 @@ module.exports = {
                 }),
                 lastSearch: new Date().getTime(),
                 clicks: 1
-            })
+            }, {})
             res.json(data)
         } else {
             throw { codeServer: ress.status, message: ress.statusText };;

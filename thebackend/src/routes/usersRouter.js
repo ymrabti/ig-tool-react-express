@@ -7,7 +7,7 @@ users_router.get('/:collection/:id', user.getUserById);
 users_router.get('/:collection', user.getUsers);
 
 users_router.delete('/user/:id', user.deleteUser);
-users_router.post('/user', user.newUser);
+users_router.patch('/user', user.newUser);
 users_router.put('/users', user.updateUser);
 
 /* const all_routes = require('express-list-endpoints');

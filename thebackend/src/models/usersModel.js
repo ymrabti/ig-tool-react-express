@@ -1,5 +1,5 @@
 let database = require("./database");
-
+let nPerPage = 100;
 const users = {
     async getAll(collection) {
         const dbo = await database.getDbo();
@@ -9,9 +9,14 @@ const users = {
         const dbo = await database.getDbo();
         return dbo.collection(collection).findOne(where);
     },
-    async search(collection,where,sorting) {
+    async search(collection,where,sorting,page) {
         const dbo = await database.getDbo();
-        return await dbo.collection(collection).find(where).sort(sorting).toArray();
+        return await dbo.collection(collection)
+            .find(where)
+            .sort(sorting)
+            .skip((!!page && page > 0) ? ((page - 1) * nPerPage) : 0)
+            .limit(!!page ? nPerPage:5)
+            .toArray();
     },
     async create(collection,inserted) {
         const dbo = await database.getDbo();

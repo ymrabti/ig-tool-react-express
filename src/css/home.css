@@ -1,0 +1,31 @@
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+.card:hover{
+    box-shadow: 0 0 12px lightseagreen;
+}
+/**
+wydad.serii
+*/
+div[name="grid"]{
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    grid-gap: 10px;
+    justify-content: space-between;
+    padding: 10px;
+    color: blue;
+}
+
+div[name="childs"]:first-child{
+    color: blueviolet;
+    grid-row: 1/3;
+}
+
+div[name="grid"] > div[name="childs"]:first-of-type{
+    color: green;
+    grid-row: 1/3;
+}

@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { size_plain, icons, toHHMMSS } from "../tools";
-import { SVGplay } from "./svgs";
+import { SVGplay, svgReels } from "./svgs";
 import { Link, withRouter } from "react-router-dom";
 
 //#region IGTV_LINKS
@@ -64,7 +64,7 @@ class IgtvLink extends Component {
                                             <span>{size_plain(data.video_view_count)}</span>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -91,7 +91,7 @@ const IgtvLinkWithRouter = withRouter(IgtvLink)
 
 export class IgtvLinks extends Component {
     render() {
-        const edges = this.props.edge_owner_to_media;console.log(edges);
+        const edges = this.props.edge_owner_to_media; console.log(edges);
         var edgeslength = edges.edges.length;
         var columns = 4;
         var r = edgeslength % columns;
@@ -174,14 +174,26 @@ class LinkPost extends Component {
                             alt={data.accessibility_caption}
                             src={data.thumbnail_src}
                             className="FFVAD"
-                            crossOrigin="anonymous" decoding="auto" sizes="293px" srcSet="" style={{ objectFit: "cover" }} />
+                            crossOrigin="anonymous"
+                            decoding="auto"
+                            sizes="293px"
+                            srcSet=""
+                            style={{
+                                objectFit: "cover"
+                            }}
+                        />
                     </div>
                     <div className="_9AhH0">
                     </div>
                 </div>
                 <div className="u7YqG">
-                    <div className={`mediatypesSprite${type}__filled__32 u-__7`}>
-                    </div>
+                    {
+                        type !== "reel" ? <div className={`mediatypesSprite${type}__filled__32 u-__7`}></div>
+                            :
+                            <div className="Igw0E IwRSH eGOV_ _4EzTm bkEs3 soMvl JI_ht DhRcB">
+                                {svgReels}
+                            </div>
+                    }
                 </div>
 
 
@@ -282,7 +294,7 @@ export class LinksPosts extends Component {
                     {AllPosts}
                 </div>
             </div>
-            
+
         </article ></div>
     }
 }

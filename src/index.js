@@ -7,9 +7,9 @@ import {
     withRouter, // Link, useParams, useLocation,
 } from "react-router-dom";
 import { connect } from "react-redux";
-
+import { Home,TopSearchdUsers } from "./Components/statistics";
 import Profile from "./Components/profile";
-import store from "./reducers/mainReducer";
+import store from "./reducers/store";
 import { ExploreHash, ExploreLoc } from "./Components/explore";
 import MyNavbar from "./Components/navbar";
 import Post, { ModalPostWithRouter } from "./Components/post";
@@ -18,6 +18,7 @@ import "./css/igtool2.css";
 import "./css/igtool3.css";
 import "./css/igtool.css";
 import "./css/progress.css";
+import "./css/font-awesome.min.css";
 
 class App extends Component {
     handleClick(){
@@ -26,11 +27,12 @@ class App extends Component {
     render() {
         let location = this.props.location;
         let background = location.state && location.state.background;
+        let display = this.props.modal_download ? "block" : "none";
         return <>
             <section className="_9eogI E3X2T">
                 <main className="SCxLW  o64aR" role="main">
                     <div
-                        style={{ display: this.props.modal_download ? "block" : "none" }}
+                        style={{ display}}
                         onClick={this.handleClick.bind(this)}
                         className="_2dDPU CkGkG"
                         role="dialog"
@@ -60,7 +62,10 @@ class App extends Component {
                     <div className="v9tJq AAaSh VfzDr">
                         <Switch location={background || location}>
                             <Route exact path="/" >
-                                <h1>Welcome home</h1>
+                                <Home />
+                            </Route>
+                            <Route exact path="/statistics/users/" >
+                                <TopSearchdUsers page={1} />
                             </Route>
                             <Route exact path="/p/:shortcode/" >
                                 <Post />
@@ -76,7 +81,6 @@ class App extends Component {
                             <Route exact path="/explore/locations/:location/" >
                                 <ExploreLoc />
                             </Route>
-
                             <Route path="/*">
                                 <NotExist />
                             </Route>
@@ -114,7 +118,7 @@ function NotExist() {
     </main>;
 }
 const mapStateToPropsApp = state => ({
-    modal_download: state.modal_download
+    modal_download: state.ig_reducer.modal_download
 })
 const mapDispatchToPropsApp = dispatch => ({
 })
