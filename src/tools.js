@@ -136,7 +136,7 @@ export function get_daba() {
     var date = new Date();
     return date.toJSON().replaceAll(/[-:TZ]/g, "_");
 }
-const getLink = node => {
+export const getLink = node => {
     var disp_rs = node["display_resources"];
     var thum_rs = node["thumbnail_resources"];
     var display_url = node["display_url"];

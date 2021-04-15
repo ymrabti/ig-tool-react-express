@@ -7,12 +7,14 @@ import {
     withRouter, // Link, useParams, useLocation,
 } from "react-router-dom";
 import { connect } from "react-redux";
-import { Home,TopSearchdUsers } from "./Components/statistics";
+import { Home,TopSearchdUsers, TopSearchdPosts, TopSearchdHashtags, TopSearchdLocations } from "./Components/statistics";
 import Profile from "./Components/profile";
 import store from "./reducers/store";
 import { ExploreHash, ExploreLoc } from "./Components/explore";
 import MyNavbar from "./Components/navbar";
 import Post, { ModalPostWithRouter } from "./Components/post";
+import { action_types } from "./tools";
+import PropTypes from "prop-types";
 import "./css/igtool1.css";
 import "./css/igtool2.css";
 import "./css/igtool3.css";
@@ -22,7 +24,8 @@ import "./css/font-awesome.min.css";
 
 class App extends Component {
     handleClick(){
-        console.log("handleClick");
+        let {toggle_modal} = this.props;
+        toggle_modal();
     }
     render() {
         let location = this.props.location;
@@ -67,6 +70,16 @@ class App extends Component {
                             <Route exact path="/statistics/users/" >
                                 <TopSearchdUsers page={1} />
                             </Route>
+                            <Route exact path="/statistics/posts/" >
+                                <TopSearchdPosts page={1} />
+                            </Route>
+                            <Route exact path="/statistics/hashtags/" >
+                                <TopSearchdHashtags page={1} />
+                            </Route>
+                            <Route exact path="/statistics/locations/" >
+                                <TopSearchdLocations page={1} />
+                            </Route>
+
                             <Route exact path="/p/:shortcode/" >
                                 <Post />
                             </Route>
@@ -106,6 +119,23 @@ class App extends Component {
         </>
     }
 }
+const mapStateToPropsApp = state => ({
+    modal_download: state.ig_reducer.modal_download
+})
+const mapDispatchToPropsApp = dispatch => ({
+    toggle_modal: () => dispatch({ type: action_types.ig.TOGGLE_MODAL_DOWNLOAD })
+})
+const AppConnected = connect(
+    mapStateToPropsApp,
+    mapDispatchToPropsApp
+)(App)
+const AppConnectedWithRouter = withRouter(AppConnected)
+
+AppConnectedWithRouter.propTypes = {
+    modal_download:PropTypes.bool,
+    toggle_modal:PropTypes.func
+}
+
 function NotExist() {
     return <main className="SCxLW  o64aR " role="main">
         <div className="Igw0E IwRSH YBx95 _4EzTm pwoi_ xUzvG ">
@@ -117,18 +147,6 @@ function NotExist() {
         </div>
     </main>;
 }
-const mapStateToPropsApp = state => ({
-    modal_download: state.ig_reducer.modal_download
-})
-const mapDispatchToPropsApp = dispatch => ({
-})
-const AppConnected = connect(
-    mapStateToPropsApp,
-    mapDispatchToPropsApp
-)(App)
-
-const AppConnectedWithRouter = withRouter(AppConnected)
-
 const render = () => ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>

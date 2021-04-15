@@ -64,9 +64,10 @@ module.exports = {
                 }),
                 lastSearch: new Date().getTime(),
                 clicks: 1
-            }, {})
+            }, {display_url:don.display_url})
             res.json(data)
         } else {
+            await statistics("Posts", { shortcode }, {}, { enabled: false })
             throw { codeServer: ress.status, message: ress.statusText };;
         }
     },

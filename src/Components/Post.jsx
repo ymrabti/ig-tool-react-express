@@ -10,9 +10,10 @@ import Slider from "infinite-react-carousel";
 // import Slider from "react-slick";
 import { withRouter } from "react-router-dom";
 import { fetchPost } from "../actions/Index";
-import {  size_plain } from "../tools";
+import { size_plain } from "../tools";
 import "../css/videoplayer.css";
-import { WaitingPost,sound, muted } from "./svgs";
+import { WaitingPost, sound, muted } from "./svgs";
+import { DownloadAll } from "./profile";
 
 const SubSection = (props) => {
     const size = props.data.size;
@@ -208,7 +209,7 @@ class VideoView extends Component {
                     max={this.state.length}
                 />
             </div>
-            
+
             <div className="PyenC">
                 <span
                     aria-label="Lire"
@@ -257,7 +258,7 @@ class VideoView extends Component {
                 </div>
                 <button className="FqZhB" label="Activer/Désactiver le son">Activer/Désactiver le son</button>
             </span>
-        
+
         </div>
         );
     }
@@ -292,7 +293,7 @@ class Post extends Component {
             const settings = {
                 dots: true,
                 speed: 500,
-                duration:100,
+                duration: 100,
                 className: "backWhite",
                 prevArrow: <button className="POSa_">
                     <div className="coreSpriteLeftChevron">
@@ -407,7 +408,12 @@ class Post extends Component {
                         </li>
                     </div>
                 </ul>;
-            })
+            });
+            /* const links = (__typename !== "GraphSidecar") ? [{ linkDownload: is_video ? video_url : display_url }]
+                :
+                post.edge_sidecar_to_children.edges.map(item => ({ 
+                    linkDownload: item.node.is_video ? item.node.video_url : item.node.display_url
+                })); */
             const media = (__typename !== "GraphSidecar") ? (
                 !is_video ?
                     (
@@ -455,7 +461,7 @@ class Post extends Component {
                     </Slider>
 
                 );
-            document.title = `Post de ${owner.full_name} (@${owner.username})`;
+            document.title = `Post by ${owner.full_name} (@${owner.username})`;
             return (
                 <div className="PdwC2 fXiEu s2MYR" role="dialog">
                     <article id="articlePost" className="M9sTE L_LMM JyscU ePUX4" role="presentation">
@@ -625,6 +631,10 @@ class Post extends Component {
 
                         </div>
                     </article>
+                    <DownloadAll
+                        edges={[{node:post}]}
+                        textMark={`Post by ${owner.username}`}
+                    />
                 </div>
             );
         } else {

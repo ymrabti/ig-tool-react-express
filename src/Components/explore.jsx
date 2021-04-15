@@ -5,6 +5,7 @@ import { fetchHashtag,fetchLocation } from "../actions/Index";
 import {LinksToPubs} from "./links2Posts";
 import { beautify_numbers } from "../tools";
 import { waitaminute } from "./svgs";
+import { DownloadAll } from "./profile";
 //#region 
 class HeadExplore extends Component {
     render() {
@@ -95,10 +96,18 @@ class ExploreHashtag extends Component {
                     </h2>
                     <br />
                     <LinksToPubs {...data_top_edges} />
+                    <DownloadAll
+                        edges={top_edges}
+                        textMark={`#${tag} Top post`}
+                    />
                     <h2 className="yQ0j1" >
                         <br />Most recent<br />
                     </h2>
                     <LinksToPubs {...data_edges} />
+                    <DownloadAll
+                        edges={edges}
+                        textMark={`#${tag} Most recent post`}
+                    />
                 </>
             );
         }
@@ -107,7 +116,7 @@ class ExploreHashtag extends Component {
         }
     }
 }
-export const DownloadAllButton = () => {
+export const Download_AllButton = () => {
     return (
         <button name="download">
             <i className="fa fa-download">
@@ -161,7 +170,6 @@ class ExploreLocation extends Component {
             const data_edges = {
                 edge_owner_to_media: { edges: edges }
             };
-            console.log([location.lat, location.lng]);
             document.title = `${tag} sur Instagram • Photos et vidéos`
             return (
                 <>
@@ -180,10 +188,18 @@ class ExploreLocation extends Component {
                     </h2>
                     <br />
                     <LinksToPubs {...data_top_edges} />
+                    <DownloadAll
+                        edges={top_edges}
+                        textMark={`Location ${tag} Top post`}
+                    />
                     <h2 className="yQ0j1" >
                         <br />Most recent<br />
                     </h2>
                     <LinksToPubs {...data_edges} />
+                    <DownloadAll
+                        edges={edges}
+                        textMark={`Location ${tag} Most recent post`}
+                    />
                 </>
             );
         }

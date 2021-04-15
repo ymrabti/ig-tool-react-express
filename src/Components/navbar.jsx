@@ -48,8 +48,11 @@ class MyNavbar extends Component {
                         }
                     }
                 >
-                    <a href="/" style={{marginRight:"20px"}}>Home</a>
-                    <a href="/statistics/users">Top Users</a>
+                    <a href="/">Home</a>
+                    <a href="/statistics/users" style={{marginLeft:"20px"}}>Top Users</a>
+                    <a href="/statistics/posts" style={{marginLeft:"20px"}}>Top Posts</a>
+                    <a href="/statistics/hashtags" style={{marginLeft:"20px"}}>Top Hashtags</a>
+                    <a href="/statistics/locations" style={{marginLeft:"20px"}}>Top Locations</a>
                     <div className="_47KiJ">
                         <input
                             className=""

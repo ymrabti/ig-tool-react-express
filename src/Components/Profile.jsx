@@ -197,59 +197,61 @@ class Head extends Component {
 
 class DldAllBtn extends Component {
     /**
-     * @param {[]} edges
+     * @param {any[]} edges
      */
     downloadAll(edges) {
-        let toggle = this.props.toggle_modal;
-        toggle();
-        let textCon = this.props.textMark;
-        var timeoutDefault = 60000;// var timeoutRetry = 300000;
-        var xhrsStatus = { aborted: false, };
-        var elements = edges.filter(item => !item.is_video);
-        var cPhotos = elements.filter(item => !item.is_video).length;
-        var cVideos = elements.filter(item => item.is_video).length;
-        var cElemts = elements.length;
-        var confirmText = "Download " + cElemts + " elements (" + cPhotos + " photos";
-        cVideos !== 0 ? confirmText += " and " + cVideos + " videos) ?" : confirmText += ") ?";
-        if (window.confirm(confirmText)) {
-            var zip = new JSZip();
-            elements.forEach(function (item, index) {
-                var link_down = item.linkDownload;
-                // username__ = item["owner"]? `${item["owner"]} `:"Instagram ";
-                JS_ZipUtils.getBinaryContent(link_down,
-                    function (err, data) {
-                        if (err) {
-                            if (!(err.code === 404 || err.code === 410)) {
-                                alert(`error code ${err.code}`);
+        if (edges.length) {
+            let toggle = this.props.toggle_modal;
+            toggle();
+            let textCon = this.props.textMark;
+            var timeoutDefault = 60000;// var timeoutRetry = 300000;
+            var xhrsStatus = { aborted: false, };
+            var elements = edges.filter(item => !item.is_video);
+            var cPhotos = elements.filter(item => !item.is_video).length;
+            var cVideos = elements.filter(item => item.is_video).length;
+            var cElemts = elements.length;
+            var confirmText = "Download " + cElemts + " elements (" + cPhotos + " photos";
+            cVideos !== 0 ? confirmText += " and " + cVideos + " videos) ?" : confirmText += ") ?";
+            if (window.confirm(confirmText)) {
+                var zip = new JSZip();
+                elements.forEach(function (item, index) {
+                    var link_down = item.linkDownload;
+                    // username__ = item["owner"]? `${item["owner"]} `:"Instagram ";
+                    JS_ZipUtils.getBinaryContent(link_down,
+                        function (err, data) {
+                            if (err) {
+                                if (!(err.code === 404 || err.code === 410)) {
+                                    alert(`error code ${err.code}`);
+                                }
+                            } else {
+                                zip.file(GetFilename(link_down), data, { binary: true });
                             }
-                        } else {
-                            zip.file(GetFilename(link_down), data, { binary: true });
-                        }
-                    }, xhrsStatus, timeoutDefault
-                );
-            });
-            var elemnt = document.querySelector("#progressBar");
-            let currentFile = document.querySelector("#currentFile");
-            setTimeout(function () {
-                zip.generateAsync({ type: "blob" },
-                    function (meta) {
-                        var file_curr = meta.currentFile;
-                        var percent = Math.floor(meta.percent);
-                        var strpct = `${percent}%`;
-                        elemnt.style.width = strpct; elemnt.innerHTML = strpct;
-                        currentFile.innerHTML = file_curr;
-                        if (!file_curr) {
-                            currentFile.innerHTML = "Zipping complete !";
-                            setTimeout(function () {
-                                toggle();
-                            }, 1000)
-                        }
-                    })
-                    .then(function (content) {
-                        // var date = new Date();
-                        saveAs(content, `${textCon + " " + get_daba()}.zip`);
-                    });
-            }, 1000)
+                        }, xhrsStatus, timeoutDefault
+                    );
+                });
+                var elemnt = document.querySelector("#progressBar");
+                let currentFile = document.querySelector("#currentFile");
+                setTimeout(function () {
+                    zip.generateAsync({ type: "blob" },
+                        function (meta) {
+                            var file_curr = meta.currentFile;
+                            var percent = Math.floor(meta.percent);
+                            var strpct = `${percent}%`;
+                            elemnt.style.width = strpct; elemnt.innerHTML = strpct;
+                            currentFile.innerHTML = file_curr;
+                            if (!file_curr) {
+                                currentFile.innerHTML = "Zipping complete !";
+                                setTimeout(function () {
+                                    toggle();
+                                }, 1000)
+                            }
+                        })
+                        .then(function (content) {
+                            // var date = new Date();
+                            saveAs(content, `${textCon + " " + get_daba()}.zip`);
+                        });
+                }, 1000)
+            }
         }
     }
     render() {
@@ -266,7 +268,7 @@ const mapDispatchToPropsDld = (dispatch) => ({
     toggle_modal: () => dispatch({ type: action_types.ig.TOGGLE_MODAL_DOWNLOAD })
 })
 
-const DownloadAll = connect(mapStateToPropsDld, mapDispatchToPropsDld)(DldAllBtn);
+export const DownloadAll = connect(mapStateToPropsDld, mapDispatchToPropsDld)(DldAllBtn);
 
 class Profile extends Component {
     componentDidMount() {
@@ -319,7 +321,7 @@ class Profile extends Component {
                 {
                     edge_owner_to_media.edges.length!==0 && <DownloadAll
                         edges={edge_owner_to_media.edges}
-                        textMark={`Instagram user ${username} In Instagram Photos and Videos`}
+                        textMark={`@${username}`}
                     />
                 }
                 <PdpConnected />

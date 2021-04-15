@@ -230,7 +230,7 @@ export class LinksToPubs extends Component {
                 edge_i = edge_owner_to_media.edges[current]["node"];
                 listKposts.push(
                     <div key={"current" + current} className="Nnq7C ryi-h">
-                        <FeedLinkPost data={edge_i} />
+                        <FeedLinkPost username={null} data={edge_i} />
                     </div>
                 );
             }
@@ -245,7 +245,7 @@ export class LinksToPubs extends Component {
                 edge_i = edge_owner_to_media.edges[k]["node"];
                 listKposts.push(
                     <div key={"current" + k} className="Nnq7C ryi-h">
-                        <FeedLinkPost data={edge_i} />
+                        <FeedLinkPost username={null} data={edge_i} />
                     </div>
                 );
             }

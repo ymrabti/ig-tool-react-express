@@ -28,7 +28,7 @@ const users = {
         const dbo = await database.getDbo();
         delete update._id;
         // delete update.id;
-        return await dbo.collection(collection).updateOne(where, update);
+        return await dbo.collection(collection).updateMany(where, update);
     },
     async delete(collection,where) {
         const dbo = await database.getDbo();

@@ -51,7 +51,7 @@ class TopUsersClass extends Component {
 const mapStateToPropsTopUsers = state => ({ top: state.statisticsReducer.TopSearchedUsers })
 const mapDispatchToPropsTopUsers = (dispatch) => ({
     getTopUsers: (page) => {
-        fetch(`/api/Users/search?sort=clicks&order=desc${(!!page&&page!=="")?`&page=${page}`:""}`)
+        fetch(`/api/Users/search?sort=clicks&order=desc${(!!page && page !== "") ? `&page=${page}` : ""}`)
             .then(response => response.json())
             .then(data => {
                 dispatch(TopUsersAction(data));
@@ -69,32 +69,38 @@ export const TopSearchdUsers = connect(
 //#region top_posts
 class TopPostsClass extends Component {
     componentDidMount() {
-        this.props.getTopPosts()
+        this.props.getTopPosts(this.props.page);
     }
     render() {
         const top = this.props.top;
         if (top.length !== 0) {
             let TopPostsView = top.map(function (currentValue) {
                 return <div key={currentValue._id} className="card">
-                    <img
-                        src={currentValue.display_url}
-                        alt={"post by :" + currentValue.full_name}
-                        style={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)" }}
-                    /><br />
-                post by :{currentValue.username}<br />
-                le : {new Date(currentValue.taken_at_timestamp * 1000).toLocaleDateString()}<br />
-                    <div style={{ display: "flex", flexDirection: "row" }}>
+                    <a href={"/p/" + currentValue.shortcode}>
                         <img
-                            src={currentValue.profile_pic_url}
-                            alt={currentValue.username}
-                            style={{ borderRadius: "100px", boxShadow: "0 14px 18px 0 rgba(0, 0, 0, 0.3)" }}
-                            width={"30%"}
+                            src={currentValue.display_url}
+                            alt={"post by :" + currentValue.full_name}
+                            width={"100%"}
+                            style={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)" }}
                         />
-                        <p>
-                            full_name :{currentValue.full_name}<br />
-                        </p>
-                    </div>
-                    reputaton :{currentValue.clicks}
+                    </a><br /> post by
+                    <a href={"/" + currentValue.username}>
+
+                        <div style={{ display: "flex", flexDirection: "row", padding: "5px" }}>
+                            <img
+                                src={currentValue.profile_pic_url}
+                                alt={currentValue.username}
+                                style={{ borderRadius: "100px", boxShadow: "0 14px 18px 0 rgba(0, 0, 0, 0.3)" }}
+                                width={"30%"}
+                            />
+                            <p>
+                                {currentValue.username}<br />
+                                full_name :{currentValue.full_name}<br />
+                            </p>
+                        </div>
+                    </a>
+                le : {new Date(currentValue.taken_at_timestamp * 1000).toLocaleDateString()}<br />
+                    reputaton :{currentValue.clicks}<br />
                 last search : {getDeffDates(new Date(currentValue.lastSearch))}<br />
                 </div>;
             });
@@ -112,8 +118,8 @@ class TopPostsClass extends Component {
 
 const mapStateToPropsTopPosts = state => ({ top: state.statisticsReducer.TopSearchedPosts })
 const mapDispatchToPropsTopPosts = (dispatch) => ({
-    getTopPosts: () => {
-        fetch(`/api/Posts/search?sort=clicks&order=desc`)
+    getTopPosts: (page) => {
+        fetch(`/api/Posts/search?sort=clicks&order=desc${(!!page && page !== "") ? `&page=${page}` : ""}`)
             .then(response => response.json())
             .then(data => {
                 dispatch(TopPostsAction(data));
@@ -131,22 +137,26 @@ export const TopSearchdPosts = connect(
 //#region top_hashtags
 class TopHashtagsClass extends Component {
     componentDidMount() {
-        this.props.getTopHashtags()
+        this.props.getTopHashtags(this.props.page);
     }
     render() {
         const top = this.props.top;
         if (top.length !== 0) {
             let TopHashtagsView = top.map(function (currentValue) {
-                return <div key={currentValue._id} className="card">
-                    <img
-                        src={currentValue.profile_pic_url}
-                        alt={"#" + currentValue.name}
-                        style={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)" }}
-                    /><br />
+                return (
+                    <a key={currentValue._id} href={`/explore/tags/${currentValue.name}`}>
+                        <div className="card">
+                            <img
+                                src={currentValue.profile_pic_url}
+                                alt={"#" + currentValue.name}
+                                style={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)" }}
+                            /><br />
                 #{currentValue.name}<br />
                     reputaton :{currentValue.clicks}<br />
                 last search : {getDeffDates(new Date(currentValue.lastSearch))}<br />
-                </div>;
+                        </div>
+                    </a>
+                );
             });
             return <div>
                 <div name="grid">
@@ -161,8 +171,8 @@ class TopHashtagsClass extends Component {
 
 const mapStateToPropsTopHashtags = state => ({ top: state.statisticsReducer.TopSearchedHashtags })
 const mapDispatchToPropsTopHashtags = (dispatch) => ({
-    getTopHashtags: () => {
-        fetch(`/api/Hashtags/search?sort=clicks&order=desc`)
+    getTopHashtags: (page) => {
+        fetch(`/api/Hashtags/search?sort=clicks&order=desc${(!!page && page !== "") ? `&page=${page}` : ""}`)
             .then(response => response.json())
             .then(data => {
                 dispatch(TopHashtagsAction(data));
@@ -185,25 +195,26 @@ class TopLocationsClass extends Component {
     render() {
         const top = this.props.top;
         if (top.length !== 0) {
-            let TopPostsView = top.map(function (currentValue) {
-                return <div key={currentValue._id} className="card">
-                    <img
-                        src={currentValue.profile_pic_url}
-                        alt={"#" + currentValue.name}
-                        style={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)" }}
-                    /><br />
-                    <p>{currentValue.name}</p><br />
-                    <p>{currentValue.blurb}</p><br />
-
-                    <p>latitude :{currentValue.lat}</p><br />
-                    <p>longitude :{currentValue.lng}</p><br />
+            let TopLocationsView = top.map(function (currentValue) {
+                return <a key={currentValue._id} href={`/explore/locations/${currentValue.id}`}>
+                    <div className="card">
+                        <img
+                            src={currentValue.profile_pic_url}
+                            alt={"#" + currentValue.name}
+                            style={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)" }}
+                        /><br />
+                        <p>{currentValue.name}</p><br />
+                        <p>{currentValue.blurb}</p><br />
+                        <p>latitude :{currentValue.lat}</p><br />
+                        <p>longitude :{currentValue.lng}</p><br />
                     reputaton :{currentValue.clicks}<br />
                 last search : {getDeffDates(new Date(currentValue.lastSearch))}<br />
-                </div>;
+                    </div>
+                </a>;
             });
             return <div>
                 <div name="grid">
-                    {TopPostsView}
+                    {TopLocationsView}
                 </div>
             </div>;
         } else {
@@ -214,8 +225,8 @@ class TopLocationsClass extends Component {
 
 const mapStateToPropsTopLocations = state => ({ top: state.statisticsReducer.TopSearchedLocations })
 const mapDispatchToPropsTopLocations = (dispatch) => ({
-    getTopLocations: () => {
-        fetch(`/api/Locations/search?sort=clicks&order=desc`)
+    getTopLocations: (page) => {
+        fetch(`/api/Locations/search?sort=clicks&order=desc${(!!page && page !== "") ? `&page=${page}` : ""}`)
             .then(response => response.json())
             .then(data => {
                 dispatch(TopLocationsAction(data));
@@ -250,7 +261,7 @@ class TopSearches extends Component {
 
 
 function GetHeaderText(params) {
-    return <h1 style={{ color: "brown", fontFamily: "serif",margin:"2vw", fontSize: "4vw", textTransform: "uppercase" }}>
+    return <h1 style={{ color: "brown", fontFamily: "serif", margin: "2vw", fontSize: "4vw", textTransform: "uppercase" }}>
         top searched <a href={`/statistics/${params.text}`}><u>{params.text}</u></a>
     </h1>;
 }
