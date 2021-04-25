@@ -187,7 +187,7 @@ class Head extends Component {
                     <span>
                         {text2Html(this.props.biography)}
                     </span>
-                    <a className="yLUwa" href={this.props.external_url} target="_blank" rel="noreferrer">{this.props.external_url}</a>
+                    <a className="yLUwa" href={this.props.external_url_linkshimmed} target="_blank" rel="noreferrer">{this.props.external_url}</a>
                 </div>
             </section>
         </header>
@@ -295,7 +295,8 @@ class Profile extends Component {
                 biography: user.biography,
                 external_url: user.external_url,
                 is_verified: user.is_verified,
-                category_name: user.category_name
+                category_name: user.category_name,
+                external_url_linkshimmed: user.external_url_linkshimmed
             };
             let edge_owner_to_media = path ? user.edge_felix_video_timeline : user.edge_owner_to_timeline_media;
             const dataPubs = {

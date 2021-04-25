@@ -40,7 +40,7 @@ class TopUsersClass extends Component {
                     </a>
                 </div>;
             });
-            return <div name="grid">
+            return <div className="grid">
                 {TopUsersView}
             </div>
         } else {
@@ -105,7 +105,7 @@ class TopPostsClass extends Component {
                 </div>;
             });
             return <div>
-                <div name="grid">
+                <div className="grid">
                     {TopPostsView}
                 </div>
             </div>
@@ -144,8 +144,8 @@ class TopHashtagsClass extends Component {
         if (top.length !== 0) {
             let TopHashtagsView = top.map(function (currentValue) {
                 return (
-                    <a key={currentValue._id} href={`/explore/tags/${currentValue.name}`}>
-                        <div className="card">
+                    <a className="card" key={currentValue._id} href={`/explore/tags/${currentValue.name}`}>
+                        <div>
                             <img
                                 src={currentValue.profile_pic_url}
                                 alt={"#" + currentValue.name}
@@ -159,7 +159,7 @@ class TopHashtagsClass extends Component {
                 );
             });
             return <div>
-                <div name="grid">
+                <div className="grid">
                     {TopHashtagsView}
                 </div>
             </div>
@@ -196,8 +196,8 @@ class TopLocationsClass extends Component {
         const top = this.props.top;
         if (top.length !== 0) {
             let TopLocationsView = top.map(function (currentValue) {
-                return <a key={currentValue._id} href={`/explore/locations/${currentValue.id}`}>
-                    <div className="card">
+                return <a className="card" key={currentValue._id} href={`/explore/locations/${currentValue.id}`}>
+                    <div>
                         <img
                             src={currentValue.profile_pic_url}
                             alt={"#" + currentValue.name}
@@ -213,7 +213,7 @@ class TopLocationsClass extends Component {
                 </a>;
             });
             return <div>
-                <div name="grid">
+                <div className="grid">
                     {TopLocationsView}
                 </div>
             </div>;
