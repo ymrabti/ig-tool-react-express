@@ -25,6 +25,11 @@ app.use(formData.parse(options));// parse data with connect-multiparty.
 app.use(formData.format());// delete from the request all empty files (size == 0)
 app.use(formData.stream());// change the file objects to fs.ReadStream 
 app.use(formData.union());// union the body and the files
+// server/index.js
+const path = require('path');
+
+// Have Node serve the files for our built React app
+app.use(express.static(path.resolve(__dirname, '../../build')));
 
 // Configure Express App Instance
 app.use(express.json( { limit: '50mb' } ));
@@ -36,8 +41,8 @@ app.use(cors());
 app.use(helmet());
 // This middleware adds the json header to every response
 app.use('*', (req, res, next) => {
-    res.setHeader('Content-Type', 'application/json');
-    next();
+    res.setHeader('Content-Type', 'application/json');next();
+    // res.sendFile(path.resolve(__dirname, '../../build', 'index.html'));
 })
 
 // Assign Routes

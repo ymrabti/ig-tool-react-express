@@ -1,5 +1,8 @@
 {
     "name": "thebackend",
+    "engines": {
+        "node": "12.x"
+    },
     "version": "1.0.0",
     "description": "thebackend is the ultimate backend solution",
     "main": "src/server.js",
@@ -16,7 +19,8 @@
     "keywords": [
         "express",
         "backend",
-        "thebackend"
+        "thebackend",
+        "heroku"
     ],
     "license": "MIT",
     "dependencies": {

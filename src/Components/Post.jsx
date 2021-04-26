@@ -72,7 +72,16 @@ function ImageView(params) {
             <div className="GRtmf wymO0 ">
                 <div className="_5wCQW">
                     <img
-                        onClick={() => { window.open(params.display_url, 'Image', 'scrollbars=yes,resizable=yes,status=no,width=100%,width=100%'); return false;}}
+                        onClick={
+                            () => {
+                                window.open(
+                                    params.display_url,
+                                    'Image',
+                                    `scrollbars=yes,resizable=yes,status=no,
+                                    fullscreen=yes,width=${window.screen.width},
+                                    height=${window.screen.height}`);
+                                return false;
+                            }}
                         alt={params.accessibility_caption}
                         className="FFVAD"
                         crossOrigin="anonymous"
@@ -633,7 +642,7 @@ class Post extends Component {
                         </div>
                     </article>
                     <DownloadAll
-                        edges={[{node:post}]}
+                        edges={[{ node: post }]}
                         textMark={`Post by ${owner.username}`}
                     />
                 </div>
