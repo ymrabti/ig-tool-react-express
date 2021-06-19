@@ -147,6 +147,7 @@ function NotExist() {
         </div>
     </main>;
 }
+
 const render = () => ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>

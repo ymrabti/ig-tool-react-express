@@ -21,6 +21,7 @@ class Pdp extends Component {
                 onClick={this.downloadpdp.bind(this)}
                 alt={this.props.username} decoding="auto"
                 src={this.props.profile_pic_url_hd}
+                crossOrigin="anonymous"
                 style={
                     {
                         borderRadius: "10px",
@@ -137,7 +138,8 @@ class Head extends Component {
             <div className="XjzKX">
                 <div className="RR-M- " aria-disabled="true" role="button" data-ext-skip="1">
                     <div className="_2dbep" role="link" style={{ width: "150px", height: "150px", boxShadow: "1px 1px 10px 4px rgba(0, 0, 0, 0.3)" }}>
-                        <img alt={this.props.full_name} className="_6q-tv" data-testid="user-avatar" draggable="false" src={this.props.profile_pic_url} />
+                        <img alt={this.props.full_name}
+                            crossOrigin="anonymous" className="_6q-tv" data-testid="user-avatar" draggable="false" src={this.props.profile_pic_url} />
                     </div>
                 </div>
             </div>
