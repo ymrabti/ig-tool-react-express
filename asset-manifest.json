@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/ig-tool-react-express/static/css/main.9ecd347f.chunk.css",
+    "main.js": "/ig-tool-react-express/static/js/main.3d74ea85.chunk.js",
+    "main.js.map": "/ig-tool-react-express/static/js/main.3d74ea85.chunk.js.map",
+    "runtime-main.js": "/ig-tool-react-express/static/js/runtime-main.10dfb2f2.js",
+    "runtime-main.js.map": "/ig-tool-react-express/static/js/runtime-main.10dfb2f2.js.map",
+    "static/css/2.29aa199f.chunk.css": "/ig-tool-react-express/static/css/2.29aa199f.chunk.css",
+    "static/js/2.59c0fc72.chunk.js": "/ig-tool-react-express/static/js/2.59c0fc72.chunk.js",
+    "static/js/2.59c0fc72.chunk.js.map": "/ig-tool-react-express/static/js/2.59c0fc72.chunk.js.map",
+    "index.html": "/ig-tool-react-express/index.html",
+    "static/css/2.29aa199f.chunk.css.map": "/ig-tool-react-express/static/css/2.29aa199f.chunk.css.map",
+    "static/css/main.9ecd347f.chunk.css.map": "/ig-tool-react-express/static/css/main.9ecd347f.chunk.css.map",
+    "static/js/2.59c0fc72.chunk.js.LICENSE.txt": "/ig-tool-react-express/static/js/2.59c0fc72.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.10dfb2f2.js",
+    "static/css/2.29aa199f.chunk.css",
+    "static/js/2.59c0fc72.chunk.js",
+    "static/css/main.9ecd347f.chunk.css",
+    "static/js/main.3d74ea85.chunk.js"
+  ]
+}
