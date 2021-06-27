@@ -13,7 +13,7 @@ import { fetchPost } from "../actions/Index";
 import { size_plain } from "../tools";
 import "../css/videoplayer.css";
 import { WaitingPost, sound, muted } from "./svgs";
-import { DownloadAll } from "./profile";
+import { DownloadAll } from "./Profile";
 
 const SubSection = (props) => {
     const size = props.data.size;

@@ -5,7 +5,7 @@ import { fetchHashtag,fetchLocation } from "../actions/Index";
 import {LinksToPubs} from "./links2Posts";
 import { beautify_numbers } from "../tools";
 import { waitaminute } from "./svgs";
-import { DownloadAll } from "./profile";
+import { DownloadAll } from "./Profile";
 //#region 
 class HeadExplore extends Component {
     render() {

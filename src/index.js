@@ -8,11 +8,11 @@ import {
 } from "react-router-dom";
 import { connect } from "react-redux";
 import { Home,TopSearchdUsers, TopSearchdPosts, TopSearchdHashtags, TopSearchdLocations } from "./Components/statistics";
-import Profile from "./Components/profile";
+import Profile from "./Components/Profile";
 import store from "./reducers/store";
 import { ExploreHash, ExploreLoc } from "./Components/explore";
 import MyNavbar from "./Components/navbar";
-import Post, { ModalPostWithRouter } from "./Components/post";
+import Post, { ModalPostWithRouter } from "./Components/Post";
 import { action_types } from "./tools";
 import PropTypes from "prop-types";
 import "./css/igtool1.css";
