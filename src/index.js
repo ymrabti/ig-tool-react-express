@@ -11,9 +11,9 @@ import { Home,TopSearchdUsers, TopSearchdPosts, TopSearchdHashtags, TopSearchdLo
 import store from "./reducers/store";
 import { ExploreHash, ExploreLoc } from "./Components/explore";
 import MyNavbar from "./Components/navbar";
-import Post, { ModalPostWithRouter } from "./Components/post";
+import ClassPostk, { ModalPostWithRouter } from "./Components/post";
 import { action_types } from "./tools";
-import Profile from "./Components/profile";
+import ClassProfileL from "./Components/profile";
 import PropTypes from "prop-types";
 import "./css/igtool1.css";
 import "./css/igtool2.css";
@@ -81,12 +81,12 @@ class App extends Component {
                             </Route>
 
                             <Route exact path="/p/:shortcode/" >
-                                <Post />
+                                <ClassPostk />
                             </Route>
                             <Redirect from="/tv/:shortcode/" to="/p/:shortcode/" />
                             <Redirect from="/reel/:shortcode/" to="/p/:shortcode/" />
                             <Route exact path="/:username/" >
-                                <Profile />
+                                <ClassProfileL />
                             </Route>
                             <Route exact path="/explore/tags/:tag/" >
                                 <ExploreHash />
@@ -99,7 +99,7 @@ class App extends Component {
                             </Route>
                         </Switch>
                         <Route exact path="/:username/channel/" >
-                            <Profile opt={"channel"} />
+                            <ClassProfileL opt={"channel"} />
                         </Route>
                         {/* <Route exact path="/:username/guides/" >
                             <Profile opt={"guides"} />
@@ -107,7 +107,7 @@ class App extends Component {
                         {
                             background && <Route path="/p/:shortcode" >
                                 <ModalPostWithRouter>
-                                    <Post />
+                                    <ClassPostk />
                                 </ModalPostWithRouter>
                             </Route>
                         }
