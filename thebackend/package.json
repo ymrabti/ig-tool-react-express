@@ -1,5 +1,8 @@
 {
     "name": "thebackend",
+    "engines": {
+        "node": "12.14.0"
+    },
     "version": "1.0.0",
     "description": "thebackend is the ultimate backend solution",
     "main": "src/server.js",
