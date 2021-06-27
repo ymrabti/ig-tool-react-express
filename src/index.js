@@ -8,20 +8,12 @@ import {
 } from "react-router-dom";
 import { connect } from "react-redux";
 import { Home,TopSearchdUsers, TopSearchdPosts, TopSearchdHashtags, TopSearchdLocations } from "./Components/statistics";
-<<<<<<< HEAD
 import Profile from "./Components/Profile";
 import store from "./reducers/store";
-import { ExploreHash, ExploreLoc } from "./Components/explore";
 import MyNavbar from "./Components/navbar";
+import { ExploreHash, ExploreLoc } from "./Components/explore";
 import Post, { ModalPostWithRouter } from "./Components/Post";
-=======
-import store from "./reducers/store";
-import { ExploreHash, ExploreLoc } from "./Components/explore";
-import MyNavbar from "./Components/navbar";
-import ClassPostk, { ModalPostWithRouter } from "./Components/post";
->>>>>>> 8ba9a6184217304feb67b0f813f03ad2b4ffc76d
 import { action_types } from "./tools";
-import ClassProfileL from "./Components/profile";
 import PropTypes from "prop-types";
 import "./css/igtool1.css";
 import "./css/igtool2.css";
@@ -89,12 +81,12 @@ class App extends Component {
                             </Route>
 
                             <Route exact path="/p/:shortcode/" >
-                                <ClassPostk />
+                                <Post />
                             </Route>
                             <Redirect from="/tv/:shortcode/" to="/p/:shortcode/" />
                             <Redirect from="/reel/:shortcode/" to="/p/:shortcode/" />
                             <Route exact path="/:username/" >
-                                <ClassProfileL />
+                                <Profile />
                             </Route>
                             <Route exact path="/explore/tags/:tag/" >
                                 <ExploreHash />
@@ -107,7 +99,7 @@ class App extends Component {
                             </Route>
                         </Switch>
                         <Route exact path="/:username/channel/" >
-                            <ClassProfileL opt={"channel"} />
+                            <Profile opt={"channel"} />
                         </Route>
                         {/* <Route exact path="/:username/guides/" >
                             <Profile opt={"guides"} />
@@ -115,7 +107,7 @@ class App extends Component {
                         {
                             background && <Route path="/p/:shortcode" >
                                 <ModalPostWithRouter>
-                                    <ClassPostk />
+                                    <Post />
                                 </ModalPostWithRouter>
                             </Route>
                         }
