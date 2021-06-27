@@ -16,12 +16,12 @@ async function statistics(collection, where, data_insert,update) {
                         console.log(val.result);
                     })
                     .catch(erru => {
-                        console.log("error !");
+                        console.log("error oncreate");
                     });
             }
         })
         .catch(erru => {
-            console.log("error !");
+            console.log(erru);
         });
 }
 module.exports = {

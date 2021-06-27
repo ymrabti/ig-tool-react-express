@@ -18,9 +18,8 @@ class TopUsersClass extends Component {
         this.props.getTopUsers(this.props.page);
     }
     render() {
-        const top = this.props.top;
-        console.log(top);
-        if (top.length !== 0) {
+        const top = this.props.top;console.log(top);
+        if (top.length !== 0 && !top.name) {
             let TopUsersView = top.map(function (currentValue) {
                 return <div name="childs" key={currentValue._id} className="card">
                     <a href={"/" + currentValue.username}>
@@ -73,8 +72,8 @@ class TopPostsClass extends Component {
         this.props.getTopPosts(this.props.page);
     }
     render() {
-        const top = this.props.top;
-        if (top.length !== 0) {
+        const top = this.props.top;console.log(top);
+        if (top.length !== 0 && !top.name) {
             let TopPostsView = top.map(function (currentValue) {
                 return <div key={currentValue._id} className="card">
                     <a href={"/p/" + currentValue.shortcode}>
@@ -141,8 +140,8 @@ class TopHashtagsClass extends Component {
         this.props.getTopHashtags(this.props.page);
     }
     render() {
-        const top = this.props.top;
-        if (top.length !== 0) {
+        const top = this.props.top;console.log(top);
+        if (top.length !== 0 && !top.name) {
             let TopHashtagsView = top.map(function (currentValue) {
                 return (
                     <a className="card" key={currentValue._id} href={`/explore/tags/${currentValue.name}`}>
@@ -194,8 +193,8 @@ class TopLocationsClass extends Component {
         this.props.getTopLocations();
     }
     render() {
-        const top = this.props.top;
-        if (top.length !== 0) {
+        const top = this.props.top;console.log(top);
+        if (top.length !== 0 && !top.name) {
             let TopLocationsView = top.map(function (currentValue) {
                 return <a className="card" key={currentValue._id} href={`/explore/locations/${currentValue.id}`}>
                     <div>
