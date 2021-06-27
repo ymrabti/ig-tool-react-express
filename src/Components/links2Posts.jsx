@@ -41,6 +41,7 @@ class PostSingle extends Component {
                         <img
                             alt={data.accessibility_caption}
                             className="FFVAD"
+                            crossOrigin="anonymous"
                             decoding="auto"
                             style={{ objectFit: "cover" }}
                             sizes="293px"
@@ -148,6 +149,7 @@ class FeedLink extends Component {
                                     alt={data.accessibility_caption}
                                     src={data.thumbnail_src} /* onClick={this.postClicked.bind(this)}  */
                                     className="FFVAD"
+                                    crossOrigin="anonymous"
                                     decoding="auto"
                                     style={{ objectFit: "cover" }}
                                     sizes="293px"

@@ -19,7 +19,8 @@
     "keywords": [
         "express",
         "backend",
-        "thebackend"
+        "thebackend",
+        "heroku"
     ],
     "license": "MIT",
     "dependencies": {
