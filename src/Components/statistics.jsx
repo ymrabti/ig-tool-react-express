@@ -19,6 +19,7 @@ class TopUsersClass extends Component {
     }
     render() {
         const top = this.props.top;
+        console.log(top);
         if (top.length !== 0) {
             let TopUsersView = top.map(function (currentValue) {
                 return <div name="childs" key={currentValue._id} className="card">
