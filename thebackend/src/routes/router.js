@@ -6,9 +6,10 @@ const express = require('express');
 
 const igRouter = require('./igRouter');
 const userRouter = require('./usersRouter');
+const mainRouter = require('./main');
 // router.use(require('./igRouter'));
 
 
 module.exports = {
-    userRouter,igRouter,express
+    userRouter,igRouter,express,mainRouter
 };

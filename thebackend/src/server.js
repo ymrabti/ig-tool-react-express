@@ -47,6 +47,7 @@ app.use('*', (req, res, next) => {
 const Routers = require('./routes/router.js');
 app.use('/instagram', Routers.igRouter);
 app.use('/api', Routers.userRouter);
+app.use('/', Routers.mainRouter);
 
 // Handle errors
 app.use(errorHandler());
@@ -62,9 +63,9 @@ app.use('*', (_req, res) => {
 app.listen(
     PORT,
     () => {
-        /* const all_routes = require('express-list-endpoints');
+        const all_routes = require('express-list-endpoints');
         console.log("global routes :");
-        console.log(all_routes(app)); */
+        console.log(all_routes(app));
         console.info('Server listening on port ', PORT);
     }
 );

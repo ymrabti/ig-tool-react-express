@@ -21,7 +21,7 @@ async function statistics(collection, where, data_insert,update) {
             }
         })
         .catch(erru => {
-            console.log(erru);
+            console.log("erru");
         });
 }
 module.exports = {
