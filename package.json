@@ -29,29 +29,19 @@
     "engines": {
         "node": "12.14.0"
     },
+    "proxy": "https://instagram.fcmn5-1.fna.fbcdn.net/",
     "scripts": {
-        
         "back": "cd thebackend && npm run dev",
-        
         "front": "set PORT=3002 && react-scripts start",
-        
         "build": "react-scripts build",
-        
         "test": "react-scripts test",
-        
         "servebuild": "serve -s build",
-        
         "eject": "react-scripts eject",
-        
         "predeploy": "npm run build",
-        
         "deploy": "gh-pages -d build",
-        
         "heroku-postbuild": "npm install --only=dev && npm install && npm run build",
-        
         "start": "cd thebackend && node server.js"
     },
-    "proxy": "http://localhost:3001",
     "eslintConfig": {
         "extends": [
             "react-app",
