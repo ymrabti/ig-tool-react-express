@@ -5,10 +5,10 @@ import { ig_reducer } from "./ig_reducer";
 const logAndAdd = amount => {
     return (dispatch, getState) => {
         const stateBefore = getState()
-        console.log(`Counter before: ${stateBefore.counter}`)
+        console. log(`Counter before: ${stateBefore.counter}`)
         dispatch(incrementByAmount(amount))
         const stateAfter = getState()
-        console.log(`Counter after: ${stateAfter.counter}`)
+        console. log(`Counter after: ${stateAfter.counter}`)
     }
 } */
 

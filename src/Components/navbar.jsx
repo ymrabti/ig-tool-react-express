@@ -11,21 +11,21 @@ class MyNavbar extends Component {
         const clipboard2 = window.Clipboard;
         if (clipboard2) {
             clipboard2.prototype.readText()
-                .then(text => console.log(text))
+                .then(text => {/* console. log(text) */})
                 .catch(e => alert("clipboard window"))
         }
         else if (Navigator.prototype.clipboard) {
             Navigator.prototype.clipboard.readText()
-                .then(text => console.log(text))
+                .then(text => {/* console. log(text) */})
                 .catch(e => alert(e))
         }
         else {
-            var data = window.ClipboardEvent.prototype.clipboardData.getData("text");
-            console.log(data);
-            console.log(Navigator.prototype.userAgent);
+            // var data = window.ClipboardEvent.prototype.clipboardData.getData("text");
+            // console. log(data);
+            // console. log(Navigator.prototype.userAgent);
         }
-        try { window.Geolocation.prototype.getCurrentPosition((position) => console.log(position), (error) => console.log(error)); }
-        catch (er) { console.log(er); }
+        // try { window.Geolocation.prototype.getCurrentPosition((position) => console. log(position), (error) => console. log(error)); }
+        // catch (er) {   }
     }
     handleChange(e) {
         this.props.updateUsername(e.target.value);

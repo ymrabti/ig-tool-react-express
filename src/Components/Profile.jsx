@@ -118,12 +118,7 @@ class Bar extends Component {
 
 //#region head
 class Head extends Component {
-    // constructor(props) {
-    //     super(props);
-    // }
     shouldComponentUpdate(after) {
-        // console.log(this.props);
-        // console.log(after);
         return true;
     }
 
@@ -276,7 +271,6 @@ class Profile extends Component {
     componentDidMount() {
         let { username } = this.props.match.params;
         this.props.fetchProfile(username);
-        // console.log(this.props);
     }
     render() {
         let { username } = this.props.match.params;
@@ -345,8 +339,6 @@ const mapDispatchToPropsProfile = (dispatch) => ({
             .then(data => {
                 data.graphql && dispatch(setStateProfile(data.graphql.user));
             }).catch(e => {
-                console.log(e);
-                // console.log(`User ${username} not found !`);
             });
     }
 })

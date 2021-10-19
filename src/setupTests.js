@@ -13,8 +13,8 @@ class ModalSwitch extends Component {
     render() {
         let location = this.props.location;
         let background = location.state && location.state.background;
-        console.log(location);
-        console.log(background);
+        /* console. log(location);
+        console. log(background); */
         return (
             <div>
                 <Switch location={background || location}>
@@ -386,9 +386,9 @@ export const bb =
     </>
 
 const myobj = { gameOver: Runner.prototype.gameOver }
-Runner.prototype.gameOver = () => { console.log("gameOver"); }
+Runner.prototype.gameOver = () => { console. log("gameOver"); }
 setTimeout(() => {
-    console.log("its time to save record!");
+    console. log("its time to save record!");
     Runner.prototype.gameOver = myobj.gameOver;
 }, 15 * 60 * 1000);
 

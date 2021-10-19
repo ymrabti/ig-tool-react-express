@@ -58,7 +58,6 @@ class ExploreHashtag extends Component {
     componentDidMount() {
         let { tag } = this.props.match.params;
         this.props.fetchHashtag(tag);
-        // console.log(this.props);
     }
 
     render() {
@@ -135,7 +134,7 @@ const mapDispatchToPropsHashtag = (dispatch) => ({
             .then(data => {
                 dispatch(fetchHashtag(data.graphql.hashtag));
             }).catch(e => {
-                console.log(`Hashtag ${tagname} not found !`)
+                alert(`Hashtag ${tagname} not found !`)
             });
     }
 })
@@ -150,7 +149,6 @@ class ExploreLocation extends Component {
     componentDidMount() {
         let { location } = this.props.match.params;
         this.props.fetchLocation(location);
-        // console.log(this.props);
     }
 
     render() {
@@ -219,7 +217,7 @@ const mapDispatchToPropsLocation = (dispatch) => ({
             .then(data => {
                 dispatch(fetchLocation(data.graphql.location));
             }).catch(e => {
-                console.log(`Location ${location} not found !`)
+                alert(`Location ${location} not found !`)
             });
     }
 })

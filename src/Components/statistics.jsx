@@ -6,7 +6,7 @@ import { getDeffDates } from "../tools";
 import { waitaminute } from "./svgs";
 import { withRouter } from "react-router-dom";
 
-
+var hosts = [];
 //#region top_users
 class TopUsersClass extends Component {
     componentDidMount() {
@@ -14,13 +14,15 @@ class TopUsersClass extends Component {
         const queries = {};
         let urls = new URLSearchParams(loxation.search);
         urls.forEach((value, key) => queries[key] = value);
-        // console.log(queries);
         this.props.getTopUsers(this.props.page);
     }
     render() {
-        const top = this.props.top;console.log(top);
+        const top = this.props.top;
         if (top.length !== 0 && !top.name) {
             let TopUsersView = top.map(function (currentValue) {
+                let host = currentValue.profile_pic_url_hd.split("/")[2];
+                !hosts.includes(host) && hosts.push(host);
+                console.log(hosts);
                 return <div name="childs" key={currentValue._id} className="card">
                     <a href={"/" + currentValue.username}>
                         <img
@@ -56,7 +58,6 @@ const mapDispatchToPropsTopUsers = (dispatch) => ({
             .then(data => {
                 dispatch(TopUsersAction(data));
             }).catch(e => {
-                console.log(`Error !`)
             });
     }
 })
@@ -72,9 +73,15 @@ class TopPostsClass extends Component {
         this.props.getTopPosts(this.props.page);
     }
     render() {
-        const top = this.props.top;console.log(top);
+        const top = this.props.top;
         if (top.length !== 0 && !top.name) {
             let TopPostsView = top.map(function (currentValue) {
+                let host1 = currentValue.display_url.split("/")[2];
+                let host2 = currentValue.profile_pic_url.split("/")[2];
+                !hosts.includes(host1) && hosts.push(host1);
+                console.log(hosts);
+                !hosts.includes(host2) && hosts.push(host2);
+                console.log(hosts);
                 return <div key={currentValue._id} className="card">
                     <a href={"/p/" + currentValue.shortcode}>
                         <img
@@ -124,7 +131,6 @@ const mapDispatchToPropsTopPosts = (dispatch) => ({
             .then(data => {
                 dispatch(TopPostsAction(data));
             }).catch(e => {
-                console.log(`Error !`)
             });
     }
 })
@@ -140,9 +146,12 @@ class TopHashtagsClass extends Component {
         this.props.getTopHashtags(this.props.page);
     }
     render() {
-        const top = this.props.top;console.log(top);
+        const top = this.props.top;
         if (top.length !== 0 && !top.name) {
             let TopHashtagsView = top.map(function (currentValue) {
+                let host = currentValue.profile_pic_url.split("/")[2];
+                !hosts.includes(host) && hosts.push(host);
+                console.log(hosts);
                 return (
                     <a className="card" key={currentValue._id} href={`/explore/tags/${currentValue.name}`}>
                         <div>
@@ -177,7 +186,6 @@ const mapDispatchToPropsTopHashtags = (dispatch) => ({
             .then(data => {
                 dispatch(TopHashtagsAction(data));
             }).catch(e => {
-                console.log(`Error !`)
             });
     }
 })
@@ -193,9 +201,12 @@ class TopLocationsClass extends Component {
         this.props.getTopLocations();
     }
     render() {
-        const top = this.props.top;console.log(top);
+        const top = this.props.top;
         if (top.length !== 0 && !top.name) {
             let TopLocationsView = top.map(function (currentValue) {
+                let host = currentValue.profile_pic_url.split("/")[2];
+                !hosts.includes(host) && hosts.push(host);
+                console.log(hosts);
                 return <a className="card" key={currentValue._id} href={`/explore/locations/${currentValue.id}`}>
                     <div>
                         <img
@@ -231,7 +242,6 @@ const mapDispatchToPropsTopLocations = (dispatch) => ({
             .then(data => {
                 dispatch(TopLocationsAction(data));
             }).catch(e => {
-                console.log(`Error !`)
             });
     }
 })

@@ -85,13 +85,13 @@ class IgtvLink extends Component {
 }
 /* let i = setInterval(() => {
     let tr = document.querySelector(".qn-0x");
-    tr && console.log(tr)
+    tr && console. log(tr)
 }, 100); */
 const IgtvLinkWithRouter = withRouter(IgtvLink)
 
 export class IgtvLinks extends Component {
     render() {
-        const edges = this.props.edge_owner_to_media; console.log(edges);
+        const edges = this.props.edge_owner_to_media; 
         var edgeslength = edges.edges.length;
         var columns = 4;
         var r = edgeslength % columns;
