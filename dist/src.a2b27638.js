@@ -43890,7 +43890,7 @@ class TopUsersClass extends _react.default.Component {
         }, /*#__PURE__*/_react.default.createElement("a", {
           href: "/" + currentValue.username
         }, /*#__PURE__*/_react.default.createElement("img", {
-          src: currentValue.profile_pic_url_hd,
+          src: '/instagram/image/' + currentValue.profile_pic_url_hd.replaceAll('/', '('),
           alt: currentValue.full_name,
           width: "100%",
           style: {
@@ -43947,7 +43947,7 @@ class TopPostsClass extends _react.default.Component {
         }, /*#__PURE__*/_react.default.createElement("a", {
           href: "/p/" + currentValue.shortcode
         }, /*#__PURE__*/_react.default.createElement("img", {
-          src: currentValue.display_url,
+          src: '/instagram/image/' + currentValue.display_url.replaceAll('/', '('),
           alt: "post by :" + currentValue.full_name,
           width: "100%",
           style: {
@@ -43962,7 +43962,7 @@ class TopPostsClass extends _react.default.Component {
             padding: "5px"
           }
         }, /*#__PURE__*/_react.default.createElement("img", {
-          src: currentValue.profile_pic_url,
+          src: '/instagram/image/' + currentValue.profile_pic_url.replaceAll('/', '('),
           alt: currentValue.username,
           style: {
             borderRadius: "100px",
@@ -44016,7 +44016,7 @@ class TopHashtagsClass extends _react.default.Component {
           key: currentValue._id,
           href: `/explore/tags/${currentValue.name}`
         }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("img", {
-          src: currentValue.profile_pic_url,
+          src: '/instagram/image/' + currentValue.profile_pic_url.replaceAll('/', '('),
           alt: "#" + currentValue.name,
           style: {
             boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)"
@@ -44070,7 +44070,7 @@ class TopLocationsClass extends _react.default.Component {
           key: currentValue._id,
           href: `/explore/locations/${currentValue.id}`
         }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("img", {
-          src: currentValue.profile_pic_url,
+          src: '/instagram/image/' + currentValue.profile_pic_url.replaceAll('/', '('),
           alt: "#" + currentValue.name,
           style: {
             boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)"
@@ -45698,7 +45698,7 @@ class HeadExplore extends _react.default.Component {
       className: "_6q-tv",
       "data-testid": "user-avatar",
       draggable: "false",
-      src: data.explore_pic_url
+      src: '/instagram/image/' + data.explore_pic_url.replaceAll('/', '(')
     })))), /*#__PURE__*/_react.default.createElement("section", {
       className: "zwlfE"
     }, /*#__PURE__*/_react.default.createElement("div", {
@@ -54067,7 +54067,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55503" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64549" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

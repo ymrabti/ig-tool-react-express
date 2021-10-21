@@ -36,7 +36,7 @@
         "build": "react-scripts build",
         "wp-dev": "webpack serve",
         "wp-build": "npx webpack --config webpack.config.js --stats-error-details",
-        "parcel":"parcel index.html --open",
+        "parcel":"parcel index.html",
         "test": "react-scripts test",
         "servebuild": "serve -s build",
         "eject": "react-scripts eject",
