@@ -9,6 +9,7 @@ const IMAGES = [
     { id: 3, title: "Seven Ate Nine", color: "#789" },
     { id: 4, title: "Crimson", color: "Crimson" }
 ];
+// src=\{[a-zA-Z]
 class ModalSwitch extends React.Component {
     render() {
         let location = this.props.location;

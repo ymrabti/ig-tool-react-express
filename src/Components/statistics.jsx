@@ -26,7 +26,7 @@ class TopUsersClass extends React.Component {
                 return <div name="childs" key={currentValue._id} className="card">
                     <a href={"/" + currentValue.username}>
                         <img
-                            src={currentValue.profile_pic_url_hd}
+                            src={'/instagram/image/'+currentValue.profile_pic_url_hd.replaceAll('/', '(')}
                             alt={currentValue.full_name}
                             width={"100%"}
                             style={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)" }}
@@ -85,7 +85,7 @@ class TopPostsClass extends React.Component {
                 return <div key={currentValue._id} className="card">
                     <a href={"/p/" + currentValue.shortcode}>
                         <img
-                            src={currentValue.display_url}
+                            src={'/instagram/image/'+currentValue.display_url.replaceAll('/', '(')}
                             alt={"post by :" + currentValue.full_name}
                             width={"100%"}
                             style={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)" }}
@@ -95,7 +95,7 @@ class TopPostsClass extends React.Component {
 
                         <div style={{ display: "flex", flexDirection: "row", padding: "5px" }}>
                             <img
-                                src={currentValue.profile_pic_url}
+                                src={'/instagram/image/'+currentValue.profile_pic_url.replaceAll('/', '(')}
                                 alt={currentValue.username}
                                 style={{ borderRadius: "100px", boxShadow: "0 14px 18px 0 rgba(0, 0, 0, 0.3)" }}
                                 width={"30%"}
@@ -156,7 +156,7 @@ class TopHashtagsClass extends React.Component {
                     <a className="card" key={currentValue._id} href={`/explore/tags/${currentValue.name}`}>
                         <div>
                             <img
-                                src={currentValue.profile_pic_url}
+                                src={'/instagram/image/'+currentValue.profile_pic_url.replaceAll('/', '(')}
                                 alt={"#" + currentValue.name}
                                 style={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)" }}
                             /><br />
@@ -210,7 +210,7 @@ class TopLocationsClass extends React.Component {
                 return <a className="card" key={currentValue._id} href={`/explore/locations/${currentValue.id}`}>
                     <div>
                         <img
-                            src={currentValue.profile_pic_url}
+                            src={'/instagram/image/'+currentValue.profile_pic_url.replaceAll('/', '(')}
                             alt={"#" + currentValue.name}
                             style={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)" }}
                         /><br />

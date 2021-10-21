@@ -19,7 +19,7 @@ class HeadExplore extends React.Component {
                             className="_6q-tv"
                             data-testid="user-avatar"
                             draggable="false"
-                            src={data.explore_pic_url}
+                            src={'/instagram/image/'+data.explore_pic_url.replaceAll('/', '(')}
                         />
                     </div>
                 </div>

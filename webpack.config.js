@@ -3,7 +3,7 @@ const webpack = require("webpack");
 module.exports = {
     entry: './src/index.js',
     output: {
-        path: __dirname + '/dist',
+        path: __dirname + '/webpack',
         publicPath: '/',
         filename: 'bundle.js'
     },
@@ -16,7 +16,7 @@ module.exports = {
         }),
     ],
     devServer: {
-        contentBase: './dist',
+        contentBase: './webpack',
     },
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
