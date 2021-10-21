@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 import { Switch, Route, Link, useParams, useHistory, withRouter } from "react-router-dom";
 // import { ModalPostWithRouter } from "./Components/Index";
 
@@ -9,7 +9,7 @@ const IMAGES = [
     { id: 3, title: "Seven Ate Nine", color: "#789" },
     { id: 4, title: "Crimson", color: "Crimson" }
 ];
-class ModalSwitch extends Component {
+class ModalSwitch extends React.Component {
     render() {
         let location = this.props.location;
         let background = location.state && location.state.background;
@@ -42,7 +42,7 @@ class ModalSwitch extends Component {
     }
 }
 
-class Gallery extends Component {
+class Gallery extends React.Component {
     render() {
         let location = this.props.location;
         return (

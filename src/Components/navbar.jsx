@@ -1,9 +1,9 @@
-import { Component } from "react";
+import React from "react";
 import { updateUsername, setStateProfile } from "../actions/Index";
 import { connect } from "react-redux";
 import { SvgClearText, SvgIg, SvgPaste } from "./svgs";
 
-class MyNavbar extends Component {
+class MyNavbar extends React.Component {
     Cleartext() {
         this.props.updateUsername("");
     }

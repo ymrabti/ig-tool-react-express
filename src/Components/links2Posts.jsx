@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 import { icons, size_plain } from "../tools";
 import { SVGplay } from "./svgs";
 import {
@@ -7,7 +7,7 @@ import {
 
 //#region OLD_link
 
-class PostSingle extends Component {
+class PostSingle extends React.Component {
     // constructor(props) {
     //     super(props);
     // }
@@ -112,7 +112,7 @@ export const PostSingleWithRouter = withRouter(PostSingle);
 //#endregion OLD_link
 
 //#region FEED_LINK
-class FeedLink extends Component {
+class FeedLink extends React.Component {
     render() {
         let location = this.props.location;
         const data = this.props.data;
@@ -215,7 +215,7 @@ class FeedLink extends Component {
 const FeedLinkPost = withRouter(FeedLink)
 //#endregion FEED_LINK
 
-export class LinksToPubs extends Component {
+export class LinksToPubs extends React.Component {
 
     render() {
         const edge_owner_to_media = this.props.edge_owner_to_media;

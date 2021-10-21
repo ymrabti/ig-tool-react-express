@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { fetchHashtag,fetchLocation } from "../actions/Index";
@@ -7,7 +7,7 @@ import { beautify_numbers } from "../tools";
 import { waitaminute } from "./svgs";
 import { DownloadAll } from "./Profile";
 //#region 
-class HeadExplore extends Component {
+class HeadExplore extends React.Component {
     render() {
         let data = this.props.data;
         return <header id="HeadSwitch" className="vtbgv" style={{ display: "flex", marginTop: "1em" }}>
@@ -54,7 +54,7 @@ class HeadExplore extends Component {
 }
 //#endregion
 
-class ExploreHashtag extends Component {
+class ExploreHashtag extends React.Component {
     componentDidMount() {
         let { tag } = this.props.match.params;
         this.props.fetchHashtag(tag);
@@ -145,7 +145,7 @@ export const ExploreHash = connect(
 )(withRouter(ExploreHashtagRouter));
 
 
-class ExploreLocation extends Component {
+class ExploreLocation extends React.Component {
     componentDidMount() {
         let { location } = this.props.match.params;
         this.props.fetchLocation(location);

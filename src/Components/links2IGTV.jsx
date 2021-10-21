@@ -1,10 +1,10 @@
-import { Component } from "react";
+import React from "react";
 import { size_plain, icons, toHHMMSS } from "../tools";
 import { SVGplay, svgReels } from "./svgs";
 import { Link, withRouter } from "react-router-dom";
 
 //#region IGTV_LINKS
-class IgtvLink extends Component {
+class IgtvLink extends React.Component {
     render() {
         let location = this.props.location;
         const data = this.props.data;
@@ -89,7 +89,7 @@ class IgtvLink extends Component {
 }, 100); */
 const IgtvLinkWithRouter = withRouter(IgtvLink)
 
-export class IgtvLinks extends Component {
+export class IgtvLinks extends React.Component {
     render() {
         const edges = this.props.edge_owner_to_media; 
         var edgeslength = edges.edges.length;
@@ -146,7 +146,7 @@ export class IgtvLinks extends Component {
 //#endregion IGTV_LINKS
 
 //#region New_Feed_Links
-class LinkPost extends Component {
+class LinkPost extends React.Component {
     render() {
         let location = this.props.location;
         const data = this.props.data;
@@ -248,7 +248,7 @@ class LinkPost extends Component {
 }
 const LinkPostPub = withRouter(LinkPost)
 
-export class LinksPosts extends Component {
+export class LinksPosts extends React.Component {
     render() {
         const edges = this.props.edge_owner_to_media;
         var edgeslength = edges.edges.length;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { setStateProfile } from "../actions/Index";
 import { connect } from 'react-redux';
 import { text2Html, size_plain, beautify_numbers, download, AllPosts, GetFilename, get_daba, action_types } from "../tools";
@@ -10,7 +10,7 @@ import { saveAs } from "file-saver";
 import { Link, withRouter } from "react-router-dom";
 
 //#region PDP
-class Pdp extends Component {
+class Pdp extends React.Component {
     downloadpdp() {
         download(this.props.profile_pic_url_hd, this.props.username)
     }
@@ -52,7 +52,7 @@ const PdpConnected = connect(
 //#endregion PDP
 
 //#region bar
-class Bar extends Component {
+class Bar extends React.Component {
     render() {
         let username = this.props.username;
         let path = this.props.path;
@@ -117,7 +117,7 @@ class Bar extends Component {
 //#endregion bar
 
 //#region head
-class Head extends Component {
+class Head extends React.Component {
     shouldComponentUpdate(after) {
         return true;
     }
@@ -192,7 +192,7 @@ class Head extends Component {
 }
 //#endregion head
 
-class DldAllBtn extends Component {
+class DldAllBtn extends React.Component {
     /**
      * @param {any[]} edges
      */
@@ -267,7 +267,7 @@ const mapDispatchToPropsDld = (dispatch) => ({
 
 export const DownloadAll = connect(mapStateToPropsDld, mapDispatchToPropsDld)(DldAllBtn);
 
-class Profile extends Component {
+class Profile extends React.Component {
     componentDidMount() {
         let { username } = this.props.match.params;
         this.props.fetchProfile(username);

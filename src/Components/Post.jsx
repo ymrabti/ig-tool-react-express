@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import {
     listNames,
@@ -95,7 +95,7 @@ function ImageView(params) {
     </div>;
 }
 
-class VideoView extends Component {
+class VideoView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -273,7 +273,7 @@ class VideoView extends Component {
         );
     }
 }
-class Post extends Component {
+class Post extends React.Component {
     componentWillUnmount() {
         this.props.unsetPostData();
     }
@@ -653,7 +653,7 @@ class Post extends Component {
     }
 }
 
-class ModalPostModern extends Component {
+class ModalPostModern extends React.Component {
     handleClick(event) {
         const target = event.target;
         const keys = Object.keys(target);

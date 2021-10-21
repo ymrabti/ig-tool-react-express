@@ -1,6 +1,7 @@
-import { Provider } from 'react-redux';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import React, { Component } from 'react';
+window.React = React;
+import { Provider } from 'react-redux';
 import {
     BrowserRouter, Redirect,
     Switch, Route,
@@ -22,7 +23,7 @@ import "./css/igtool.css";
 import "./css/progress.css";
 import "./css/font-awesome.min.css";
 
-class App extends Component {
+class App extends React.Component {
     handleClick(){
         let {toggle_modal} = this.props;
         toggle_modal();

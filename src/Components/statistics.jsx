@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { TopUsersAction, TopPostsAction, TopHashtagsAction, TopLocationsAction } from "../actions/Index";
 import "../css/home.css";
@@ -8,7 +8,7 @@ import { withRouter } from "react-router-dom";
 
 var hosts = [];
 //#region top_users
-class TopUsersClass extends Component {
+class TopUsersClass extends React.Component {
     componentDidMount() {
         let loxation = this.props.location;
         const queries = {};
@@ -68,7 +68,7 @@ export const TopSearchdUsers = connect(
 //#endregion top_users
 
 //#region top_posts
-class TopPostsClass extends Component {
+class TopPostsClass extends React.Component {
     componentDidMount() {
         this.props.getTopPosts(this.props.page);
     }
@@ -141,7 +141,7 @@ export const TopSearchdPosts = connect(
 //#endregion top_posts
 
 //#region top_hashtags
-class TopHashtagsClass extends Component {
+class TopHashtagsClass extends React.Component {
     componentDidMount() {
         this.props.getTopHashtags(this.props.page);
     }
@@ -196,7 +196,7 @@ export const TopSearchdHashtags = connect(
 //#endregion top_hashtags
 
 //#region top_locations
-class TopLocationsClass extends Component {
+class TopLocationsClass extends React.Component {
     componentDidMount() {
         this.props.getTopLocations();
     }
@@ -251,7 +251,7 @@ export const TopSearchdLocations = connect(
 )(TopLocationsClass);
 //#endregion top_locations
 
-class TopSearches extends Component {
+class TopSearches extends React.Component {
     render() {
         return <div className="_2z6nI" style={{ paddingBottom: "2em" }}>
             <article className="ySN3v" >

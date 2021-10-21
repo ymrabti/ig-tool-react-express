@@ -1,5 +1,5 @@
-import "../css/videoplayer.css";
 import React from "react";
+import "../css/videoplayer.css";
 class VideoPlayer extends React.Component {
     constructor(props) {
         super(props);
