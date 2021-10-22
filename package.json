@@ -37,6 +37,7 @@
         "wp-dev": "webpack serve",
         "wp-build": "npx webpack --config webpack.config.js --stats-error-details",
         "parcel":"parcel index.html",
+        "github":"git add . && git commit -m \"ignore dist and webpack\" && git push -u origin main",
         "test": "react-scripts test",
         "servebuild": "serve -s build",
         "eject": "react-scripts eject"

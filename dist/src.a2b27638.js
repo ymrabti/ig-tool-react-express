@@ -44538,7 +44538,7 @@ class LinkPost extends _react.default.Component {
       className: "KL4Bh"
     }, /*#__PURE__*/_react.default.createElement("img", {
       alt: data.accessibility_caption,
-      src: data.thumbnail_src,
+      src: '/instagram/image/' + data.thumbnail_src.replaceAll('/', '('),
       className: "FFVAD",
       crossOrigin: "anonymous",
       decoding: "auto",
@@ -44722,7 +44722,7 @@ class Pdp extends _react.default.Component {
       onClick: this.downloadpdp.bind(this),
       alt: this.props.username,
       decoding: "auto",
-      src: this.props.profile_pic_url_hd,
+      src: '/instagram/image/' + this.props.profile_pic_url_hd.replaceAll('/', '('),
       crossOrigin: "anonymous",
       style: {
         borderRadius: "10px",
@@ -44835,7 +44835,7 @@ class Head extends _react.default.Component {
       className: "_6q-tv",
       "data-testid": "user-avatar",
       draggable: "false",
-      src: this.props.profile_pic_url
+      src: '/instagram/image/' + this.props.profile_pic_url.replaceAll('/', '(')
     })))), /*#__PURE__*/_react.default.createElement("section", {
       className: "zwlfE"
     }, /*#__PURE__*/_react.default.createElement("div", {
@@ -45402,7 +45402,7 @@ class PostSingle extends _react.default.Component {
         objectFit: "cover"
       },
       sizes: "293px",
-      src: data.thumbnail_src
+      src: '/instagram/image/' + data.thumbnail_src.replaceAll('/', '(')
       /* onClick={this.postClicked.bind(this)}  */
 
     })), /*#__PURE__*/_react.default.createElement("div", {
@@ -45499,7 +45499,7 @@ class FeedLink extends _react.default.Component {
       className: "KL4Bh"
     }, /*#__PURE__*/_react.default.createElement("img", {
       alt: data.accessibility_caption,
-      src: data.thumbnail_src
+      src: '/instagram/image/' + data.thumbnail_src.replaceAll('/', '(')
       /* onClick={this.postClicked.bind(this)}  */
       ,
       className: "FFVAD",
@@ -53150,7 +53150,7 @@ function ImageView(params) {
     className: "FFVAD",
     crossOrigin: "anonymous",
     decoding: "auto",
-    src: params.display_url,
+    src: '/instagram/image/' + params.display_url.replaceAll('/', '('),
     style: {
       objectFit: "cover"
     }
@@ -53282,7 +53282,7 @@ class VideoView extends _react.default.Component {
       poster: this.props.display_url,
       preload: "none",
       type: "video/mp4",
-      src: this.props.video_url,
+      src: '/instagram/image/' + this.props.video_url.replaceAll('/', '('),
       onLoadStart: e => e.target.volume = this.state.volume,
       loop: true,
       style: {
@@ -53442,7 +53442,7 @@ class Post extends _react.default.Component {
           crossOrigin: "anonymous",
           "data-testid": "user-avatar",
           draggable: "false",
-          src: pic_url_comment
+          src: '/instagram/image/' + pic_url_comment.replaceAll('/', '(')
         })))), /*#__PURE__*/_react.default.createElement("div", {
           className: "C4VMK"
         }, /*#__PURE__*/_react.default.createElement("h3", {
@@ -53547,7 +53547,7 @@ class Post extends _react.default.Component {
         crossOrigin: "anonymous",
         "data-testid": "user-avatar",
         draggable: "false",
-        src: owner.profile_pic_url
+        src: '/instagram/image/' + owner.profile_pic_url.replaceAll('/', '(')
       })))), /*#__PURE__*/_react.default.createElement("div", {
         className: "o-MQd z8cbW "
       }, /*#__PURE__*/_react.default.createElement("div", {
@@ -53659,7 +53659,7 @@ class Post extends _react.default.Component {
         crossOrigin: "anonymous",
         "data-testid": "user-avatar",
         draggable: "false",
-        src: owner.profile_pic_url
+        src: '/instagram/image/' + owner.profile_pic_url.replaceAll('/', '(')
       })))), /*#__PURE__*/_react.default.createElement("div", {
         className: "C4VMK"
       }, /*#__PURE__*/_react.default.createElement("h2", {
@@ -54067,7 +54067,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64549" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65185" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
