@@ -45,7 +45,7 @@ class PostSingle extends React.Component {
                             decoding="auto"
                             style={{ objectFit: "cover" }}
                             sizes="293px"
-                            src={data.thumbnail_src} /* onClick={this.postClicked.bind(this)}  */
+                            src={'/instagram/image/'+data.thumbnail_src.replaceAll('/', '(')} /* onClick={this.postClicked.bind(this)}  */
                         />
                     </div>
                     <div className="_9AhH0">
@@ -147,7 +147,7 @@ class FeedLink extends React.Component {
                             <div className="KL4Bh">
                                 <img
                                     alt={data.accessibility_caption}
-                                    src={data.thumbnail_src} /* onClick={this.postClicked.bind(this)}  */
+                                    src={'/instagram/image/'+data.thumbnail_src.replaceAll('/', '(')} /* onClick={this.postClicked.bind(this)}  */
                                     className="FFVAD"
                                     crossOrigin="anonymous"
                                     decoding="auto"

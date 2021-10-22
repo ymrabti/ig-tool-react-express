@@ -10,6 +10,8 @@ const IMAGES = [
     { id: 4, title: "Crimson", color: "Crimson" }
 ];
 // src=\{[a-zA-Z]
+// '/instagram/image/'+
+// .replaceAll('/', '(')
 class ModalSwitch extends React.Component {
     render() {
         let location = this.props.location;

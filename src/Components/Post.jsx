@@ -86,7 +86,7 @@ function ImageView(params) {
                         className="FFVAD"
                         crossOrigin="anonymous"
                         decoding="auto"
-                        src={params.display_url}
+                        src={'/instagram/image/'+params.display_url.replaceAll('/', '(')}
                         style={{ objectFit: "cover" }}
                     />
                 </div>
@@ -201,7 +201,7 @@ class VideoView extends React.Component {
                             poster={this.props.display_url}
                             preload="none"
                             type="video/mp4"
-                            src={this.props.video_url}
+                            src={'/instagram/image/'+this.props.video_url.replaceAll('/', '(')}
                             onLoadStart={e => e.target.volume = this.state.volume}
                             loop={true}
                             style={{ display: "block" }}
@@ -356,7 +356,7 @@ class Post extends React.Component {
                                                     crossOrigin="anonymous"
                                                     data-testid="user-avatar"
                                                     draggable="false"
-                                                    src={pic_url_comment} />
+                                                    src={'/instagram/image/'+pic_url_comment.replaceAll('/', '(')} />
                                             </a>
                                         </div>
                                     </div>
@@ -489,7 +489,7 @@ class Post extends React.Component {
                                             crossOrigin="anonymous"
                                             data-testid="user-avatar"
                                             draggable="false"
-                                            src={owner.profile_pic_url}
+                                            src={'/instagram/image/'+owner.profile_pic_url.replaceAll('/', '(')}
                                         />
                                     </a>
                                 </div>
@@ -572,7 +572,7 @@ class Post extends React.Component {
                                                                     crossOrigin="anonymous"
                                                                     data-testid="user-avatar"
                                                                     draggable="false"
-                                                                    src={owner.profile_pic_url}
+                                                                    src={'/instagram/image/'+owner.profile_pic_url.replaceAll('/', '(')}
                                                                 />
                                                             </span>
                                                         </div>

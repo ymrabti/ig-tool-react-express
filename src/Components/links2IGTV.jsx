@@ -172,7 +172,7 @@ class LinkPost extends React.Component {
                     <div className="KL4Bh">
                         <img
                             alt={data.accessibility_caption}
-                            src={data.thumbnail_src}
+                            src={'/instagram/image/'+data.thumbnail_src.replaceAll('/', '(')}
                             className="FFVAD"
                             crossOrigin="anonymous"
                             decoding="auto"
