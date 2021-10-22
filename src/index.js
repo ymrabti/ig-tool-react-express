@@ -22,6 +22,7 @@ import "./css/igtool3.css";
 import "./css/igtool.css";
 import "./css/progress.css";
 import "./css/font-awesome.min.css";
+import { RegisterForm } from './Components/Auth';
 
 class App extends React.Component {
     handleClick(){
@@ -67,6 +68,9 @@ class App extends React.Component {
                         <Switch location={background || location}>
                             <Route exact path="/" >
                                 <Home />
+                            </Route>
+                            <Route exact path="/Login" >
+                                <RegisterForm />
                             </Route>
                             <Route exact path="/statistics/users/" >
                                 <TopSearchdUsers page={1} />
